@@ -10,6 +10,7 @@ BaselineOfPharoEDATools >> baseline: spec [
 	spec
 		for: #common
 		do: [ spec blessing: #baseline.
+			self includePharoEDACommon: spec.
 			self declarePackagesIn: spec.
 			self declareGroupsIn: spec ]
 ]
@@ -29,8 +30,15 @@ BaselineOfPharoEDATools >> declareGroupsIn: spec [
 { #category : #meta }
 BaselineOfPharoEDATools >> declarePackagesIn: spec [
 	spec
-		package: #'EDAT-Tools';
+		package: #'EDAT-Tools' with: [ spec requires: #('PharoEDACommon') ];
 		package: #'EDAT-Tools-Tests'
 			with: [ spec requires: #('EDAT-Tools') ]
- 
+]
+
+{ #category : #dependencies }
+BaselineOfPharoEDATools >> includePharoEDACommon: spec [
+	spec
+		baseline: 'PharoEDACommon'
+		with: [ spec repository: 'github://osoco/pharo-eda-common:main' ].
+	^ spec
 ]
