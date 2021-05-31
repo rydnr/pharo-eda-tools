@@ -1,7 +1,7 @@
 Class {
 	#name : #EDADomainTestEventGenerator,
 	#superclass : #EDAGenerator,
-	#category : #'EDACT-Tools'
+	#category : #'EDAT-Tools'
 }
 
 { #category : #asserting }

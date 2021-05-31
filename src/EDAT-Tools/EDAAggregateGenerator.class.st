@@ -1,3 +1,4 @@
+
 Class {
 	#name : #EDAAggregateGenerator,
 	#superclass : #EDAGenerator,

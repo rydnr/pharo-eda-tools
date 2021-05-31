@@ -1,7 +1,8 @@
+
 Class {
 	#name : #EDAFuelHelper,
 	#superclass : #Object,
-	#category : #'EDACT-Tools'
+	#category : #'EDAT-Tools'
 }
 
 { #category : #handling }

@@ -1,6 +1,6 @@
 Trait {
 	#name : #EDACTCheckerHelper,
-	#category : #'EDACT-Tools'
+	#category : #'EDAT-Tools'
 }
 
 { #category : #helper }

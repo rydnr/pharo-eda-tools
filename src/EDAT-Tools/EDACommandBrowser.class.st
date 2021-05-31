@@ -1,3 +1,4 @@
+
 Class {
 	#name : #EDACommandBrowser,
 	#superclass : #ComposableModel,

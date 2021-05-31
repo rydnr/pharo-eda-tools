@@ -17,7 +17,7 @@ Class {
 		'eventNameResolver',
 		'commandNameResolver'
 	],
-	#category : #'EDACT-Tools'
+	#category : #'EDAT-Tools'
 }
 
 { #category : #'instance creation' }

@@ -1,3 +1,4 @@
+
 Class {
 	#name : #EDADomainTestGenerator,
 	#superclass : #EDAGenerator,

@@ -1,7 +1,7 @@
 Class {
 	#name : #EDACTestTraitGenerator,
 	#superclass : #EDAGenerator,
-	#category : #'EDACT-Tools'
+	#category : #'EDAT-Tools'
 }
 
 { #category : #'code generation' }

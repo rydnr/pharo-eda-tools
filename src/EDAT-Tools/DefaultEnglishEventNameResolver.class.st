@@ -1,3 +1,4 @@
+
 Class {
 	#name : #DefaultEnglishEventNameResolver,
 	#superclass : #Object,

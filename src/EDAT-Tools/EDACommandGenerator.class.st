@@ -1,3 +1,4 @@
+
 Class {
 	#name : #EDACommandGenerator,
 	#superclass : #EDAGenerator,

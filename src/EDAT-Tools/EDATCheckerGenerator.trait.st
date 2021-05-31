@@ -1,3 +1,4 @@
+
 Trait {
 	#name : #EDACTCheckerGenerator,
 	#category : #'EDACT-Tools'

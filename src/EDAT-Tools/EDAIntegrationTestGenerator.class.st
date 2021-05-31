@@ -1,3 +1,4 @@
+
 Class {
 	#name : #EDAIntegrationTestGenerator,
 	#superclass : #EDAGenerator,

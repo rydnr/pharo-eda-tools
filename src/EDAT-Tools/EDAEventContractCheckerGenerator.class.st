@@ -1,3 +1,4 @@
+
 Class {
 	#name : #EDAEventContractCheckerGenerator,
 	#superclass : #AbstractEDAGenerator,

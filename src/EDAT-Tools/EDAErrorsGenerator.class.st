@@ -1,7 +1,7 @@
 Class {
 	#name : #EDAErrorsGenerator,
 	#superclass : #EDAGenerator,
-	#category : #'EDACT-Tools'
+	#category : #'EDAT-Tools'
 }
 
 { #category : #'code generation' }

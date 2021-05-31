@@ -1,3 +1,4 @@
+
 Class {
 	#name : #EDACTestSupportGenerator,
 	#superclass : #EDAGenerator,

@@ -3,7 +3,7 @@ Class {
 	#superclass : #Object,
 	#traits : 'EDACTSourceCodeHelper',
 	#classTraits : 'EDACTSourceCodeHelper classTrait',
-	#category : #'EDACT-Tools'
+	#category : #'EDAT-Tools'
 }
 
 { #category : #resolving }

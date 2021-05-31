@@ -3,7 +3,7 @@ Class {
 	#superclass : #AbstractEDAGenerator,
 	#traits : 'EDACTCheckerGenerator',
 	#classTraits : 'EDACTCheckerGenerator classTrait',
-	#category : #'EDACT-Tools'
+	#category : #'EDAT-Tools'
 }
 
 { #category : #'instance creation' }
