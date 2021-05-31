@@ -1,16 +1,16 @@
 Class {
-	#name : #EDATestSupportGenerator,
+	#name : #EDACTestSupportGenerator,
 	#superclass : #EDAGenerator,
-	#category : #'EDAT-Tools'
+	#category : #'EDACT-Tools'
 }
 
 { #category : #asserting }
-EDATestSupportGenerator class >> shouldRunAfter: anotherGenerator [
+EDACTestSupportGenerator class >> shouldRunAfter: anotherGenerator [
 	^ anotherGenerator = EDADomainTestEventGenerator
 ]
 
 { #category : #'code generation' }
-EDATestSupportGenerator >> createTestHelperBuildEventClassMethod [
+EDACTestSupportGenerator >> createTestHelperBuildEventClassMethod [
 	| method |
 	method := self generateTestHelperBuildEventClassMethod.
 	method
@@ -23,17 +23,17 @@ EDATestSupportGenerator >> createTestHelperBuildEventClassMethod [
 ]
 
 { #category : #protected }
-EDATestSupportGenerator >> description [
+EDACTestSupportGenerator >> description [
 	^ 'helper methods for testing ' , self aggregate greaseString
 ]
 
 { #category : #protected }
-EDATestSupportGenerator >> doGenerate [
+EDACTestSupportGenerator >> doGenerate [
 	self createTestHelperBuildEventClassMethod
 ]
 
 { #category : #'code generation' }
-EDATestSupportGenerator >> generateTestHelperBuildEventClassMethod [
+EDACTestSupportGenerator >> generateTestHelperBuildEventClassMethod [
 	| result methodName method attrs cr |
 	cr := Character cr.
 	methodName := self generateTestHelperBuildEventClassMethodName.
@@ -72,12 +72,12 @@ EDATestSupportGenerator >> generateTestHelperBuildEventClassMethod [
 ]
 
 { #category : #'code generation' }
-EDATestSupportGenerator >> generateTestHelperBuildEventClassMethodName [
+EDACTestSupportGenerator >> generateTestHelperBuildEventClassMethodName [
 	^ 'ofTenant:withAggregateId:commandId:andAttributes:'
 ]
 
 { #category : #'code generation' }
-EDATestSupportGenerator >> generateTestHelperBuildEventClassMethodNameWithArgPrefix: prefix [
+EDACTestSupportGenerator >> generateTestHelperBuildEventClassMethodNameWithArgPrefix: prefix [
 	^ 'ofTenant: ' , (prefix , 'Tenant') , ' withAggregateId: '
 		, (prefix , 'Id') uncapitalized , ' commandId: '
 		, (prefix , 'CommandId') uncapitalized , ' andAttributes: '
@@ -85,9 +85,9 @@ EDATestSupportGenerator >> generateTestHelperBuildEventClassMethodNameWithArgPre
 ]
 
 { #category : #delegated }
-EDATestSupportGenerator >> retrieveTestHelperTraitName [
+EDACTestSupportGenerator >> retrieveTestHelperTraitName [
 	| delegate |
-	delegate := EDATestTraitGenerator
+	delegate := EDACTestTraitGenerator
 		fromExampleFile: self commandFile
 		version: self version
 		appName: self appName

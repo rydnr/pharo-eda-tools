@@ -1,7 +1,7 @@
 Class {
 	#name : #EDADomainTestGenerator,
 	#superclass : #EDAGenerator,
-	#category : #'EDAT-Tools'
+	#category : #'EDACT-Tools'
 }
 
 { #category : #asserting }
@@ -16,7 +16,7 @@ EDADomainTestGenerator >> createDomainTestClass [
 	(self containsAnyDisableRegenerationMethod: cls)
 		ifFalse: [ ^ BabyMock2TestCase
 				subclass: (self appName , self aggregate capitalized , 'AggregateTestCase') asSymbol
-				uses: EDATDomainBDD + (Smalltalk at: (self appName , 'T' , self aggregate capitalized , 'TestHelper') asSymbol)
+				uses: EDACTDomainBDD + (Smalltalk at: (self appName , 'T' , self aggregate capitalized , 'TestHelper') asSymbol)
 				instanceVariableNames: ''
 				classVariableNames: ''
 				package: self appName , '-Domain-Tests-' , (self toCamelCase: self aggregate ) ]
@@ -47,7 +47,7 @@ EDADomainTestGenerator >> createTestEventBuildEventClassMethod [
 { #category : #delegated }
 EDADomainTestGenerator >> createTestHelperBuildCommandMethod [
 	| delegate |
-	delegate := EDATestTraitGenerator
+	delegate := EDACTestTraitGenerator
 		fromExampleFile: self commandFile
 				version: self version
 				appName: self appName
@@ -60,7 +60,7 @@ EDADomainTestGenerator >> createTestHelperBuildCommandMethod [
 { #category : #delegated }
 EDADomainTestGenerator >> createTestHelperBuildEventClassMethod [
 	| delegate |
-	delegate := EDATestSupportGenerator
+	delegate := EDACTestSupportGenerator
 		fromExampleFile: self commandFile
 		version: self version
 		appName: self appName
@@ -73,7 +73,7 @@ EDADomainTestGenerator >> createTestHelperBuildEventClassMethod [
 { #category : #delegated }
 EDADomainTestGenerator >> createTestHelperBuildEventMethod [
 	| delegate |
-	delegate := EDATestTraitGenerator
+	delegate := EDACTestTraitGenerator
 		fromExampleFile: self commandFile
 		version: self version
 		appName: self appName

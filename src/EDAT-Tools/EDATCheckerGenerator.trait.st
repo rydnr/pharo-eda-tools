@@ -1,10 +1,10 @@
 Trait {
-	#name : #EDATCheckerGenerator,
-	#category : #'EDAT-Tools'
+	#name : #EDACTCheckerGenerator,
+	#category : #'EDACT-Tools'
 }
 
 { #category : #api }
-EDATCheckerGenerator >> generateCheckers [
+EDACTCheckerGenerator >> generateCheckers [
 	self
 		compile: self checkerMethodName
 		sourceCode: self checkerMethod

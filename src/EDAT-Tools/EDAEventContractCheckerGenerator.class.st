@@ -1,9 +1,9 @@
 Class {
 	#name : #EDAEventContractCheckerGenerator,
 	#superclass : #AbstractEDAGenerator,
-	#traits : 'EDATCheckerGenerator',
-	#classTraits : 'EDATCheckerGenerator classTrait',
-	#category : #'EDAT-Tools'
+	#traits : 'EDACTCheckerGenerator',
+	#classTraits : 'EDACTCheckerGenerator classTrait',
+	#category : #'EDACT-Tools'
 }
 
 { #category : #'instance creation' }

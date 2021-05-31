@@ -1,9 +1,9 @@
 Class {
 	#name : #DefaultEnglishCommandNameResolver,
 	#superclass : #Object,
-	#traits : 'EDATSourceCodeHelper',
-	#classTraits : 'EDATSourceCodeHelper classTrait',
-	#category : #'EDAT-Tools'
+	#traits : 'EDACTSourceCodeHelper',
+	#classTraits : 'EDACTSourceCodeHelper classTrait',
+	#category : #'EDACT-Tools'
 }
 
 { #category : #resolving }

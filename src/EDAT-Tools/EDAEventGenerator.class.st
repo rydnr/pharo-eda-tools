@@ -1,7 +1,7 @@
 Class {
 	#name : #EDAEventGenerator,
 	#superclass : #EDAGenerator,
-	#category : #'EDAT-Tools'
+	#category : #'EDACT-Tools'
 }
 
 { #category : #'code generation' }

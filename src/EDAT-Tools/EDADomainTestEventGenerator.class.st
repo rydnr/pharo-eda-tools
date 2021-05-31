@@ -1,12 +1,12 @@
 Class {
 	#name : #EDADomainTestEventGenerator,
 	#superclass : #EDAGenerator,
-	#category : #'EDAT-Tools'
+	#category : #'EDACT-Tools'
 }
 
 { #category : #asserting }
 EDADomainTestEventGenerator class >> shouldRunAfter: anotherGenerator [
-	^ anotherGenerator ~= EDATestSupportGenerator and: [ anotherGenerator ~= EDADomainTestGenerator ]
+	^ anotherGenerator ~= EDACTestSupportGenerator and: [ anotherGenerator ~= EDADomainTestGenerator ]
 ]
 
 { #category : #'code generation' }
@@ -19,7 +19,7 @@ EDADomainTestEventGenerator >> createDomainTestEventClass [
 	cls := self retrieveDomainTestEventClassName.
 	parent
 		subclass: cls
-		uses: EDATTestEvent
+		uses: EDACTTestEvent
 		instanceVariableNames: ''
 		classVariableNames: ''
 		package: self appName , '-Domain-Tests-' , (self toCamelCase: self aggregate).
@@ -62,7 +62,7 @@ EDADomainTestEventGenerator >> createTestEventBuildEventClassMethod [
 { #category : #'code generation' }
 EDADomainTestEventGenerator >> createTestHelperBuildCommandMethod [
 	| delegate |
-	delegate := EDATestTraitGenerator
+	delegate := EDACTestTraitGenerator
 		fromExampleFile: self commandFile
 		version: self version
 		appName: self appName
@@ -75,7 +75,7 @@ EDADomainTestEventGenerator >> createTestHelperBuildCommandMethod [
 { #category : #'code generation' }
 EDADomainTestEventGenerator >> createTestHelperBuildEventClassMethod [
 	| delegate |
-	delegate := EDATestSupportGenerator
+	delegate := EDACTestSupportGenerator
 		fromExampleFile: self commandFile
 		version: self version
 		appName: self appName

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'generatorClasses'
 	],
-	#category : #'EDAT-Tools'
+	#category : #'EDACT-Tools'
 }
 
 { #category : #protected }

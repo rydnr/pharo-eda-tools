@@ -1,7 +1,7 @@
 Class {
 	#name : #EDAAggregateGenerator,
 	#superclass : #EDAGenerator,
-	#category : #'EDAT-Tools'
+	#category : #'EDACT-Tools'
 }
 
 { #category : #sorting }

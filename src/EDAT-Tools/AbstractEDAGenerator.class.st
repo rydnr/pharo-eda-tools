@@ -1,8 +1,8 @@
 Class {
 	#name : #AbstractEDAGenerator,
 	#superclass : #Object,
-	#traits : 'EDATSourceCodeHelper + EDATCheckerHelper + EDATLogging',
-	#classTraits : 'EDATSourceCodeHelper classTrait + EDATCheckerHelper classTrait + EDATLogging classTrait',
+	#traits : 'EDACTSourceCodeHelper + EDACTCheckerHelper + EDACTLogging',
+	#classTraits : 'EDACTSourceCodeHelper classTrait + EDACTCheckerHelper classTrait + EDACTLogging classTrait',
 	#instVars : [
 		'commandName',
 		'commandRaw',
