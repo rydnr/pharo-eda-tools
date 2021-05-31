@@ -1,11 +1,11 @@
 Class {
-	#name : #AbstractEDAGeneratorTest,
+	#name : #EDATAbstractGeneratorTest,
 	#superclass : #TestCase,
 	#category : #'EDAT-Tools-Tests'
 }
 
 { #category : #running }
-AbstractEDAGeneratorTest >> setUp [
+EDATAbstractGeneratorTest >> setUp [
 	EDAAggregateRoot
 		subclass: #EDADummyAggregateRoot
 		instanceVariableNames: ''
@@ -14,15 +14,15 @@ AbstractEDAGeneratorTest >> setUp [
 ]
 
 { #category : #running }
-AbstractEDAGeneratorTest >> tearDown [
+EDATAbstractGeneratorTest >> tearDown [
 	RBRefactoringManager instance addRefactoring: (RBRemoveClassRefactoring classNames: { #EDADummyAggregateRoot } ) transform.
 
 ]
 
 { #category : #tests }
-AbstractEDAGeneratorTest >> testFindRelativePathBetweenFileAndFolder [
+EDATAbstractGeneratorTest >> testFindRelativePathBetweenFileAndFolder [
 	| instance |
-	instance := AbstractEDAGenerator new.
+	instance := EDATAbstractGenerator new.
 	self
 		assert: (instance findRelativePathBetweenFile: FileSystem disk workingDirectory / 'test.txt' andFolder: FileSystem disk workingDirectory)
 		equals: #() asOrderedCollection.
@@ -35,23 +35,23 @@ AbstractEDAGeneratorTest >> testFindRelativePathBetweenFileAndFolder [
 ]
 
 { #category : #tests }
-AbstractEDAGeneratorTest >> testRemoveClassLiteralFromMetaClassName [
+EDATAbstractGeneratorTest >> testRemoveClassLiteralFromMetaClassName [
 	| instance |
-	instance := AbstractEDAGenerator new.
+	instance := EDATAbstractGenerator new.
 	self assert: (instance removeClassLiteralFromMetaClassName: self class className) equals: self class greaseString
 ]
 
 { #category : #tests }
-AbstractEDAGeneratorTest >> testRetrieveAggregateClasses [
+EDATAbstractGeneratorTest >> testRetrieveAggregateClasses [
 	| instance |
-	instance := AbstractEDAGenerator new.
+	instance := EDATAbstractGenerator new.
 	self assert: (instance retrieveAggregateClasses select: [ :c | c class greaseString = 'EDADummyAggregateRoot class' ]) isNotEmpty
 ]
 
 { #category : #tests }
-AbstractEDAGeneratorTest >> testRetrieveAggregateIdNames [
+EDATAbstractGeneratorTest >> testRetrieveAggregateIdNames [
 	| instance |
-	instance := AbstractEDAGenerator
+	instance := EDATAbstractGenerator
 		new.
 		instance 
 		appName: 'EDA'.
@@ -59,18 +59,18 @@ AbstractEDAGeneratorTest >> testRetrieveAggregateIdNames [
 ]
 
 { #category : #tests }
-AbstractEDAGeneratorTest >> testRetrieveAggregateIdNames_does_not_include_aggregates_from_other_applications [
+EDATAbstractGeneratorTest >> testRetrieveAggregateIdNames_does_not_include_aggregates_from_other_applications [
 	| instance |
-	instance := AbstractEDAGenerator new.
+	instance := EDATAbstractGenerator new.
 	instance appName: 'OTHER'.
 	self assert: (instance retrieveAggregateIdNames includes: 'dummyAggregateRootId') not.
 		self assert: (instance retrieveAggregateIdNames includes: 'eDADummyAggregateRootId') not.
 ]
 
 { #category : #tests }
-AbstractEDAGeneratorTest >> testRetrieveCommandAttributes [
+EDATAbstractGeneratorTest >> testRetrieveCommandAttributes [
 	| generator |
-	generator := AbstractEDAGenerator new.
+	generator := EDATAbstractGenerator new.
 	generator
 		commandJson:
 			{(#body
@@ -82,9 +82,9 @@ AbstractEDAGeneratorTest >> testRetrieveCommandAttributes [
 ]
 
 { #category : #tests }
-AbstractEDAGeneratorTest >> testRetrieveCommandAttributesBut [
+EDATAbstractGeneratorTest >> testRetrieveCommandAttributesBut [
 	| generator |
-	generator := AbstractEDAGenerator new.
+	generator := EDATAbstractGenerator new.
 	generator
 		commandJson:
 			{(#body
@@ -117,9 +117,9 @@ AbstractEDAGeneratorTest >> testRetrieveCommandAttributesBut [
 ]
 
 { #category : #tests }
-AbstractEDAGeneratorTest >> testRetrieveMaxVersion [
+EDATAbstractGeneratorTest >> testRetrieveMaxVersion [
 	| instance tempFolder commandFolder |
-	instance := AbstractEDAGenerator new.
+	instance := EDATAbstractGenerator new.
 	tempFolder := (FileSystem workingDirectory / '.test-contracts') nextVersion createDirectory.
 	commandFolder := tempFolder / 'commands' / 'v599'.
 	commandFolder parent createDirectory.
@@ -130,9 +130,9 @@ AbstractEDAGeneratorTest >> testRetrieveMaxVersion [
 ]
 
 { #category : #tests }
-AbstractEDAGeneratorTest >> testRetrieveVersion [
+EDATAbstractGeneratorTest >> testRetrieveVersion [
 	| instance |
-	instance := AbstractEDAGenerator new.
+	instance := EDATAbstractGenerator new.
 	instance commandFile: FileSystem workingDirectory / 'contracts' / 'v5' / 'sample.example.json'.
 	self assert: instance retrieveVersion equals: 5.
 	instance commandFile: FileSystem workingDirectory / 'contracts' / 'v46' / 'sample.example.json'.
@@ -140,16 +140,16 @@ AbstractEDAGeneratorTest >> testRetrieveVersion [
 ]
 
 { #category : #tests }
-AbstractEDAGeneratorTest >> testToDotSeparated [
+EDATAbstractGeneratorTest >> testToDotSeparated [
 	| instance |
-	instance := AbstractEDAGenerator new.
+	instance := EDATAbstractGenerator new.
 	self assert: (instance upcasedToDotSeparated: 'CREATE_ROUND') equals: 'create.round'
 ]
 
 { #category : #tests }
-AbstractEDAGeneratorTest >> testVerbInPastTense [
+EDATAbstractGeneratorTest >> testVerbInPastTense [
 	| instance |
-	instance := AbstractEDAGenerator new.
+	instance := EDATAbstractGenerator new.
 	self assert: (instance verbInPastTense: 'work') equals: 'worked'.
 	self assert: (instance verbInPastTense: 'create') equals: 'created'.
 	self assert: (instance verbInPastTense: 'submit') equals: 'submitted'.
