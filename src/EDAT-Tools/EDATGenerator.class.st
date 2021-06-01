@@ -11,8 +11,8 @@ generator := (EDAGenerator fromExampleFile: jsonFile appName: edaApplicationPref
 generator generateAll
 "
 Class {
-	#name : #EDAGenerator,
-	#superclass : #AbstractEDAGenerator,
+	#name : #EDATGenerator,
+	#superclass : #EDATAbstractGenerator,
 	#instVars : [
 		'eventNameResolver',
 		'commandNameResolver'
@@ -21,7 +21,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-EDAGenerator class >> fromExampleFile: aFile version: version appName: appName aggregate: aggregate [
+EDATGenerator class >> fromExampleFile: aFile version: version appName: appName aggregate: aggregate [
 	^ self
 		fromExampleFile: aFile
 		version: version
@@ -32,7 +32,7 @@ EDAGenerator class >> fromExampleFile: aFile version: version appName: appName a
 ]
 
 { #category : #'instance creation' }
-EDAGenerator class >> fromExampleFile: aFile version: version appName: appName aggregate: aggregate commandNameResolver: aCommandNameResolver andEventNameResolver: anEventNameResolver [
+EDATGenerator class >> fromExampleFile: aFile version: version appName: appName aggregate: aggregate commandNameResolver: aCommandNameResolver andEventNameResolver: anEventNameResolver [
 	| result eventRaw |
 	result := self new
 		commandFile: aFile;
@@ -64,47 +64,47 @@ EDAGenerator class >> fromExampleFile: aFile version: version appName: appName a
 ]
 
 { #category : #sorting }
-EDAGenerator class >> shouldRunAfter: anotherGenerator [
+EDATGenerator class >> shouldRunAfter: anotherGenerator [
 	^ false
 ]
 
 { #category : #api }
-EDAGenerator >> buildMessage [
+EDATGenerator >> buildMessage [
 	^ 'Generating code based on contracts for ' , self description , ' (version: ' , self version greaseString , ')'
 ]
 
 { #category : #accessing }
-EDAGenerator >> commandNameResolver [
+EDATGenerator >> commandNameResolver [
 	^ commandNameResolver
 ]
 
 { #category : #accessing }
-EDAGenerator >> commandNameResolver: aResolver [
+EDATGenerator >> commandNameResolver: aResolver [
 	commandNameResolver := aResolver
 ]
 
 { #category : #protected }
-EDAGenerator >> description [
+EDATGenerator >> description [
 	self subclassResponsibility
 ]
 
 { #category : #protected }
-EDAGenerator >> doGenerate [
+EDATGenerator >> doGenerate [
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-EDAGenerator >> eventNameResolver [
+EDATGenerator >> eventNameResolver [
 	^ eventNameResolver
 ]
 
 { #category : #accessing }
-EDAGenerator >> eventNameResolver: aResolver [
+EDATGenerator >> eventNameResolver: aResolver [
 	eventNameResolver := aResolver
 ]
 
 { #category : #'code generation' }
-EDAGenerator >> expectedEventFromFile [
+EDATGenerator >> expectedEventFromFile [
 	| evtJson id body |
 	evtJson := NeoJSONReader fromString: self readEventExampleFile.
 	body := evtJson at: #body.
@@ -123,13 +123,13 @@ EDAGenerator >> expectedEventFromFile [
 ]
 
 { #category : #api }
-EDAGenerator >> generate [
+EDATGenerator >> generate [
 	self logDebugMessage: '** ' , self buildMessage.
 	self doGenerate
 ]
 
 { #category : #'code generation' }
-EDAGenerator >> generateAccessorsFor: cls attributes: attributes [
+EDATGenerator >> generateAccessorsFor: cls attributes: attributes [
 	| result |
 	result := Dictionary new.
 	(attributes select: [ :attr | cls instVarNames anySatisfy: [ :a | a = attr ] ])
@@ -140,7 +140,7 @@ EDAGenerator >> generateAccessorsFor: cls attributes: attributes [
 ]
 
 { #category : #'code generation' }
-EDAGenerator >> generateAttributesEqualsMethodFor: attributes [
+EDATGenerator >> generateAttributesEqualsMethodFor: attributes [
 	| result |
 	result := WriteStream on: String new.
 	result
@@ -155,7 +155,7 @@ EDAGenerator >> generateAttributesEqualsMethodFor: attributes [
 ]
 
 { #category : #'code generation' }
-EDAGenerator >> generateAttributesHashMethodFor: attributes [
+EDATGenerator >> generateAttributesHashMethodFor: attributes [
 	| result |
 	result := WriteStream with: String new.
 	result
@@ -171,7 +171,7 @@ EDAGenerator >> generateAttributesHashMethodFor: attributes [
 ]
 
 { #category : #'code generation' }
-EDAGenerator >> generateEqualsAndBlockRecursively: attributes [
+EDATGenerator >> generateEqualsAndBlockRecursively: attributes [
 	| result attribute |
 	attributes size > 0
 		ifTrue: [ attribute := attributes first.
@@ -182,13 +182,13 @@ EDAGenerator >> generateEqualsAndBlockRecursively: attributes [
 ]
 
 { #category : #'code generation' }
-EDAGenerator >> generateEqualsMethodFor: attributes [
+EDATGenerator >> generateEqualsMethodFor: attributes [
 	"^ self generateNoAttributesEqualsMethodFor: attributes"
 	^ self generateAttributesEqualsMethodFor: attributes.
 ]
 
 { #category : #'code generation' }
-EDAGenerator >> generateGetterFor: attribute [
+EDATGenerator >> generateGetterFor: attribute [
 	^ attribute
 		,
 			'
@@ -196,7 +196,7 @@ EDAGenerator >> generateGetterFor: attribute [
 ]
 
 { #category : #'code generation' }
-EDAGenerator >> generateHashAndBlockRecursively: attributes [
+EDATGenerator >> generateHashAndBlockRecursively: attributes [
 	| result |
 	result := WriteStream with: String new.
 	attributes isEmpty
@@ -219,13 +219,13 @@ EDAGenerator >> generateHashAndBlockRecursively: attributes [
 ]
 
 { #category : #'code generation' }
-EDAGenerator >> generateHashMethodFor: attributes [
+EDATGenerator >> generateHashMethodFor: attributes [
    "^ self generateNoAttributesHashMethodFor: attributes"
 	^ self generateAttributesHashMethodFor: attributes
 ]
 
 { #category : #'code generation' }
-EDAGenerator >> generateNoAttributesEqualsMethodFor: attributes [
+EDATGenerator >> generateNoAttributesEqualsMethodFor: attributes [
 	| result |
 	result := WriteStream on: String new.
 	result
@@ -238,7 +238,7 @@ EDAGenerator >> generateNoAttributesEqualsMethodFor: attributes [
 ]
 
 { #category : #'code generation' }
-EDAGenerator >> generateNoAttributesHashMethodFor: attributes [
+EDATGenerator >> generateNoAttributesHashMethodFor: attributes [
 	| result |
 	result := WriteStream with: String new.
 	result
@@ -251,7 +251,7 @@ EDAGenerator >> generateNoAttributesHashMethodFor: attributes [
 ]
 
 { #category : #'code generation' }
-EDAGenerator >> generateSetterFor: attribute [
+EDATGenerator >> generateSetterFor: attribute [
 	^ attribute
 		,
 			': newValue

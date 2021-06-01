@@ -1,14 +1,14 @@
 
 Class {
-	#name : #EDAEventContractCheckerGenerator,
-	#superclass : #AbstractEDAGenerator,
+	#name : #EDATEventContractCheckerGenerator,
+	#superclass : #EDATAbstractGenerator,
 	#traits : 'EDACTCheckerGenerator',
 	#classTraits : 'EDACTCheckerGenerator classTrait',
-	#category : #'EDACT-Tools'
+	#category : #'EDAT-Tools'
 }
 
 { #category : #'instance creation' }
-EDAEventContractCheckerGenerator class >> fromExampleFile: aFile version: version appName: appName aggregate: aggregate [
+EDATEventContractCheckerGenerator class >> fromExampleFile: aFile version: version appName: appName aggregate: aggregate [
 	| result |
 	result := self new
 		eventFile: aFile;
@@ -22,7 +22,7 @@ EDAEventContractCheckerGenerator class >> fromExampleFile: aFile version: versio
 ]
 
 { #category : #'code generation' }
-EDAEventContractCheckerGenerator >> checkerMethod [
+EDATEventContractCheckerGenerator >> checkerMethod [
 	| result cr body |
 	cr := Character cr.
 	result := WriteStream with: String new.
@@ -91,6 +91,6 @@ EDAEventContractCheckerGenerator >> checkerMethod [
 ]
 
 { #category : #'code generation' }
-EDAEventContractCheckerGenerator >> checkerMethodName [
+EDATEventContractCheckerGenerator >> checkerMethodName [
 	^ 'test' , (self underscoreSeparatedToCamelCase: self eventName) , 'BuilderMethodRespectsContractV' , self version asString
 ]

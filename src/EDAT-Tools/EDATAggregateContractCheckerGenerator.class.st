@@ -1,13 +1,13 @@
 Class {
-	#name : #EDAAggregateContractCheckerGenerator,
-	#superclass : #AbstractEDAGenerator,
+	#name : #EDATAggregateContractCheckerGenerator,
+	#superclass : #EDATAbstractGenerator,
 	#traits : 'EDACTCheckerGenerator',
 	#classTraits : 'EDACTCheckerGenerator classTrait',
 	#category : #'EDAT-Tools'
 }
 
 { #category : #'instance creation' }
-EDAAggregateContractCheckerGenerator class >> fromExampleFile: aFile version: version appName: appName aggregate: aggregate [
+EDATAggregateContractCheckerGenerator class >> fromExampleFile: aFile version: version appName: appName aggregate: aggregate [
 	| result |
 	result := self new
 		commandFile: aFile;
@@ -21,7 +21,7 @@ EDAAggregateContractCheckerGenerator class >> fromExampleFile: aFile version: ve
 ]
 
 { #category : #'code generation' }
-EDAAggregateContractCheckerGenerator >> checkerMethod [
+EDATAggregateContractCheckerGenerator >> checkerMethod [
 	| result cr |
 	cr := Character cr.
 	result := WriteStream with: String new.
@@ -41,6 +41,6 @@ EDAAggregateContractCheckerGenerator >> checkerMethod [
 ]
 
 { #category : #'code generation' }
-EDAAggregateContractCheckerGenerator >> checkerMethodName [
+EDATAggregateContractCheckerGenerator >> checkerMethodName [
 	^ 'testHandle' , (self underscoreSeparatedToCamelCase: commandName) , 'UsesTheExpectedEventBuilderV' , (self version asString)
 ]

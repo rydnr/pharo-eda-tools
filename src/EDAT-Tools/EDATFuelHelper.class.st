@@ -1,12 +1,12 @@
 
 Class {
-	#name : #EDAFuelHelper,
+	#name : #EDATFuelHelper,
 	#superclass : #Object,
 	#category : #'EDAT-Tools'
 }
 
 { #category : #handling }
-EDAFuelHelper >> readFuelFromFileNamed: aFileReference [
+EDATFuelHelper >> readFuelFromFileNamed: aFileReference [
 	| aContext |
 	aContext := FLMaterializer
 		materializeFromFileNamed: aFileReference pathString.
@@ -14,12 +14,12 @@ EDAFuelHelper >> readFuelFromFileNamed: aFileReference [
 ]
 
 { #category : #handling }
-EDAFuelHelper >> readFuelFromFileNamed: aString inFolder: aFolder [
+EDATFuelHelper >> readFuelFromFileNamed: aString inFolder: aFolder [
 	^ self readFuelFromFileNamed: (aFolder / aString)
 ]
 
 { #category : #handling }
-EDAFuelHelper >> writeFuelContext: aContext named: aString inFolder: aFolder [
+EDATFuelHelper >> writeFuelContext: aContext named: aString inFolder: aFolder [
 	| result |
 	result := aFolder / aString.
 	FLSerializer serialize: aContext toFileNamed: result pathString.

@@ -1,12 +1,12 @@
 
 Class {
-	#name : #EDADefaultCommandBuilderGenerator,
-	#superclass : #EDAGenerator,
-	#category : #'EDACT-Tools'
+	#name : #EDATDefaultCommandBuilderGenerator,
+	#superclass : #EDATGenerator,
+	#category : #'EDAT-Tools'
 }
 
 { #category : #'code generation' }
-EDADefaultCommandBuilderGenerator >> createDefaultCommandBuilderInitializeCommandBuilders [
+EDATDefaultCommandBuilderGenerator >> createDefaultCommandBuilderInitializeCommandBuilders [
 	^ self
 		compile: self generateDefaultCommandBuilderInitializeCommandBuildersMethodName
 		sourceCode: (self generateDefaultCommandBuilderInitializeCommandBuildersMethodFor: self appName)
@@ -15,12 +15,12 @@ EDADefaultCommandBuilderGenerator >> createDefaultCommandBuilderInitializeComman
 ]
 
 { #category : #protected }
-EDADefaultCommandBuilderGenerator >> description [
+EDATDefaultCommandBuilderGenerator >> description [
 	^ 'DefaultCommandBuilder'
 ]
 
 { #category : #protected }
-EDADefaultCommandBuilderGenerator >> doGenerate [
+EDATDefaultCommandBuilderGenerator >> doGenerate [
 	self
 		logDebugMessage:
 			'** Generating DefaultCommandBuilder >> initializeCommandBuilders for '
@@ -29,7 +29,7 @@ EDADefaultCommandBuilderGenerator >> doGenerate [
 ]
 
 { #category : #'code generation' }
-EDADefaultCommandBuilderGenerator >> generateDefaultCommandBuilderInitializeCommandBuildersMethodFor: anAppName [
+EDATDefaultCommandBuilderGenerator >> generateDefaultCommandBuilderInitializeCommandBuildersMethodFor: anAppName [
 	| result commands cr |
 	cr := Character cr.
 	result := WriteStream with: String new.
@@ -57,6 +57,6 @@ EDADefaultCommandBuilderGenerator >> generateDefaultCommandBuilderInitializeComm
 ]
 
 { #category : #'code generation' }
-EDADefaultCommandBuilderGenerator >> generateDefaultCommandBuilderInitializeCommandBuildersMethodName [
+EDATDefaultCommandBuilderGenerator >> generateDefaultCommandBuilderInitializeCommandBuildersMethodName [
 	^ 'initializeCommandBuilders'
 ]

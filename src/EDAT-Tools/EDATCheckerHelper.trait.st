@@ -1,10 +1,10 @@
 Trait {
-	#name : #EDACTCheckerHelper,
+	#name : #EDATCheckerHelper,
 	#category : #'EDAT-Tools'
 }
 
 { #category : #helper }
-EDACTCheckerHelper >> readFromContract: aBlock [
+EDATCheckerHelper >> readFromContract: aBlock [
 	| result file fileContents |
 	file := aBlock value.
 	fileContents := file readStream.

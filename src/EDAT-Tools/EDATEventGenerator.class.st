@@ -1,11 +1,11 @@
 Class {
-	#name : #EDAEventGenerator,
-	#superclass : #EDAGenerator,
+	#name : #EDATEventGenerator,
+	#superclass : #EDATGenerator,
 	#category : #'EDAT-Tools'
 }
 
 { #category : #'code generation' }
-EDAEventGenerator >> createEventClass [
+EDATEventGenerator >> createEventClass [
 	| cls attributes parent |
 	cls := self retrieveEventClassName asSymbol.
 	attributes := self
@@ -26,7 +26,7 @@ EDAEventGenerator >> createEventClass [
 ]
 
 { #category : #'code generation' }
-EDAEventGenerator >> createEventClassAccessors [
+EDATEventGenerator >> createEventClassAccessors [
 	| eventClass |
 	eventClass := self class environment at: self retrieveEventClassName asSymbol.
 	(self generateAccessorsFor: eventClass attributes:(self retrieveEventAttributesBut: self class skippedEventAttributes))
@@ -39,7 +39,7 @@ EDAEventGenerator >> createEventClassAccessors [
 ]
 
 { #category : #'code generation' }
-EDAEventGenerator >> createEventClassAggregateRootClassMethod [
+EDATEventGenerator >> createEventClassAggregateRootClassMethod [
 	| cls |
 	cls := self class environment at: self retrieveEventClassName asSymbol.
 	^ self
@@ -50,7 +50,7 @@ EDAEventGenerator >> createEventClassAggregateRootClassMethod [
 ]
 
 { #category : #'code generation' }
-EDAEventGenerator >> createEventClassBuilderMethod [
+EDATEventGenerator >> createEventClassBuilderMethod [
 	| methodAssoc |
 	self isDeletedEvent ifTrue: [ ^ self ].
 	methodAssoc := self generateEventClassBuilderMethod associations first.
@@ -62,7 +62,7 @@ EDAEventGenerator >> createEventClassBuilderMethod [
 ]
 
 { #category : #'code generation' }
-EDAEventGenerator >> createEventClassEqualsMethod [
+EDATEventGenerator >> createEventClassEqualsMethod [
 	| cls attributes |
 	cls := self class environment at: self retrieveEventClassName asSymbol.
 	attributes := OrderedCollection withAll: self retrieveEventAttributes.
@@ -75,7 +75,7 @@ EDAEventGenerator >> createEventClassEqualsMethod [
 ]
 
 { #category : #'code generation' }
-EDAEventGenerator >> createEventClassHashMethod [
+EDATEventGenerator >> createEventClassHashMethod [
 	| cls attributes |
 	cls := self class environment at: self retrieveEventClassName asSymbol.
 	attributes := OrderedCollection withAll: self retrieveEventAttributes.
@@ -88,7 +88,7 @@ EDAEventGenerator >> createEventClassHashMethod [
 ]
 
 { #category : #'code generation' }
-EDAEventGenerator >> createEventClassInitializeMethod [
+EDATEventGenerator >> createEventClassInitializeMethod [
 	| cls |
 	cls := self class environment
 		at: self retrieveEventClassName asSymbol.
@@ -100,7 +100,7 @@ EDAEventGenerator >> createEventClassInitializeMethod [
 ]
 
 { #category : #'code generation' }
-EDAEventGenerator >> createEventClassLatestVersionClassMethod [
+EDATEventGenerator >> createEventClassLatestVersionClassMethod [
 	| cls |
 	cls := self class environment
 		at: self retrieveEventClassName asSymbol.
@@ -110,13 +110,12 @@ EDAEventGenerator >> createEventClassLatestVersionClassMethod [
 ]
 
 { #category : #protected }
-EDAEventGenerator >> description [
+EDATEventGenerator >> description [
 	^ 'Event for ' , self eventName greaseString.
-
 ]
 
 { #category : #protected }
-EDAEventGenerator >> doGenerate [
+EDATEventGenerator >> doGenerate [
 	self createEventClass.
 	self createEventClassAccessors.
 	self createEventClassBuilderMethod.
@@ -126,7 +125,7 @@ EDAEventGenerator >> doGenerate [
 ]
 
 { #category : #'code generation' }
-EDAEventGenerator >> generateEventClassAggregateRootClassMethod [
+EDATEventGenerator >> generateEventClassAggregateRootClassMethod [
 	| result methodName cr |
 	cr := Character cr.
 	methodName := 'aggregateRootClass'.
@@ -143,7 +142,7 @@ EDAEventGenerator >> generateEventClassAggregateRootClassMethod [
 ]
 
 { #category : #'code generation' }
-EDAEventGenerator >> generateEventClassBuilderMethod [
+EDATEventGenerator >> generateEventClassBuilderMethod [
 	| result methodName method attrs cr cls |
 	cr := Character cr.
 	methodName := self generateEventClassBuilderMethodName.
@@ -181,19 +180,19 @@ EDAEventGenerator >> generateEventClassBuilderMethod [
 ]
 
 { #category : #'code generation' }
-EDAEventGenerator >> generateEventClassBuilderMethodName [
+EDATEventGenerator >> generateEventClassBuilderMethodName [
 	^ 'ofTenant:withAggregateId:commandId:andAttributes:'
 ]
 
 { #category : #'code generation' }
-EDAEventGenerator >> generateEventClassBuilderMethodNameWithArgPrefix: prefix [
+EDATEventGenerator >> generateEventClassBuilderMethodNameWithArgPrefix: prefix [
 	^ 'ofTenant: ' , prefix , 'Tenant withAggregateId: ' , prefix
 		, 'Id commandId: ' , prefix , 'CommandId andAttributes: ' , prefix
 		, 'Attrs'
 ]
 
 { #category : #'code generation' }
-EDAEventGenerator >> generateEventClassLatestVersionMethod [
+EDATEventGenerator >> generateEventClassLatestVersionMethod [
 	| result cr |
 	cr := Character cr.
 	result := WriteStream with: String new.
@@ -208,12 +207,12 @@ EDAEventGenerator >> generateEventClassLatestVersionMethod [
 ]
 
 { #category : #'code generation' }
-EDAEventGenerator >> generateEventClassLatestVersionMethodName [
+EDATEventGenerator >> generateEventClassLatestVersionMethodName [
 	^ 'latestVersion'
 ]
 
 { #category : #'code generation' }
-EDAEventGenerator >> generateEventInitializeMethod [
+EDATEventGenerator >> generateEventInitializeMethod [
 	| result methodName cr |
 	cr := Character cr.
 	methodName := 'initialize'.

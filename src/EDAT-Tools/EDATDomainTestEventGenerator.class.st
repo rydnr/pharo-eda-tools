@@ -1,16 +1,16 @@
 Class {
-	#name : #EDADomainTestEventGenerator,
+	#name : #EDATDomainTestEventGenerator,
 	#superclass : #EDAGenerator,
 	#category : #'EDAT-Tools'
 }
 
 { #category : #asserting }
-EDADomainTestEventGenerator class >> shouldRunAfter: anotherGenerator [
+EDATDomainTestEventGenerator class >> shouldRunAfter: anotherGenerator [
 	^ anotherGenerator ~= EDACTestSupportGenerator and: [ anotherGenerator ~= EDADomainTestGenerator ]
 ]
 
 { #category : #'code generation' }
-EDADomainTestEventGenerator >> createDomainTestEventClass [
+EDATDomainTestEventGenerator >> createDomainTestEventClass [
 	| cls parent parentSymbol |
 	parentSymbol := self isDeletedEvent
 		ifTrue: [ (self appName , (self toCamelCase: self eventName)) asSymbol ]
@@ -27,7 +27,7 @@ EDADomainTestEventGenerator >> createDomainTestEventClass [
 ]
 
 { #category : #'code generation' }
-EDADomainTestEventGenerator >> createDomainTestEventClassAggregateRootClassMethod [
+EDATDomainTestEventGenerator >> createDomainTestEventClassAggregateRootClassMethod [
 	| cls |
 	cls := self class environment at: self retrieveEventClassName asSymbol.
 	^ self
@@ -38,7 +38,7 @@ EDADomainTestEventGenerator >> createDomainTestEventClassAggregateRootClassMetho
 ]
 
 { #category : #'code generation' }
-EDADomainTestEventGenerator >> createDomainTestEventEqualsMethod [
+EDATDomainTestEventGenerator >> createDomainTestEventEqualsMethod [
 	^ self
 		compile: '='
 		sourceCode: self generateDomainTestEventEqualsMethod
@@ -47,7 +47,7 @@ EDADomainTestEventGenerator >> createDomainTestEventEqualsMethod [
 ]
 
 { #category : #delegated }
-EDADomainTestEventGenerator >> createTestEventBuildEventClassMethod [
+EDATDomainTestEventGenerator >> createTestEventBuildEventClassMethod [
 	| method |
 	method := self generateTestEventBuildEventClassMethod.
 	method
@@ -60,7 +60,7 @@ EDADomainTestEventGenerator >> createTestEventBuildEventClassMethod [
 ]
 
 { #category : #'code generation' }
-EDADomainTestEventGenerator >> createTestHelperBuildCommandMethod [
+EDATDomainTestEventGenerator >> createTestHelperBuildCommandMethod [
 	| delegate |
 	delegate := EDACTestTraitGenerator
 		fromExampleFile: self commandFile
@@ -73,7 +73,7 @@ EDADomainTestEventGenerator >> createTestHelperBuildCommandMethod [
 ]
 
 { #category : #'code generation' }
-EDADomainTestEventGenerator >> createTestHelperBuildEventClassMethod [
+EDATDomainTestEventGenerator >> createTestHelperBuildEventClassMethod [
 	| delegate |
 	delegate := EDACTestSupportGenerator
 		fromExampleFile: self commandFile
@@ -86,12 +86,12 @@ EDADomainTestEventGenerator >> createTestHelperBuildEventClassMethod [
 ]
 
 { #category : #protected }
-EDADomainTestEventGenerator >> description [
+EDATDomainTestEventGenerator >> description [
 	^ 'domain test event for ' , self aggregate greaseString
 ]
 
 { #category : #protected }
-EDADomainTestEventGenerator >> doGenerate [
+EDATDomainTestEventGenerator >> doGenerate [
 	self createDomainTestEventClass.
 	self createTestEventBuildEventClassMethod.
 	self createTestHelperBuildEventClassMethod.
@@ -100,12 +100,12 @@ EDADomainTestEventGenerator >> doGenerate [
 ]
 
 { #category : #'code generation' }
-EDADomainTestEventGenerator >> generateDomainTestEventAttributeMatchesMethodName [
+EDATDomainTestEventGenerator >> generateDomainTestEventAttributeMatchesMethodName [
 	^ 'attribute:named:matches:'
 ]
 
 { #category : #'code generation' }
-EDADomainTestEventGenerator >> generateDomainTestEventEqualsAndBlockRecursively: attributes [
+EDATDomainTestEventGenerator >> generateDomainTestEventEqualsAndBlockRecursively: attributes [
 	| result attribute |
 	attributes size > 0
 		ifTrue: [ attribute := attributes first.
@@ -116,7 +116,7 @@ EDADomainTestEventGenerator >> generateDomainTestEventEqualsAndBlockRecursively:
 ]
 
 { #category : #'code generation' }
-EDADomainTestEventGenerator >> generateDomainTestEventEqualsMethod [
+EDATDomainTestEventGenerator >> generateDomainTestEventEqualsMethod [
 	| result cr eventAttributes |
 	eventAttributes := self
 		allAttributesOf: self retrieveDomainTestEventClass
@@ -193,7 +193,7 @@ EDADomainTestEventGenerator >> generateDomainTestEventEqualsMethod [
 ]
 
 { #category : #'code generation' }
-EDADomainTestEventGenerator >> generateTestEventBuildEventClassMethod [
+EDATDomainTestEventGenerator >> generateTestEventBuildEventClassMethod [
 	| method attrs result cr |
 	cr := Character cr.
 	method := WriteStream with: String new.
@@ -246,17 +246,17 @@ EDADomainTestEventGenerator >> generateTestEventBuildEventClassMethod [
 ]
 
 { #category : #'code generation' }
-EDADomainTestEventGenerator >> generateTestEventBuildEventClassMethodName [
+EDATDomainTestEventGenerator >> generateTestEventBuildEventClassMethodName [
 	^ 'fromEvent:'
 ]
 
 { #category : #'code generation' }
-EDADomainTestEventGenerator >> generateTestEventBuildEventClassMethodNameWithArgPrefix: prefix [
+EDATDomainTestEventGenerator >> generateTestEventBuildEventClassMethodNameWithArgPrefix: prefix [
 	^ 'fromEvent: ' , prefix , 'Event'
 ]
 
 { #category : #delegated }
-EDADomainTestEventGenerator >> retrieveDomainTestEventClass [
+EDATDomainTestEventGenerator >> retrieveDomainTestEventClass [
 	| cls result |
 	cls := self class environment at: self retrieveDomainTestEventClassName ifAbsent: [ nil ].
 	result := cls ifNotNil: [ :c | c ] ifNil: [ self createDomainTestEventClass ].
@@ -264,6 +264,6 @@ EDADomainTestEventGenerator >> retrieveDomainTestEventClass [
 ]
 
 { #category : #'code generation' }
-EDADomainTestEventGenerator >> retrieveDomainTestEventClassName [
+EDATDomainTestEventGenerator >> retrieveDomainTestEventClassName [
 	^ (self appName , 'Test' , (self toCamelCase: self eventName)) asSymbol
 ]

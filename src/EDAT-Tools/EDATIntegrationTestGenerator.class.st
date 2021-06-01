@@ -1,12 +1,12 @@
 
 Class {
-	#name : #EDAIntegrationTestGenerator,
-	#superclass : #EDAGenerator,
-	#category : #'EDACT-Tools'
+	#name : #EDATIntegrationTestGenerator,
+	#superclass : #EDATGenerator,
+	#category : #'EDAT-Tools'
 }
 
 { #category : #'code generation' }
-EDAIntegrationTestGenerator >> createIntegrationTestClass [
+EDATIntegrationTestGenerator >> createIntegrationTestClass [
 	| cls |
 	cls := (self appName , self aggregate capitalized , 'IntegrationTestCase') asSymbol.
 	^ (self class environment at: (self appName , 'ApplicationIntegrationTestCase') asSymbol)
@@ -19,7 +19,7 @@ EDAIntegrationTestGenerator >> createIntegrationTestClass [
 ]
 
 { #category : #'code generation' }
-EDAIntegrationTestGenerator >> createIntegrationTestMethod [
+EDATIntegrationTestGenerator >> createIntegrationTestMethod [
 	^ self
 		compile: self generateIntegrationTestMethodName
 		sourceCode: self generateIntegrationTestMethod
@@ -28,18 +28,18 @@ EDAIntegrationTestGenerator >> createIntegrationTestMethod [
 ]
 
 { #category : #protected }
-EDAIntegrationTestGenerator >> description [
+EDATIntegrationTestGenerator >> description [
 	^ 'integration test for ' , self aggregate greaseString
 ]
 
 { #category : #protected }
-EDAIntegrationTestGenerator >> doGenerate [
+EDATIntegrationTestGenerator >> doGenerate [
 	self createIntegrationTestClass.
 	self createIntegrationTestMethod
 ]
 
 { #category : #delegated }
-EDAIntegrationTestGenerator >> generateDomainTestMethodName [
+EDATIntegrationTestGenerator >> generateDomainTestMethodName [
 	| delegate |
 	delegate := EDADomainTestGenerator
 		fromExampleFile: self commandFile
@@ -53,7 +53,7 @@ EDAIntegrationTestGenerator >> generateDomainTestMethodName [
 ]
 
 { #category : #'code generation' }
-EDAIntegrationTestGenerator >> generateIntegrationTestMethod [
+EDATIntegrationTestGenerator >> generateIntegrationTestMethod [
 	| result cr routingKey createdTest evtName |
 	cr := Character cr.
 	evtName := self toCamelCase: self eventName.
@@ -163,6 +163,6 @@ EDAIntegrationTestGenerator >> generateIntegrationTestMethod [
 ]
 
 { #category : #'code generation' }
-EDAIntegrationTestGenerator >> generateIntegrationTestMethodName [
+EDATIntegrationTestGenerator >> generateIntegrationTestMethodName [
 	^ self generateDomainTestMethodName 
 ]

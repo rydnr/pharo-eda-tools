@@ -1,17 +1,17 @@
 
 Class {
-	#name : #EDAAggregateGenerator,
-	#superclass : #EDAGenerator,
-	#category : #'EDACT-Tools'
+	#name : #EDATAggregateGenerator,
+	#superclass : #EDATGenerator,
+	#category : #'EDAT-Tools'
 }
 
 { #category : #sorting }
-EDAAggregateGenerator class >> shouldRunAfter: anotherGenerator [
+EDATAggregateGenerator class >> shouldRunAfter: anotherGenerator [
 	^ anotherGenerator = EDACommandGenerator
 ]
 
 { #category : #'code generation' }
-EDAAggregateGenerator >> createAggregateApplyEventVersionMethod [
+EDATAggregateGenerator >> createAggregateApplyEventVersionMethod [
 	| result |
 	result := self isDeletedEvent
 		ifTrue: [ nil ]
@@ -27,7 +27,7 @@ EDAAggregateGenerator >> createAggregateApplyEventVersionMethod [
 ]
 
 { #category : #'code generation' }
-EDAAggregateGenerator >> createAggregateClass [
+EDATAggregateGenerator >> createAggregateClass [
 	| cls attributes |
 	cls := self aggregateClass asSymbol.
 	attributes := self retrieveAggregateAttributesBut: self class skippedAggregateAttributes.
@@ -42,7 +42,7 @@ EDAAggregateGenerator >> createAggregateClass [
 ]
 
 { #category : #'code generation' }
-EDAAggregateGenerator >> createAggregateClassAccessors [
+EDATAggregateGenerator >> createAggregateClassAccessors [
 	| aggregateClass |
 	aggregateClass := self class environment at: self retrieveAggregateClassName asSymbol.
 	(self generateAccessorsFor: aggregateClass attributes: (self allAttributesOf: aggregateClass including: (self retrieveAggregateAttributesBut: self class skippedAggregateAttributes)))
@@ -55,7 +55,7 @@ EDAAggregateGenerator >> createAggregateClassAccessors [
 ]
 
 { #category : #'code generation' }
-EDAAggregateGenerator >> createAggregateClassEqualsMethod [
+EDATAggregateGenerator >> createAggregateClassEqualsMethod [
 	| aggregateClassName |
 	aggregateClassName := self class environment at: self retrieveAggregateClassName asSymbol.
 	^ self
@@ -66,7 +66,7 @@ EDAAggregateGenerator >> createAggregateClassEqualsMethod [
 ]
 
 { #category : #'code generation' }
-EDAAggregateGenerator >> createAggregateClassHashMethod [
+EDATAggregateGenerator >> createAggregateClassHashMethod [
 	| aggregateRootClass |
 	aggregateRootClass := self class environment at: self retrieveAggregateClassName asSymbol.
 	^ self
@@ -77,7 +77,7 @@ EDAAggregateGenerator >> createAggregateClassHashMethod [
 ]
 
 { #category : #'code generation' }
-EDAAggregateGenerator >> createAggregateHandleCommandMethod [
+EDATAggregateGenerator >> createAggregateHandleCommandMethod [
 	| result |
 	result :=
 		self isDeleteCommand ifTrue: [
@@ -93,7 +93,7 @@ EDAAggregateGenerator >> createAggregateHandleCommandMethod [
 ]
 
 { #category : #'code generation' }
-EDAAggregateGenerator >> createAggregateRetrieveRepositoryMethod [
+EDATAggregateGenerator >> createAggregateRetrieveRepositoryMethod [
 	^ self
 		compile: self generateAggregateRetrieveRepositoryMethodName
 		sourceCode: self generateAggregateRetrieveRepositoryMethod
@@ -102,12 +102,12 @@ EDAAggregateGenerator >> createAggregateRetrieveRepositoryMethod [
 ]
 
 { #category : #api }
-EDAAggregateGenerator >> description [
+EDATAggregateGenerator >> description [
 	^ 'aggregate for ' , self aggregate greaseString.
 ]
 
 { #category : #protected }
-EDAAggregateGenerator >> doGenerate [
+EDATAggregateGenerator >> doGenerate [
 	self createAggregateClass.
 	self createAggregateHandleCommandMethod.
 	self createAggregateApplyEventVersionMethod.
@@ -118,7 +118,7 @@ EDAAggregateGenerator >> doGenerate [
 ]
 
 { #category : #'code generation' }
-EDAAggregateGenerator >> generateAggregateApplyEventVersionMethod [
+EDATAggregateGenerator >> generateAggregateApplyEventVersionMethod [
 	| result attrs cr cls |
 	cr := Character cr.
 	cls := (self appName , (self underscoreSeparatedToCamelCase: self aggregate)) asSymbol.
@@ -143,17 +143,17 @@ EDAAggregateGenerator >> generateAggregateApplyEventVersionMethod [
 ]
 
 { #category : #'code generation' }
-EDAAggregateGenerator >> generateAggregateApplyEventVersionMethodName [
+EDATAggregateGenerator >> generateAggregateApplyEventVersionMethodName [
 	^ 'apply' , (self toCamelCase: self eventName) capitalized , 'v' , (self version greaseString) , ':'
 ]
 
 { #category : #'code generation' }
-EDAAggregateGenerator >> generateAggregateApplyEventVersionMethodNameWithArg: arg [
+EDATAggregateGenerator >> generateAggregateApplyEventVersionMethodNameWithArg: arg [
 	^ 'apply' , (self toCamelCase: self eventName) capitalized , 'v' , (self version greaseString) , ':' , arg
 ]
 
 { #category : #'code generation' }
-EDAAggregateGenerator >> generateAggregateHandleCommandMethod [
+EDATAggregateGenerator >> generateAggregateHandleCommandMethod [
 	| result commandClass attrs cr |
 	cr := Character cr.
 	commandClass := self retrieveCommandClassName asSymbol.
@@ -211,17 +211,17 @@ EDAAggregateGenerator >> generateAggregateHandleCommandMethod [
 ]
 
 { #category : #'code generation' }
-EDAAggregateGenerator >> generateAggregateHandleCommandMethodName [
+EDATAggregateGenerator >> generateAggregateHandleCommandMethodName [
 	^ 'handle' , (self toCamelCase: self commandName ) capitalized , ':'
 ]
 
 { #category : #'code generation' }
-EDAAggregateGenerator >> generateAggregateHandleCommandMethodNameWithArg: arg [
+EDATAggregateGenerator >> generateAggregateHandleCommandMethodNameWithArg: arg [
 	^ 'handle' , (self toCamelCase: self commandName) capitalized , ': ' , arg
 ]
 
 { #category : #'code generation' }
-EDAAggregateGenerator >> generateAggregateRetrieveRepositoryMethod [
+EDATAggregateGenerator >> generateAggregateRetrieveRepositoryMethod [
 	| result cr |
 	result := WriteStream with: String new.
 	cr := Character cr.
@@ -238,12 +238,12 @@ EDAAggregateGenerator >> generateAggregateRetrieveRepositoryMethod [
 ]
 
 { #category : #'code generation' }
-EDAAggregateGenerator >> generateAggregateRetrieveRepositoryMethodName [
+EDATAggregateGenerator >> generateAggregateRetrieveRepositoryMethodName [
 	^ 'retrieve' , (self toCamelCase: self aggregate) capitalized , 'Repository'
 ]
 
 { #category : #delegated }
-EDAAggregateGenerator >> generateEventClassBuilderMethodNameWithArgPrefix: aString [ 
+EDATAggregateGenerator >> generateEventClassBuilderMethodNameWithArgPrefix: aString [
 	| delegate |
 	delegate := EDAEventGenerator
 		fromExampleFile: self commandFile

@@ -1,25 +1,25 @@
 Class {
-	#name : #EDACTestTraitGenerator,
-	#superclass : #EDAGenerator,
+	#name : #EDATTestTraitGenerator,
+	#superclass : #EDATGenerator,
 	#category : #'EDAT-Tools'
 }
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> createReadCommandFromFileTestHelperMethod [
+EDATTestTraitGenerator >> createReadCommandFromFileTestHelperMethod [
 	^ (Smalltalk at: self retrieveTestHelperTraitName asSymbol)
 		compile: self generateReadCommandFromFileTestHelperMethod
 		classified: self protocol
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> createReadEventFromFileTestHelperMethod [
+EDATTestTraitGenerator >> createReadEventFromFileTestHelperMethod [
 	^ (Smalltalk at: self retrieveTestHelperTraitName asSymbol)
 		compile: self generateReadEventFromFileTestHelperMethod
 		classified: self protocol
 ]
 
 { #category : #delegated }
-EDACTestTraitGenerator >> createTestEventBuildEventClassMethod [
+EDATTestTraitGenerator >> createTestEventBuildEventClassMethod [
 	| delegate |
 	delegate := EDADomainTestEventGenerator
 		fromExampleFile: self commandFile
@@ -32,7 +32,7 @@ EDACTestTraitGenerator >> createTestEventBuildEventClassMethod [
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> createTestHelperBuildCommandMethod [
+EDATTestTraitGenerator >> createTestHelperBuildCommandMethod [
 	^ (Smalltalk at: self retrieveTestHelperTraitName asSymbol)
 		compile:	self generateTestHelperBuildCommandMethod
 		classified: self protocol
@@ -41,7 +41,7 @@ EDACTestTraitGenerator >> createTestHelperBuildCommandMethod [
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> createTestHelperBuildEventFromArbitraryFileMethod [
+EDATTestTraitGenerator >> createTestHelperBuildEventFromArbitraryFileMethod [
 	self isDeletedEvent
 		ifFalse: [
 			(Smalltalk at: self retrieveTestHelperTraitName asSymbol)
@@ -51,7 +51,7 @@ EDACTestTraitGenerator >> createTestHelperBuildEventFromArbitraryFileMethod [
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> createTestHelperBuildEventMethod [
+EDATTestTraitGenerator >> createTestHelperBuildEventMethod [
 	^ (Smalltalk at: self retrieveTestHelperTraitName asSymbol)
 		compile:
 			(self isDeletedEvent
@@ -64,19 +64,19 @@ EDACTestTraitGenerator >> createTestHelperBuildEventMethod [
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> createTestHelperTrait [
+EDATTestTraitGenerator >> createTestHelperTrait [
 	| trait |
 	trait := self retrieveTestHelperTraitName asSymbol.
 	^ Trait named: trait uses: #() category: self appName , '-Domain-Tests-' , (self toCamelCase: self aggregate)
 ]
 
 { #category : #protected }
-EDACTestTraitGenerator >> description [
+EDATTestTraitGenerator >> description [
 	^ 'test helper trait for ' , self eventName greaseString
 ]
 
 { #category : #protected }
-EDACTestTraitGenerator >> doGenerate [
+EDATTestTraitGenerator >> doGenerate [
 	self createTestHelperTrait.
 	self createTestHelperBuildCommandMethod.
 	self createTestHelperBuildEventFromArbitraryFileMethod.
@@ -86,9 +86,9 @@ EDACTestTraitGenerator >> doGenerate [
 ]
 
 { #category : #delegated }
-EDACTestTraitGenerator >> generateCommandClassBuilderMethodNameWithArgPrefix: aString [
+EDATTestTraitGenerator >> generateCommandClassBuilderMethodNameWithArgPrefix: aString [
 	| delegate |
-	delegate := EDACommandGenerator fromExampleFile: self commandFile
+	delegate := EDATCommandGenerator fromExampleFile: self commandFile
 				version: self version
 				appName: self appName
 				aggregate: self aggregate
@@ -98,7 +98,7 @@ EDACTestTraitGenerator >> generateCommandClassBuilderMethodNameWithArgPrefix: aS
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateReadCommandFromFileTestHelperMethod [
+EDATTestTraitGenerator >> generateReadCommandFromFileTestHelperMethod [
 	^ self
 		generateReadFromFileTestHelperMethod: self generateReadCommandFromFileTestHelperMethodName
 		for: self commandName
@@ -106,12 +106,12 @@ EDACTestTraitGenerator >> generateReadCommandFromFileTestHelperMethod [
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateReadCommandFromFileTestHelperMethodName [
+EDATTestTraitGenerator >> generateReadCommandFromFileTestHelperMethodName [
 	^ 'read' , (self toCamelCase: self commandName) , 'FromFile'
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateReadEventFromArbitraryFileTestHelperMethod [
+EDATTestTraitGenerator >> generateReadEventFromArbitraryFileTestHelperMethod [
 	^ self
 		generateReadFromFileTestHelperMethod: self generateReadEventFromArbitraryFileTestHelperMethodName
 		for: self eventName
@@ -119,22 +119,22 @@ EDACTestTraitGenerator >> generateReadEventFromArbitraryFileTestHelperMethod [
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateReadEventFromArbitraryFileTestHelperMethodName [
+EDATTestTraitGenerator >> generateReadEventFromArbitraryFileTestHelperMethodName [
 	^ 'read' , (self toCamelCase: self eventName) , 'FromFile:'
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateReadEventFromFileTestHelperMethod [
+EDATTestTraitGenerator >> generateReadEventFromFileTestHelperMethod [
 	^ self generateReadFromFileTestHelperMethod: self generateReadEventFromFileTestHelperMethodName for: self eventName ofType: 'events'
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateReadEventFromFileTestHelperMethodName [
+EDATTestTraitGenerator >> generateReadEventFromFileTestHelperMethodName [
 	^ 'read' , (self toCamelCase: self eventName) , 'FromFile'
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateReadFromFileTestHelperMethod: methodName for: resourceName ofType: type [
+EDATTestTraitGenerator >> generateReadFromFileTestHelperMethod: methodName for: resourceName ofType: type [
 	| result cr relativeFolders |
 	cr := Character cr.
 	result := WriteStream with: String new.
@@ -164,7 +164,7 @@ EDACTestTraitGenerator >> generateReadFromFileTestHelperMethod: methodName for: 
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateTestHelperBuildCommandMethod [
+EDATTestTraitGenerator >> generateTestHelperBuildCommandMethod [
 	| result cr commandAttrs cmdName |
 	cr := Character cr.
 	commandAttrs := self retrieveCommandAttributes.
@@ -253,12 +253,12 @@ EDACTestTraitGenerator >> generateTestHelperBuildCommandMethod [
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateTestHelperBuildCommandMethodName [
+EDATTestTraitGenerator >> generateTestHelperBuildCommandMethodName [
 	^ 'build' , (self toCamelCase: self commandName) , 'SampleCommand'
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateTestHelperBuildDeleteEventMethod [
+EDATTestTraitGenerator >> generateTestHelperBuildDeleteEventMethod [
 	| result eventAttrs cr |
 	cr := Character cr.
 	eventAttrs := self
@@ -309,19 +309,19 @@ EDACTestTraitGenerator >> generateTestHelperBuildDeleteEventMethod [
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateTestHelperBuildDeleteEventMethodName [
+EDATTestTraitGenerator >> generateTestHelperBuildDeleteEventMethodName [
 	^ 'buildDeletedEventWithId:andCommand:'
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateTestHelperBuildDeleteEventMethodNameWithId: idArg andCommandArg: commandArg [
+EDATTestTraitGenerator >> generateTestHelperBuildDeleteEventMethodNameWithId: idArg andCommandArg: commandArg [
 	^ 'buildDeletedEventWithId: ' , idArg , ' andCommand: ' , commandArg
 ]
 
 { #category : #delegated }
-EDACTestTraitGenerator >> generateTestHelperBuildEventClassMethodNameWithArgPrefix: aString [
+EDATTestTraitGenerator >> generateTestHelperBuildEventClassMethodNameWithArgPrefix: aString [
 	| delegate |
-	delegate := EDACTestSupportGenerator fromExampleFile: self commandFile
+	delegate := EDATTestSupportGenerator fromExampleFile: self commandFile
 				version: self version
 				appName: self appName
 				aggregate: self aggregate
@@ -331,7 +331,7 @@ EDACTestTraitGenerator >> generateTestHelperBuildEventClassMethodNameWithArgPref
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateTestHelperBuildEventFromArbitraryFileMethod [
+EDATTestTraitGenerator >> generateTestHelperBuildEventFromArbitraryFileMethod [
 	| result eventAttrs cr |
 	cr := Character cr.
 	eventAttrs := self
@@ -410,19 +410,19 @@ EDACTestTraitGenerator >> generateTestHelperBuildEventFromArbitraryFileMethod [
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateTestHelperBuildEventFromArbitraryFileMethodName [
+EDATTestTraitGenerator >> generateTestHelperBuildEventFromArbitraryFileMethodName [
 	^ 'build' , (self toCamelCase: self eventName) , 'EventFromFile:'
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateTestHelperBuildEventFromArbitraryFileMethodNameWithFileArg: fileArg [
+EDATTestTraitGenerator >> generateTestHelperBuildEventFromArbitraryFileMethodNameWithFileArg: fileArg [
 	| evtName |
 	evtName := self toCamelCase: self eventName.
 	^ 'build' , evtName , 'EventFromFile: ' , fileArg
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateTestHelperBuildEventMethod [
+EDATTestTraitGenerator >> generateTestHelperBuildEventMethod [
 	| result cr |
 	cr := Character cr.
 	result := WriteStream on: String new.
@@ -461,25 +461,25 @@ EDACTestTraitGenerator >> generateTestHelperBuildEventMethod [
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateTestHelperBuildEventMethodName [
+EDATTestTraitGenerator >> generateTestHelperBuildEventMethodName [
 	^ 'build' , (self toCamelCase: self eventName) , 'SampleEventWithId:andCommandId:'
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateTestHelperBuildEventMethodNameFromArbitraryFileWithFileArg: fileArg [
+EDATTestTraitGenerator >> generateTestHelperBuildEventMethodNameFromArbitraryFileWithFileArg: fileArg [
 	| evtName |
 	evtName := self toCamelCase: self eventName.
 	^ 'build' , evtName , 'EventFromFile: ' , fileArg
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> generateTestHelperBuildEventMethodNameWithId: idArg andCommandArg: commandArg [
+EDATTestTraitGenerator >> generateTestHelperBuildEventMethodNameWithId: idArg andCommandArg: commandArg [
 	| evtName |
 	evtName := self toCamelCase: self eventName.
 	^ 'build' , evtName , 'SampleEventWithId: ' , idArg , ' andCommandId: ' , commandArg
 ]
 
 { #category : #'code generation' }
-EDACTestTraitGenerator >> retrieveTestHelperTraitName [
+EDATTestTraitGenerator >> retrieveTestHelperTraitName [
 	^ self appName , 'T' , (self toCamelCase: self aggregate ) , 'TestHelper'
 ]

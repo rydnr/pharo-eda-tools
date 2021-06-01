@@ -1,11 +1,11 @@
 Class {
-	#name : #EDAApplicationGenerator,
-	#superclass : #EDAGenerator,
+	#name : #EDATApplicationGenerator,
+	#superclass : #EDATGenerator,
 	#category : #'EDAT-Tools'
 }
 
 { #category : #'code generation' }
-EDAApplicationGenerator >> createEDAApplicationRegisterCommandBuilders [
+EDATApplicationGenerator >> createEDAApplicationRegisterCommandBuilders [
 	^ self
 		compile: self generateEDAApplicationRegisterCommandBuildersMethodName
 		sourceCode: (self generateEDAApplicationRegisterCommandBuildersMethodFor: self appName)
@@ -14,17 +14,17 @@ EDAApplicationGenerator >> createEDAApplicationRegisterCommandBuilders [
 ]
 
 { #category : #protected }
-EDAApplicationGenerator >> description [
+EDATApplicationGenerator >> description [
 	^ 'EDAApplication'
 ]
 
 { #category : #protected }
-EDAApplicationGenerator >> doGenerate [
+EDATApplicationGenerator >> doGenerate [
 	self createEDAApplicationRegisterCommandBuilders
 ]
 
 { #category : #'code generation' }
-EDAApplicationGenerator >> generateEDAApplicationRegisterCommandBuildersMethodFor: anAppName [
+EDATApplicationGenerator >> generateEDAApplicationRegisterCommandBuildersMethodFor: anAppName [
 	| result commands cr |
 	cr := Character cr.
 	result := WriteStream with: String new.
@@ -57,6 +57,6 @@ EDAApplicationGenerator >> generateEDAApplicationRegisterCommandBuildersMethodFo
 ]
 
 { #category : #'code generation' }
-EDAApplicationGenerator >> generateEDAApplicationRegisterCommandBuildersMethodName [
+EDATApplicationGenerator >> generateEDAApplicationRegisterCommandBuildersMethodName [
 	^ 'registerCommandBuilders'
 ]

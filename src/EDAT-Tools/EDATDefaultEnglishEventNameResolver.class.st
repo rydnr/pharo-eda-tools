@@ -1,14 +1,14 @@
 
 Class {
-	#name : #DefaultEnglishEventNameResolver,
+	#name : #EDATDefaultEnglishEventNameResolver,
 	#superclass : #Object,
 	#traits : 'EDACTSourceCodeHelper',
 	#classTraits : 'EDACTSourceCodeHelper classTrait',
-	#category : #'EDACT-Tools'
+	#category : #'EDAT-Tools'
 }
 
 { #category : #resolving }
-DefaultEnglishEventNameResolver >> resolve: aCommandName [
+EDATDefaultEnglishEventNameResolver >> resolve: aCommandName [
 	| result aux |
 	result := nil.
 	aux := aCommandName allRegexMatches: '([^_]*)'.

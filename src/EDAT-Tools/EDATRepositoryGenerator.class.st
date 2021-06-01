@@ -1,11 +1,11 @@
 Class {
-	#name : #EDARepositoryGenerator,
-	#superclass : #EDAGenerator,
+	#name : #EDATRepositoryGenerator,
+	#superclass : #EDATGenerator,
 	#category : #'EDAT-Tools'
 }
 
 { #category : #'code generation' }
-EDARepositoryGenerator >> createRepositoryClass [
+EDATRepositoryGenerator >> createRepositoryClass [
 	| cls attributes result |
 	cls := self retrieveRepositoryClassName asSymbol.
 	attributes := OrderedCollection new.
@@ -22,7 +22,7 @@ EDARepositoryGenerator >> createRepositoryClass [
 ]
 
 { #category : #'code generation' }
-EDARepositoryGenerator >> createRepositoryClassAccessors [
+EDATRepositoryGenerator >> createRepositoryClassAccessors [
 	| repositoryClass |
 	repositoryClass := self class environment at: self retrieveRepositoryClassName asSymbol.
 	(self generateAccessorsFor: repositoryClass attributes: (self allAttributesOf: repositoryClass))
@@ -35,7 +35,7 @@ EDARepositoryGenerator >> createRepositoryClassAccessors [
 ]
 
 { #category : #'code generation' }
-EDARepositoryGenerator >> createRepositoryFindByIdMethod [
+EDATRepositoryGenerator >> createRepositoryFindByIdMethod [
 	| repositoryClass |
 	"Not used anymore"
 "	repositoryClass := self class environment at: self retrieveRepositoryClassName asSymbol.
@@ -47,7 +47,7 @@ EDARepositoryGenerator >> createRepositoryFindByIdMethod [
 ]
 
 { #category : #'code generation' }
-EDARepositoryGenerator >> createRepositorySetupEventStoreClassMethod [
+EDATRepositoryGenerator >> createRepositorySetupEventStoreClassMethod [
 	"Not used anymore"
 	"| repositoryClass |
 	repositoryClass := self class environment at: self retrieveRepositoryClassName asSymbol.
@@ -59,7 +59,7 @@ EDARepositoryGenerator >> createRepositorySetupEventStoreClassMethod [
 ]
 
 { #category : #'code generation' }
-EDARepositoryGenerator >> createRepositoryUniqueInstanceGetterClassMethod [
+EDATRepositoryGenerator >> createRepositoryUniqueInstanceGetterClassMethod [
 	"Not used anymore"
 	"| repositoryClass |
 	repositoryClass := self class environment at: self retrieveRepositoryClassName asSymbol.
@@ -71,7 +71,7 @@ EDARepositoryGenerator >> createRepositoryUniqueInstanceGetterClassMethod [
 ]
 
 { #category : #'code generation' }
-EDARepositoryGenerator >> createRepositoryUniqueInstanceSetterClassMethod [
+EDATRepositoryGenerator >> createRepositoryUniqueInstanceSetterClassMethod [
 	"Not used anymore"
 	"| repositoryClass |
 	repositoryClass := self class environment at: self retrieveRepositoryClassName asSymbol.
@@ -83,12 +83,12 @@ EDARepositoryGenerator >> createRepositoryUniqueInstanceSetterClassMethod [
 ]
 
 { #category : #protected }
-EDARepositoryGenerator >> description [
+EDATRepositoryGenerator >> description [
 	^ 'repository for ' , self aggregate greaseString
 ]
 
 { #category : #protected }
-EDARepositoryGenerator >> doGenerate [
+EDATRepositoryGenerator >> doGenerate [
 	self createRepositoryClass.
 	self createRepositoryClassAccessors.
 	self createRepositorySetupEventStoreClassMethod.
@@ -98,7 +98,7 @@ EDARepositoryGenerator >> doGenerate [
 ]
 
 { #category : #'code generation' }
-EDARepositoryGenerator >> generateRepositoryFindByIdMethod [
+EDATRepositoryGenerator >> generateRepositoryFindByIdMethod [
 	| result cr aggregateClassName |
 	cr := Character cr.
 	result := WriteStream with: String new.
@@ -145,12 +145,12 @@ EDARepositoryGenerator >> generateRepositoryFindByIdMethod [
 ]
 
 { #category : #'code generation' }
-EDARepositoryGenerator >> generateRepositoryFindByIdMethodName [
+EDATRepositoryGenerator >> generateRepositoryFindByIdMethodName [
 	^ 'findById:'
 ]
 
 { #category : #'code generation' }
-EDARepositoryGenerator >> generateRepositorySetupEventStoreClassMethod [
+EDATRepositoryGenerator >> generateRepositorySetupEventStoreClassMethod [
 	| result cr |
 	cr := Character cr.
 	result := WriteStream with: String new.
@@ -164,13 +164,13 @@ EDARepositoryGenerator >> generateRepositorySetupEventStoreClassMethod [
 ]
 
 { #category : #'code generation' }
-EDARepositoryGenerator >> generateRepositorySetupEventStoreClassMethodName [
+EDATRepositoryGenerator >> generateRepositorySetupEventStoreClassMethodName [
 	^ 'setupEventStore:'
 
 ]
 
 { #category : #'code generation' }
-EDARepositoryGenerator >> generateRepositoryUniqueInstanceGetterClassMethod [
+EDATRepositoryGenerator >> generateRepositoryUniqueInstanceGetterClassMethod [
 	| result cr |
 	cr := Character cr.
 	result := WriteStream with: String new.
@@ -203,12 +203,12 @@ EDARepositoryGenerator >> generateRepositoryUniqueInstanceGetterClassMethod [
 ]
 
 { #category : #'code generation' }
-EDARepositoryGenerator >> generateRepositoryUniqueInstanceGetterClassMethodName [
+EDATRepositoryGenerator >> generateRepositoryUniqueInstanceGetterClassMethodName [
 	^ 'uniqueInstance'
 ]
 
 { #category : #'code generation' }
-EDARepositoryGenerator >> generateRepositoryUniqueInstanceSetterClassMethod [
+EDATRepositoryGenerator >> generateRepositoryUniqueInstanceSetterClassMethod [
 	| result cr |
 	cr := Character cr.
 	result := WriteStream with: String new.
@@ -224,6 +224,6 @@ EDARepositoryGenerator >> generateRepositoryUniqueInstanceSetterClassMethod [
 ]
 
 { #category : #'code generation' }
-EDARepositoryGenerator >> generateRepositoryUniqueInstanceSetterClassMethodName [
+EDATRepositoryGenerator >> generateRepositoryUniqueInstanceSetterClassMethodName [
 	^ 'uniqueInstance:'
 ]

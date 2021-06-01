@@ -1,13 +1,13 @@
 Class {
-	#name : #EDACommandContractCheckerGenerator,
-	#superclass : #AbstractEDAGenerator,
-	#traits : 'EDACTCheckerGenerator',
-	#classTraits : 'EDACTCheckerGenerator classTrait',
+	#name : #EDATCommandContractCheckerGenerator,
+	#superclass : #EDATAbstractGenerator,
+	#traits : 'EDATCheckerGenerator',
+	#classTraits : 'EDATCheckerGenerator classTrait',
 	#category : #'EDAT-Tools'
 }
 
 { #category : #'instance creation' }
-EDACommandContractCheckerGenerator class >> fromExampleFile: aFile version: version appName: appName aggregate: aggregate [
+EDATCommandContractCheckerGenerator class >> fromExampleFile: aFile version: version appName: appName aggregate: aggregate [
 	| result |
 	result := self new
 		commandFile: aFile;
@@ -21,7 +21,7 @@ EDACommandContractCheckerGenerator class >> fromExampleFile: aFile version: vers
 ]
 
 { #category : #'code generation' }
-EDACommandContractCheckerGenerator >> checkerMethod [
+EDATCommandContractCheckerGenerator >> checkerMethod [
 	| result cr space command body attrs cls commandClassName |
 	cr := Character cr.
 	space := Character space.
@@ -71,7 +71,7 @@ EDACommandContractCheckerGenerator >> checkerMethod [
 ]
 
 { #category : #'code generation' }
-EDACommandContractCheckerGenerator >> checkerMethodName [
+EDATCommandContractCheckerGenerator >> checkerMethodName [
 	^ 'test' , (self underscoreSeparatedToCamelCase: self commandName)
 		, 'RespectsContractV' , self version greaseString
 ]

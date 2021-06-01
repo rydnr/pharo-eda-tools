@@ -1,17 +1,17 @@
 
 Class {
-	#name : #EDADomainTestGenerator,
-	#superclass : #EDAGenerator,
-	#category : #'EDACT-Tools'
+	#name : #EDATDomainTestGenerator,
+	#superclass : #EDATGenerator,
+	#category : #'EDAT-Tools'
 }
 
 { #category : #asserting }
-EDADomainTestGenerator class >> shouldRunAfter: anotherGenerator [
+EDATDomainTestGenerator class >> shouldRunAfter: anotherGenerator [
 	^ anotherGenerator = EDADomainTestEventGenerator
 ]
 
 { #category : #'code generation' }
-EDADomainTestGenerator >> createDomainTestClass [
+EDATDomainTestGenerator >> createDomainTestClass [
 	| cls |
 	cls := (self appName , self aggregate capitalized , 'AggregateTestCase') asSymbol.
 	(self containsAnyDisableRegenerationMethod: cls)
@@ -24,7 +24,7 @@ EDADomainTestGenerator >> createDomainTestClass [
 ]
 
 { #category : #'code generation' }
-EDADomainTestGenerator >> createDomainTestMethod [
+EDATDomainTestGenerator >> createDomainTestMethod [
 	^ self
 		compile: self generateDomainTestMethodName
 		sourceCode: self generateDomainTestMethod
@@ -33,7 +33,7 @@ EDADomainTestGenerator >> createDomainTestMethod [
 ]
 
 { #category : #delegated }
-EDADomainTestGenerator >> createTestEventBuildEventClassMethod [
+EDATDomainTestGenerator >> createTestEventBuildEventClassMethod [
 	| delegate |
 	delegate := EDADomainTestEventGenerator
 		fromExampleFile: self commandFile
@@ -46,7 +46,7 @@ EDADomainTestGenerator >> createTestEventBuildEventClassMethod [
 ]
 
 { #category : #delegated }
-EDADomainTestGenerator >> createTestHelperBuildCommandMethod [
+EDATDomainTestGenerator >> createTestHelperBuildCommandMethod [
 	| delegate |
 	delegate := EDACTestTraitGenerator
 		fromExampleFile: self commandFile
@@ -59,7 +59,7 @@ EDADomainTestGenerator >> createTestHelperBuildCommandMethod [
 ]
 
 { #category : #delegated }
-EDADomainTestGenerator >> createTestHelperBuildEventClassMethod [
+EDATDomainTestGenerator >> createTestHelperBuildEventClassMethod [
 	| delegate |
 	delegate := EDACTestSupportGenerator
 		fromExampleFile: self commandFile
@@ -72,7 +72,7 @@ EDADomainTestGenerator >> createTestHelperBuildEventClassMethod [
 ]
 
 { #category : #delegated }
-EDADomainTestGenerator >> createTestHelperBuildEventMethod [
+EDATDomainTestGenerator >> createTestHelperBuildEventMethod [
 	| delegate |
 	delegate := EDACTestTraitGenerator
 		fromExampleFile: self commandFile
@@ -85,12 +85,12 @@ EDADomainTestGenerator >> createTestHelperBuildEventMethod [
 ]
 
 { #category : #protected }
-EDADomainTestGenerator >> description [
+EDATDomainTestGenerator >> description [
 	^ 'domain test for ' , self aggregate greaseString
 ]
 
 { #category : #protected }
-EDADomainTestGenerator >> doGenerate [
+EDATDomainTestGenerator >> doGenerate [
 	self createDomainTestClass.
 	self createDomainTestMethod.
 	self createTestHelperBuildCommandMethod.
@@ -100,7 +100,7 @@ EDADomainTestGenerator >> doGenerate [
 ]
 
 { #category : #'code generation' }
-EDADomainTestGenerator >> generateDomainTestMethod [
+EDATDomainTestGenerator >> generateDomainTestMethod [
 	| result cmdName evtName cr |
 	cr := Character cr.
 	cmdName := self toCamelCase: self commandName.
@@ -154,12 +154,12 @@ EDADomainTestGenerator >> generateDomainTestMethod [
 ]
 
 { #category : #'code generation' }
-EDADomainTestGenerator >> generateDomainTestMethodName [
+EDATDomainTestGenerator >> generateDomainTestMethodName [
 	^ 'test' , (self toCamelCase: self commandName)
 ]
 
 { #category : #delegated }
-EDADomainTestGenerator >> generateEventClassAggregateRootClassMethod [
+EDATDomainTestGenerator >> generateEventClassAggregateRootClassMethod [
 	| delegate |
 	delegate := EDAEventGenerator
 		fromExampleFile: self commandFile

@@ -1,5 +1,5 @@
 Class {
-	#name : #DefaultEnglishCommandNameResolver,
+	#name : #EDATDefaultEnglishCommandNameResolver,
 	#superclass : #Object,
 	#traits : 'EDACTSourceCodeHelper',
 	#classTraits : 'EDACTSourceCodeHelper classTrait',
@@ -7,6 +7,6 @@ Class {
 }
 
 { #category : #resolving }
-DefaultEnglishCommandNameResolver >> resolve: commandName [
+EDATDefaultEnglishCommandNameResolver >> resolve: commandName [
 	^ commandName
 ]

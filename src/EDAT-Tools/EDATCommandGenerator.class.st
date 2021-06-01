@@ -1,17 +1,17 @@
 
 Class {
-	#name : #EDACommandGenerator,
-	#superclass : #EDAGenerator,
-	#category : #'EDACT-Tools'
+	#name : #EDATCommandGenerator,
+	#superclass : #EDATGenerator,
+	#category : #'EDAT-Tools'
 }
 
 { #category : #sorting }
-EDACommandGenerator class >> shouldRunAfter: anotherGenerator [
+EDATCommandGenerator class >> shouldRunAfter: anotherGenerator [
 	^ anotherGenerator ~= EDAAggregateGenerator
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> createCommandClass [
+EDATCommandGenerator >> createCommandClass [
 	| cls attributes |
 	cls := self retrieveCommandClassName asSymbol.
 	attributes := self retrieveCommandAttributesBut: self class skippedCommandAttributes.
@@ -26,7 +26,7 @@ EDACommandGenerator >> createCommandClass [
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> createCommandClassAccessors [
+EDATCommandGenerator >> createCommandClassAccessors [
 	| commandClass |
 	commandClass := self class environment at: self retrieveCommandClassName asSymbol.
 	(self generateAccessorsFor: commandClass attributes: (self retrieveCommandAttributesBut: self class skippedCommandAttributes))
@@ -39,7 +39,7 @@ EDACommandGenerator >> createCommandClassAccessors [
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> createCommandClassAggregateRootClassMethod [
+EDATCommandGenerator >> createCommandClassAggregateRootClassMethod [
 	| aggregateRootClass |
 	aggregateRootClass := self class environment at: self retrieveCommandClassName asSymbol.
 	^ self
@@ -50,7 +50,7 @@ EDACommandGenerator >> createCommandClassAggregateRootClassMethod [
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> createCommandClassBuilderMethod [
+EDATCommandGenerator >> createCommandClassBuilderMethod [
 	| methodAssoc |
 	methodAssoc := self generateCommandClassBuilderMethod associations first.
 	^ self
@@ -61,7 +61,7 @@ EDACommandGenerator >> createCommandClassBuilderMethod [
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> createCommandClassEqualsMethod [
+EDATCommandGenerator >> createCommandClassEqualsMethod [
 	| aggregateRootClass |
 	aggregateRootClass := self class environment at: self retrieveCommandClassName asSymbol.
 	^ self
@@ -72,7 +72,7 @@ EDACommandGenerator >> createCommandClassEqualsMethod [
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> createCommandClassHashMethod [
+EDATCommandGenerator >> createCommandClassHashMethod [
 	| aggregateRootClass |
 	aggregateRootClass := self class environment at: self retrieveCommandClassName asSymbol.
 	^ self
@@ -83,7 +83,7 @@ EDACommandGenerator >> createCommandClassHashMethod [
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> createCommandClassLatestVersionClassMethod [
+EDATCommandGenerator >> createCommandClassLatestVersionClassMethod [
 	| cls |
 	cls := self class environment
 		at: self retrieveCommandClassName asSymbol.
@@ -93,7 +93,7 @@ EDACommandGenerator >> createCommandClassLatestVersionClassMethod [
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> createCommandClassRetrieveAggregateRootClassMethod [
+EDATCommandGenerator >> createCommandClassRetrieveAggregateRootClassMethod [
 	| aggregateRootClass |
 	aggregateRootClass := self class environment at: self retrieveCommandClassName asSymbol.
 	^ self
@@ -104,12 +104,12 @@ EDACommandGenerator >> createCommandClassRetrieveAggregateRootClassMethod [
 ]
 
 { #category : #protected }
-EDACommandGenerator >> description [
+EDATCommandGenerator >> description [
 	^ 'Command ', self commandName greaseString 
 ]
 
 { #category : #protected }
-EDACommandGenerator >> doGenerate [
+EDATCommandGenerator >> doGenerate [
 	self isDeleteCommand
 		ifTrue: [ ^ self ].
 	self createCommandClass.
@@ -123,7 +123,7 @@ EDACommandGenerator >> doGenerate [
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> generateCommandClassAggregateRootClassMethod [
+EDATCommandGenerator >> generateCommandClassAggregateRootClassMethod [
 	| result cr |
 	cr := Character cr.
 	result := WriteStream with: String new.
@@ -139,12 +139,12 @@ EDACommandGenerator >> generateCommandClassAggregateRootClassMethod [
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> generateCommandClassAggregateRootClassMethodName [
+EDATCommandGenerator >> generateCommandClassAggregateRootClassMethodName [
 	^ 'aggregateRootClass'
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> generateCommandClassBuilderMethod [
+EDATCommandGenerator >> generateCommandClassBuilderMethod [
 	| method attrs result cr cls |
 	cr := Character cr.
 	method := WriteStream with: String new.
@@ -198,19 +198,19 @@ EDACommandGenerator >> generateCommandClassBuilderMethod [
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> generateCommandClassBuilderMethodName [
+EDATCommandGenerator >> generateCommandClassBuilderMethodName [
 	^ 'ofTenant:withCommandId:aggregateRootVersion:andAttributes:'
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> generateCommandClassBuilderMethodNameWithArgPrefix: prefix [
+EDATCommandGenerator >> generateCommandClassBuilderMethodNameWithArgPrefix: prefix [
 	^ 'ofTenant: ' , prefix , 'Tenant withCommandId: ' , prefix
 		, 'CommandId aggregateRootVersion: ' , prefix
 		, 'Version andAttributes: ' , prefix , 'Attributes'
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> generateCommandClassLatestVersionMethod [
+EDATCommandGenerator >> generateCommandClassLatestVersionMethod [
 	| result cr |
 	cr := Character cr.
 	result := WriteStream with: String new.
@@ -225,12 +225,12 @@ EDACommandGenerator >> generateCommandClassLatestVersionMethod [
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> generateCommandClassLatestVersionMethodName [
+EDATCommandGenerator >> generateCommandClassLatestVersionMethodName [
 	^ 'latestVersion'
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> generateCommandClassRetrieveAggregateRootClassMethod [
+EDATCommandGenerator >> generateCommandClassRetrieveAggregateRootClassMethod [
 	| result cr |
 	cr := Character cr.
 	result := WriteStream with: String new.
@@ -246,6 +246,6 @@ EDACommandGenerator >> generateCommandClassRetrieveAggregateRootClassMethod [
 ]
 
 { #category : #'code generation' }
-EDACommandGenerator >> generateCommandClassRetrieveAggregateRootClassMethodName [
+EDATCommandGenerator >> generateCommandClassRetrieveAggregateRootClassMethodName [
 	^ 'retrieveAggregateRootClass'
 ]

@@ -1,6 +1,6 @@
 Class {
-	#name : #EDACompositeGenerator,
-	#superclass : #EDAGenerator,
+	#name : #EDATCompositeGenerator,
+	#superclass : #EDATGenerator,
 	#instVars : [
 		'generatorClasses'
 	],
@@ -8,17 +8,17 @@ Class {
 }
 
 { #category : #protected }
-EDACompositeGenerator >> description [
+EDATCompositeGenerator >> description [
 	^ 'Composite generator for ', self generatorClasses
 ]
 
 { #category : #protected }
-EDACompositeGenerator >> doGenerate [
+EDATCompositeGenerator >> doGenerate [
 	^ nil
 ]
 
 { #category : #api }
-EDACompositeGenerator >> generate [
+EDATCompositeGenerator >> generate [
 	| generators |
 	generators := self generatorClasses collect: [ :generatorClass |
 		 generatorClass
@@ -36,22 +36,22 @@ EDACompositeGenerator >> generate [
 ]
 
 { #category : #accessing }
-EDACompositeGenerator >> generatorClasses [
+EDATCompositeGenerator >> generatorClasses [
 	^ generatorClasses
 ]
 
 { #category : #accessing }
-EDACompositeGenerator >> generatorClasses: aCollection [
+EDATCompositeGenerator >> generatorClasses: aCollection [
 	generatorClasses := aCollection
 ]
 
 { #category : #initialization }
-EDACompositeGenerator >> initialize [
+EDATCompositeGenerator >> initialize [
 	self
 		generatorClasses: (self sortGeneratorClasses: EDAGenerator allSubclasses)
 ]
 
 { #category : #initialization }
-EDACompositeGenerator >> sortGeneratorClasses: aCollection [
+EDATCompositeGenerator >> sortGeneratorClasses: aCollection [
 	^ (aCollection reject: [ :cls | cls = self class ]) asSortedCollection: [ :first :second | (first shouldRunAfter: second) not ]
 ]

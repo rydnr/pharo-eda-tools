@@ -1,11 +1,11 @@
 Class {
-	#name : #EDAErrorsGenerator,
-	#superclass : #EDAGenerator,
+	#name : #EDATErrorsGenerator,
+	#superclass : #EDATGenerator,
 	#category : #'EDAT-Tools'
 }
 
 { #category : #'code generation' }
-EDAErrorsGenerator >> createAggregateDoesNotExistErrorClass [
+EDATErrorsGenerator >> createAggregateDoesNotExistErrorClass [
 	| cls attributes |
 	cls := (self appName , self aggregate capitalized , 'DoesNotExist' ) asSymbol.
 	attributes := OrderedCollection new.
@@ -19,7 +19,7 @@ EDAErrorsGenerator >> createAggregateDoesNotExistErrorClass [
 ]
 
 { #category : #'code generation' }
-EDAErrorsGenerator >> createInvalidAggregateErrorClass [
+EDATErrorsGenerator >> createInvalidAggregateErrorClass [
 	| cls attributes |
 	cls := (self appName , 'Invalid' , self aggregate capitalized) asSymbol.
 	attributes := OrderedCollection new.
@@ -33,7 +33,7 @@ EDAErrorsGenerator >> createInvalidAggregateErrorClass [
 ]
 
 { #category : #'code generation' }
-EDAErrorsGenerator >> createInvalidCommandErrorClass [
+EDATErrorsGenerator >> createInvalidCommandErrorClass [
 	| cls attributes |
 	cls := (self appName , 'Invalid' , (self toCamelCase: self commandName))
 		asSymbol.
@@ -49,12 +49,12 @@ EDAErrorsGenerator >> createInvalidCommandErrorClass [
 ]
 
 { #category : #protected }
-EDAErrorsGenerator >> description [
+EDATErrorsGenerator >> description [
 	^ 'Error classes for ' , self aggregate greaseString
 ]
 
 { #category : #protected }
-EDAErrorsGenerator >> doGenerate [
+EDATErrorsGenerator >> doGenerate [
 	<doc: 'Generates error classes'>
 	"self createInvalidAggregateErrorClass.
 	self createAggregateDoesNotExistErrorClass"
