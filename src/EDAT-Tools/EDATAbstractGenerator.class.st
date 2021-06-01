@@ -1,8 +1,8 @@
 Class {
-	#name : #AbstractEDAGenerator,
+	#name : #EDATAbstractGenerator,
 	#superclass : #Object,
-	#traits : 'EDACTSourceCodeHelper + EDACTCheckerHelper + EDACTLogging',
-	#classTraits : 'EDACTSourceCodeHelper classTrait + EDACTCheckerHelper classTrait + EDACTLogging classTrait',
+	#traits : 'EDACSourceCodeHelper + EDACCheckerHelper + EDACLogging',
+	#classTraits : 'EDACSourceCodeHelper classTrait + EDACCheckerHelper classTrait + EDACLogging classTrait',
 	#instVars : [
 		'commandName',
 		'commandRaw',
@@ -20,144 +20,144 @@ Class {
 }
 
 { #category : #customization }
-AbstractEDAGenerator class >> skippedAggregateAttributes [
+EDATAbstractGenerator class >> skippedAggregateAttributes [
 	^ #('tenant' 'id' 'version' 'scopeContext' 'scopeKey' 'agent')
 ]
 
 { #category : #customization }
-AbstractEDAGenerator class >> skippedCommandAttributes [
+EDATAbstractGenerator class >> skippedCommandAttributes [
 	^ #('applicationKey' 'commandId' 'aggregateRootId' 'originalTimestamp' 'aggregateRootVersion' 'version' 'id' 'scopeContext' 'scopeKey' 'tenant' 'agent' 'correlationId')
 ]
 
 { #category : #customization }
-AbstractEDAGenerator class >> skippedEventAttributes [
+EDATAbstractGenerator class >> skippedEventAttributes [
 	^ #('id' 'commandId' 'aggregateRootClass' 'timestamp' 'aggregateRootVersion' 'version' 'scopeContext' 'scopeKey' 'tenant' 'agent')
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> aggregate [
+EDATAbstractGenerator >> aggregate [
 	^ aggregate
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> aggregate: aString [
+EDATAbstractGenerator >> aggregate: aString [
 	aggregate := aString
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> aggregateClass [
+EDATAbstractGenerator >> aggregateClass [
 	^ (self appName , (self underscoreSeparatedToCamelCase: self aggregate))
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> appName [
+EDATAbstractGenerator >> appName [
 	^ appName
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> appName: aString [
+EDATAbstractGenerator >> appName: aString [
 	appName := aString
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> commandContainsAttribute: attr [
+EDATAbstractGenerator >> commandContainsAttribute: attr [
 	| body |
 	body := commandJson at: #body.
 	^ body at: attr ifPresent: [ true ] ifAbsent: [ false ]
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> commandFile [
+EDATAbstractGenerator >> commandFile [
 	^ commandFile
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> commandFile: aString [
+EDATAbstractGenerator >> commandFile: aString [
 	commandFile := aString
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> commandJson [
+EDATAbstractGenerator >> commandJson [
 	^ commandJson
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> commandJson: aString [
+EDATAbstractGenerator >> commandJson: aString [
 	commandJson := aString
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> commandName [
+EDATAbstractGenerator >> commandName [
 	^ commandName
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> commandName: aString [
+EDATAbstractGenerator >> commandName: aString [
 	commandName := aString
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> commandRaw [
+EDATAbstractGenerator >> commandRaw [
 	^ commandRaw
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> commandRaw: aString [
+EDATAbstractGenerator >> commandRaw: aString [
 	commandRaw := aString
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> eventClassForContract: aString [
+EDATAbstractGenerator >> eventClassForContract: aString [
 	^ ATSEDAApplication eventClassPrefix , (self dotSeparatedToCamelCase: aString)
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> eventFile [
+EDATAbstractGenerator >> eventFile [
 	^ eventFile
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> eventFile: aString [
+EDATAbstractGenerator >> eventFile: aString [
 	eventFile := aString
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> eventJson [
+EDATAbstractGenerator >> eventJson [
 	^ eventJson
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> eventJson: aString [
+EDATAbstractGenerator >> eventJson: aString [
 	eventJson := aString
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> eventName [
+EDATAbstractGenerator >> eventName [
 	^ eventName
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> eventName: aString [
+EDATAbstractGenerator >> eventName: aString [
 	eventName := aString
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> eventRaw [
+EDATAbstractGenerator >> eventRaw [
 	^ eventRaw
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> eventRaw: aString [
+EDATAbstractGenerator >> eventRaw: aString [
 	eventRaw := aString
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> findRelativePathBetweenFile: aFileReference andFolder: aFolderReference [
+EDATAbstractGenerator >> findRelativePathBetweenFile: aFileReference andFolder: aFolderReference [
 	^ (self recursivelyFindRelativePathBetweenFile: aFileReference  andFolder: aFolderReference) reverse
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> isCreate: json [
+EDATAbstractGenerator >> isCreate: json [
 	| type meta |
 	meta := json at: #meta ifAbsent: [ nil ].
 	type := meta
@@ -167,17 +167,17 @@ AbstractEDAGenerator >> isCreate: json [
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> isCreateCommand [
+EDATAbstractGenerator >> isCreateCommand [
 	^ self isCreate: commandJson
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> isCreatedEvent [
+EDATAbstractGenerator >> isCreatedEvent [
 	^ self isCreate: commandJson
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> isDelete: json [
+EDATAbstractGenerator >> isDelete: json [
 	| delete meta |
 	meta := json at: #meta ifAbsent: [ nil ].
 	delete := meta
@@ -187,23 +187,23 @@ AbstractEDAGenerator >> isDelete: json [
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> isDeleteCommand [
+EDATAbstractGenerator >> isDeleteCommand [
 	^ self isDelete: commandJson
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> isDeletedEvent [
+EDATAbstractGenerator >> isDeletedEvent [
 	^ self isDelete: commandJson
 
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> protocol [
+EDATAbstractGenerator >> protocol [
 	^ self generatedProtocolFor: self version
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> readCommandExampleFile [
+EDATAbstractGenerator >> readCommandExampleFile [
 	| result stream |
 	stream := self commandFile readStream.
 	result := stream contents.
@@ -212,12 +212,12 @@ AbstractEDAGenerator >> readCommandExampleFile [
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> readCommandFromContract: contractName version: version [
+EDATAbstractGenerator >> readCommandFromContract: contractName version: version [
 	^ self readFromContract: [ self retrieveCommandFile: contractName version: version ]
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> readEventExampleFile [
+EDATAbstractGenerator >> readEventExampleFile [
 	| result stream |
 	stream := self eventFile exists
 		ifTrue: [ self eventFile readStream ]
@@ -228,7 +228,7 @@ AbstractEDAGenerator >> readEventExampleFile [
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> readFromContract: evtName version: version using: aBlock [
+EDATAbstractGenerator >> readFromContract: evtName version: version using: aBlock [
 	| result file fileContents |
 	file := aBlock cull: evtName cull: version.
 	fileContents := file readStream.
@@ -238,7 +238,7 @@ AbstractEDAGenerator >> readFromContract: evtName version: version using: aBlock
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> recursivelyFindRelativePathBetweenFile: aFileReference andFolder: aFolderReference [
+EDATAbstractGenerator >> recursivelyFindRelativePathBetweenFile: aFileReference andFolder: aFolderReference [
 	((aFileReference isDirectory and: [ aFileReference = aFolderReference ])
 		or: [ aFileReference parent = aFolderReference ])
 		ifTrue: [ ^ OrderedCollection new ]
@@ -250,12 +250,12 @@ AbstractEDAGenerator >> recursivelyFindRelativePathBetweenFile: aFileReference a
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveAggregateAttributes [
+EDATAbstractGenerator >> retrieveAggregateAttributes [
 	^ self retrieveEventAttributes
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveAggregateAttributesBut: excluded [
+EDATAbstractGenerator >> retrieveAggregateAttributesBut: excluded [
 	| result attrs |
 	attrs := self retrieveAggregateAttributes.
 	result := attrs select: [ :attr | (excluded includes: attr) not ].
@@ -263,18 +263,18 @@ AbstractEDAGenerator >> retrieveAggregateAttributesBut: excluded [
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveAggregateClassName [
+EDATAbstractGenerator >> retrieveAggregateClassName [
 	^ self appName , (self underscoreSeparatedToCamelCase: self aggregate)
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveAggregateClasses [
+EDATAbstractGenerator >> retrieveAggregateClasses [
 	"Retrieves all aggregate classes"
 	^ EDAAggregateRoot allSubclasses
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveAggregateIdNames [
+EDATAbstractGenerator >> retrieveAggregateIdNames [
 	^ self retrieveAggregateClasses
 	select: [ :cls | (cls name greaseString beginsWith: self appName) ]
 		thenCollect: [ :cls |
@@ -282,7 +282,7 @@ AbstractEDAGenerator >> retrieveAggregateIdNames [
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveAttributeValue: attr in: dict [
+EDATAbstractGenerator >> retrieveAttributeValue: attr in: dict [
 	| result body |
 	body := dict at: #body.
 	result := body at: attr ifAbsent: [ result := '' ].
@@ -290,7 +290,7 @@ AbstractEDAGenerator >> retrieveAttributeValue: attr in: dict [
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveAttributesFrom: dict [
+EDATAbstractGenerator >> retrieveAttributesFrom: dict [
 	| vars body |
 	body := dict at: #body.
 	vars := body keys asSortedCollection.
@@ -298,17 +298,17 @@ AbstractEDAGenerator >> retrieveAttributesFrom: dict [
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveCommandAttributeValue: attr [
+EDATAbstractGenerator >> retrieveCommandAttributeValue: attr [
 	^ self retrieveAttributeValue: attr in: self commandJson
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveCommandAttributes [
+EDATAbstractGenerator >> retrieveCommandAttributes [
 	^ self retrieveAttributesFrom: self commandJson
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveCommandAttributesBut: excluded [
+EDATAbstractGenerator >> retrieveCommandAttributesBut: excluded [
 	| result attrs |
 	attrs := self retrieveCommandAttributes.
 	result := attrs select: [ :attr | (excluded includes: attr) not ].
@@ -317,22 +317,22 @@ AbstractEDAGenerator >> retrieveCommandAttributesBut: excluded [
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveCommandClassName [
+EDATAbstractGenerator >> retrieveCommandClassName [
 	^ self appName , (self toCamelCase: self commandName)
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveEventAttributeValue: attr [
+EDATAbstractGenerator >> retrieveEventAttributeValue: attr [
 	^ self retrieveAttributeValue: attr in: self eventJson
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveEventAttributes [
+EDATAbstractGenerator >> retrieveEventAttributes [
 	^ self retrieveAttributesFrom: self eventJson
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveEventAttributesBut: excluded [
+EDATAbstractGenerator >> retrieveEventAttributesBut: excluded [
 	| result attrs |
 	attrs := self retrieveEventAttributes.
 	result := attrs select: [ :attr | (excluded includes: attr) not ].
@@ -340,12 +340,12 @@ AbstractEDAGenerator >> retrieveEventAttributesBut: excluded [
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveEventClassName [
+EDATAbstractGenerator >> retrieveEventClassName [
 	^ self appName , (self toCamelCase: self eventName)
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveEventName [
+EDATAbstractGenerator >> retrieveEventName [
 	| result aux |
 	result := nil.
 	aux := self eventName allRegexMatches: '([^_]*)'.
@@ -365,7 +365,7 @@ AbstractEDAGenerator >> retrieveEventName [
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveImplementedCommandsFor: appName [
+EDATAbstractGenerator >> retrieveImplementedCommandsFor: appName [
 	"Finds all pragmas like [appName]CommandName: #[COMMAND_NAME]"
 
 	| cmds |
@@ -376,7 +376,7 @@ AbstractEDAGenerator >> retrieveImplementedCommandsFor: appName [
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveMaxVersion [
+EDATAbstractGenerator >> retrieveMaxVersion [
 	| parent |
 	parent := self commandFile parent parent.
 	parent entries isEmpty
@@ -389,21 +389,21 @@ AbstractEDAGenerator >> retrieveMaxVersion [
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveRepositoryClassName [
+EDATAbstractGenerator >> retrieveRepositoryClassName [
 	^ self appName , (self underscoreSeparatedToCamelCase: self aggregate) , 'Repository'
 ]
 
 { #category : #helper }
-AbstractEDAGenerator >> retrieveVersion [
+EDATAbstractGenerator >> retrieveVersion [
 	^ (self removePrefix: 'v' from: self commandFile parent basename) asInteger
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> version [
+EDATAbstractGenerator >> version [
 	^ version
 ]
 
 { #category : #accessing }
-AbstractEDAGenerator >> version: aNumber [
+EDATAbstractGenerator >> version: aNumber [
 	version := aNumber
 ]

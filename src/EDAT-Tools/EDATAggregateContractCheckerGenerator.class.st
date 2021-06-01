@@ -1,8 +1,8 @@
 Class {
 	#name : #EDATAggregateContractCheckerGenerator,
 	#superclass : #EDATAbstractGenerator,
-	#traits : 'EDACTCheckerGenerator',
-	#classTraits : 'EDACTCheckerGenerator classTrait',
+	#traits : 'EDATCheckerGenerator',
+	#classTraits : 'EDATCheckerGenerator classTrait',
 	#category : #'EDAT-Tools'
 }
 
