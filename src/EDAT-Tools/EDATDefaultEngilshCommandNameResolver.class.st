@@ -1,8 +1,8 @@
 Class {
 	#name : #EDATDefaultEnglishCommandNameResolver,
 	#superclass : #Object,
-	#traits : 'EDACTSourceCodeHelper',
-	#classTraits : 'EDACTSourceCodeHelper classTrait',
+	#traits : 'EDACSourceCodeHelper',
+	#classTraits : 'EDACSourceCodeHelper classTrait',
 	#category : #'EDAT-Tools'
 }
 
