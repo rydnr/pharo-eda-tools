@@ -1,8 +1,8 @@
 Class {
 	#name : #EDATAbstractGenerator,
 	#superclass : #Object,
-	#traits : 'EDACSourceCodeHelper + EDACCheckerHelper + EDACLogging',
-	#classTraits : 'EDACSourceCodeHelper classTrait + EDACCheckerHelper classTrait + EDACLogging classTrait',
+	#traits : 'EDACSourceCodeHelper + EDATCheckerHelper + EDACLogging',
+	#classTraits : 'EDACSourceCodeHelper classTrait + EDATCheckerHelper classTrait + EDACLogging classTrait',
 	#instVars : [
 		'commandName',
 		'commandRaw',
