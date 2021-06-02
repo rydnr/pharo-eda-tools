@@ -1,6 +1,6 @@
 Class {
 	#name : #EDATDomainTestEventGenerator,
-	#superclass : #EDAGenerator,
+	#superclass : #EDATGenerator,
 	#category : #'EDAT-Tools'
 }
 
