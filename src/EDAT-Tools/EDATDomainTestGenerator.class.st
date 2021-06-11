@@ -1,4 +1,3 @@
-
 Class {
 	#name : #EDATDomainTestGenerator,
 	#superclass : #EDATGenerator,

@@ -1,4 +1,3 @@
-
 Trait {
 	#name : #EDATCheckerGenerator,
 	#category : #'EDAT-Tools'

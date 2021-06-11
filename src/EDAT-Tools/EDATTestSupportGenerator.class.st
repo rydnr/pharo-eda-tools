@@ -1,4 +1,3 @@
-
 Class {
 	#name : #EDATTestSupportGenerator,
 	#superclass : #EDATGenerator,

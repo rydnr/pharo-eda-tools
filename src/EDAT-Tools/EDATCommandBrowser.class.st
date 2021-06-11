@@ -1,4 +1,3 @@
-
 Class {
 	#name : #EDATCommandBrowser,
 	#superclass : #ComposableModel,
@@ -8,31 +7,31 @@ Class {
 	#category : #'EDAT-Tools'
 }
 
-{ #category : #'ui' }
+{ #category : #ui }
 EDATCommandBrowser class >> defaultSpec [
 	^ SpecLayout composed
 		add: #list;
 		yourself
 ]
 
-{ #category : #'ui' }
+{ #category : #ui }
 EDATCommandBrowser >> initializeWidgets [
 	list := self newList.
 	list items: ((EDACommand allSubclasses select: [ :commandClass | (commandClass name beginsWith: 'EDA') not ]) sorted: [ :a :b | a name < b name ]).
 	self focusOrder add: list
 ]
 
-{ #category : #'ui' }
+{ #category : #ui }
 EDATCommandBrowser >> list [
 	^ list
 ]
 
-{ #category : #'ui' }
+{ #category : #ui }
 EDATCommandBrowser >> title [
 	^ 'EDA Commands'
 ]
 
-{ #category : #'ui' }
+{ #category : #ui }
 EDATCommandBrowser >> whenSelectedItemChanged: aBlock [
 	list whenSelectedItemChanged: aBlock
 ]

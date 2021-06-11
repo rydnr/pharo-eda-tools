@@ -1,4 +1,3 @@
-
 Class {
 	#name : #EDATDefaultCommandBuilderGenerator,
 	#superclass : #EDATGenerator,

@@ -1,4 +1,3 @@
-
 Class {
 	#name : #EDATEventContractCheckerGenerator,
 	#superclass : #EDATAbstractGenerator,

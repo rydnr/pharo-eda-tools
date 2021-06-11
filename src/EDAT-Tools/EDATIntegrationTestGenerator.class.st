@@ -1,4 +1,3 @@
-
 Class {
 	#name : #EDATIntegrationTestGenerator,
 	#superclass : #EDATGenerator,

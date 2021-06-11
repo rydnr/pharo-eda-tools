@@ -1,4 +1,3 @@
-
 Class {
 	#name : #EDATDefaultEnglishEventNameResolver,
 	#superclass : #Object,

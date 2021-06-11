@@ -1,4 +1,3 @@
-
 Class {
 	#name : #EDATAggregateGenerator,
 	#superclass : #EDATGenerator,
