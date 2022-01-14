@@ -4,7 +4,7 @@ version = "${tag}-SNAPSHOT" // do not forget to update the version also in docke
 apply plugin: PharoPlugin
 
 pharo {
-    imageVersion = '80'
+    imageVersion = '90'
 }
 
 def imageName = "${project.name}-${project.version}"
@@ -29,13 +29,13 @@ task retrieveFreshGtoolkitImage(type: RetrieveFreshGtoolkitImageTask, dependsOn:
 task loadPharoEDATools(type: EvalSmalltalkExpressionTask, dependsOn: downloadFreshPharoImage) {
     pharoPath = customPharoPath
     commonPharoArgs = customPharoArgs
-    expression = "Metacello new repository: 'github://osoco/pharo-eda-tools:${branchOrTag}'; baseline: 'PharoEDATools'; onConflictUseLoaded; load"
+    expression = "Metacello new repository: 'github://rydnr/pharo-eda-tools:${branchOrTag}'; baseline: 'PharoEDATools'; onConflictUseLoaded; load"
 }
 
 task loadPharoEDAToolsGt(type: EvalSmalltalkExpressionTask, dependsOn: retrieveFreshGtoolkitImage) {
     pharoPath = customPharoPath
     commonPharoArgs = customPharoArgs
-    expression = "Metacello new repository: 'github://osoco/pharo-eda-tools:${branchOrTag}'; baseline: 'PharoEDATools'; onConflictUseLoaded; load"
+    expression = "Metacello new repository: 'github://rydnr/pharo-eda-tools:${branchOrTag}'; baseline: 'PharoEDATools'; onConflictUseLoaded; load"
 }
 
 task customizeImage(type: RunSmalltalkScriptTask, dependsOn: loadPharoEDATools) {

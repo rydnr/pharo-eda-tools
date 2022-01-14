@@ -15,7 +15,7 @@ PharoEDA-Tools provides a package `EDAT-Tools` with the currently available tool
 First, load it with Metacello:
 
 ```smalltalk
-Metacello new repository: 'github://osoco/pharo-eda-tools:main'; baseline: #PharoEDATools; load
+Metacello new repository: 'github://rydnr/pharo-eda-tools:main'; baseline: #PharoEDATools; load
 ```
 
 Then, inspect the tools available for instructions on how to run them.
