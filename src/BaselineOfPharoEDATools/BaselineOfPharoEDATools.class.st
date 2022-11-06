@@ -1,3 +1,16 @@
+"
+**Class**
+
+I'm a baseline to load PharoEDA Tools.
+
+**Responsibilities**
+
+Guide Metacello to load PharoEDA-Tools with its dependencies.
+
+**Collaborators**
+
+Metacello
+"
 Class {
 	#name : #BaselineOfPharoEDATools,
 	#superclass : #BaselineOf,
@@ -41,4 +54,15 @@ BaselineOfPharoEDATools >> includePharoEDACommon: spec [
 		baseline: 'PharoEDACommon'
 		with: [ spec repository: 'github://rydnr/pharo-eda-common:main' ].
 	^ spec
+]
+
+{ #category : #hooks }
+BaselineOfPharoEDATools >> postload: loader package: packageSpec [
+
+	| location |
+	location := (IceRepository registry detect: [ :each | 
+		             each name = 'pharo-eda-tools' ]) location.
+	EDAIconProvider addDefaultLocation: location / 'resources' / 'icons'.
+	EDACTranslationProvider addDefaultLocation:
+		location / 'resources' / 'l10n'
 ]
