@@ -19,13 +19,14 @@ Class {
 
 { #category : #baselines }
 BaselineOfPharoEDATools >> baseline: spec [
+
 	<baseline>
-	spec
-		for: #common
-		do: [ spec blessing: #baseline.
-			self includePharoEDACommon: spec.
-			self declarePackagesIn: spec.
-			self declareGroupsIn: spec ]
+	spec for: #common do: [ 
+		spec blessing: #baseline.
+		spec postLoadDoIt: #'postload:package:'.
+		self includePharoEDACommon: spec.
+		self declarePackagesIn: spec.
+		self declareGroupsIn: spec ]
 ]
 
 { #category : #meta }
