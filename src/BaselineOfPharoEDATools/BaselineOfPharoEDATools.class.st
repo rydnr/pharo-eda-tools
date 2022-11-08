@@ -25,26 +25,26 @@ BaselineOfPharoEDATools >> baseline: spec [
 		spec blessing: #baseline.
 		spec postLoadDoIt: #'postload:package:'.
 		self includePharoEDACommon: spec.
+		self includeSpec: spec.
 		self declarePackagesIn: spec.
 		self declareGroupsIn: spec ]
 ]
 
 { #category : #meta }
 BaselineOfPharoEDATools >> declareGroupsIn: spec [
+
 	spec
-		group: 'core'
-			with:
-			#(#'EDAT-Tools');
-		group: 'tests'
-			with:
-			#(#'EDAT-Tools-Tests');
-		group: 'default' with: #('core' 'tests')
+		group: 'core' with: #( #'EDAT-Tools' );
+		group: 'ui' with: #( #'EDAT-Tools' #'EDAT-Tools-UI');
+		group: 'tests' with: #( #'EDAT-Tools-Tests' );
+		group: 'default' with: #( 'core' 'ui' 'tests' )
 ]
 
 { #category : #meta }
 BaselineOfPharoEDATools >> declarePackagesIn: spec [
 	spec
 		package: #'EDAT-Tools' with: [ spec requires: #('PharoEDACommon') ];
+		package: #'EDAT-Tools-UI' with: [ spec requires: #('PharoEDACommon' 'Spec2') ];
 		package: #'EDAT-Tools-Tests'
 			with: [ spec requires: #('EDAT-Tools') ]
 ]
@@ -54,6 +54,14 @@ BaselineOfPharoEDATools >> includePharoEDACommon: spec [
 	spec
 		baseline: 'PharoEDACommon'
 		with: [ spec repository: 'github://rydnr/pharo-eda-common:main' ].
+	^ spec
+]
+
+{ #category : #dependencies }
+BaselineOfPharoEDATools >> includeSpec: spec [
+	spec
+		baseline: 'Spec2'
+		with: [ spec repository: 'github://pharo-spec/Spec:Pharo10' ].
 	^ spec
 ]
 
