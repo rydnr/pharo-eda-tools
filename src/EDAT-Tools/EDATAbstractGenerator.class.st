@@ -377,15 +377,19 @@ EDATAbstractGenerator >> retrieveImplementedCommandsFor: appName [
 
 { #category : #helper }
 EDATAbstractGenerator >> retrieveMaxVersion [
+
 	| parent |
 	parent := self commandFile parent parent.
 	parent entries isEmpty
 		ifTrue: [ ^ -1 ]
 		ifFalse: [ 
-			^ ((parent entries
-				select: [ :entry | entry isDirectory and: [ entry basename beginsWith: 'v' ] ]
-				thenCollect: [ :entry | (EDAGenerator new removePrefix: 'v' from: entry basename) asInteger ])
-				asOrderedCollection sort: [ :first :second | first < second ]) last ]
+			^ (((parent entries select: [ :entry | 
+				     entry isDirectory and: [ 
+					     entry basename beginsWithSubCollection: 'v' ] ]) collect: [ 
+				    :entry | 
+				    (EDATGenerator new removePrefix: 'v' from: entry basename)
+					    greaseInteger ]) asOrderedCollection sort: [ :first :second | 
+				   first < second ]) last ]
 ]
 
 { #category : #helper }

@@ -4,9 +4,9 @@ Class {
 	#category : #'EDAT-Tools'
 }
 
-{ #category : #asserting }
+{ #category : #sorting }
 EDATDomainTestEventGenerator class >> shouldRunAfter: anotherGenerator [
-	^ anotherGenerator ~= EDACTestSupportGenerator and: [ anotherGenerator ~= EDADomainTestGenerator ]
+	^ anotherGenerator ~= EDATTestSupportGenerator and: [ anotherGenerator ~= EDATDomainTestGenerator ]
 ]
 
 { #category : #'code generation' }
