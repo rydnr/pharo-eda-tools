@@ -39,16 +39,16 @@ EDATIntegrationTestGenerator >> doGenerate [
 
 { #category : #delegated }
 EDATIntegrationTestGenerator >> generateDomainTestMethodName [
-	| delegate |
-	delegate := EDADomainTestGenerator
-		fromExampleFile: self commandFile
-		version: self version
-		appName: self appName
-		aggregate: self aggregate
-		commandNameResolver: self commandNameResolver
-		andEventNameResolver: self eventNameResolver.
-	^ delegate generateDomainTestMethodName
 
+	| delegate |
+	delegate := EDATDomainTestGenerator
+		            fromExampleFile: self commandFile
+		            version: self version
+		            appName: self appName
+		            aggregate: self aggregate
+		            commandNameResolver: self commandNameResolver
+		            andEventNameResolver: self eventNameResolver.
+	^ delegate generateDomainTestMethodName
 ]
 
 { #category : #'code generation' }

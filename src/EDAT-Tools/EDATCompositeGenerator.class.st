@@ -47,8 +47,9 @@ EDATCompositeGenerator >> generatorClasses: aCollection [
 
 { #category : #initialization }
 EDATCompositeGenerator >> initialize [
-	self
-		generatorClasses: (self sortGeneratorClasses: EDAGenerator allSubclasses)
+
+	self generatorClasses:
+		(self sortGeneratorClasses: EDATGenerator allSubclasses)
 ]
 
 { #category : #initialization }

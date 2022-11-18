@@ -11,18 +11,22 @@ EDATDomainTestEventGenerator class >> shouldRunAfter: anotherGenerator [
 
 { #category : #'code generation' }
 EDATDomainTestEventGenerator >> createDomainTestEventClass [
+
 	| cls parent parentSymbol |
 	parentSymbol := self isDeletedEvent
-		ifTrue: [ (self appName , (self toCamelCase: self eventName)) asSymbol ]
-		ifFalse: [ self retrieveEventClassName asSymbol].
+		                ifTrue: [ 
+		                (self appName , (self toCamelCase: self eventName))
+			                asSymbol ]
+		                ifFalse: [ self retrieveEventClassName asSymbol ].
 	parent := self class environment at: parentSymbol.
 	cls := self retrieveDomainTestEventClassName.
 	parent
 		subclass: cls
-		uses: EDACTTestEvent
+		uses: EDATTestEvent
 		instanceVariableNames: ''
 		classVariableNames: ''
-		package: self appName , '-Domain-Tests-' , (self toCamelCase: self aggregate).
+		package:
+		self appName , '-Domain-Tests-' , (self toCamelCase: self aggregate).
 	^ cls
 ]
 
@@ -61,27 +65,29 @@ EDATDomainTestEventGenerator >> createTestEventBuildEventClassMethod [
 
 { #category : #'code generation' }
 EDATDomainTestEventGenerator >> createTestHelperBuildCommandMethod [
+
 	| delegate |
-	delegate := EDACTestTraitGenerator
-		fromExampleFile: self commandFile
-		version: self version
-		appName: self appName
-		aggregate: self aggregate
-		commandNameResolver: self commandNameResolver
-		andEventNameResolver: self eventNameResolver.
+	delegate := EDATTestTraitGenerator
+		            fromExampleFile: self commandFile
+		            version: self version
+		            appName: self appName
+		            aggregate: self aggregate
+		            commandNameResolver: self commandNameResolver
+		            andEventNameResolver: self eventNameResolver.
 	^ delegate createTestHelperBuildCommandMethod
 ]
 
 { #category : #'code generation' }
 EDATDomainTestEventGenerator >> createTestHelperBuildEventClassMethod [
+
 	| delegate |
-	delegate := EDACTestSupportGenerator
-		fromExampleFile: self commandFile
-		version: self version
-		appName: self appName
-		aggregate: self aggregate
-		commandNameResolver: self commandNameResolver
-		andEventNameResolver: self eventNameResolver.
+	delegate := EDATTestSupportGenerator
+		            fromExampleFile: self commandFile
+		            version: self version
+		            appName: self appName
+		            aggregate: self aggregate
+		            commandNameResolver: self commandNameResolver
+		            andEventNameResolver: self eventNameResolver.
 	^ delegate createTestHelperBuildEventClassMethod
 ]
 

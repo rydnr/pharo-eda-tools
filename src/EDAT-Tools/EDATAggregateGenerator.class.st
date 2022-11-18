@@ -6,7 +6,7 @@ Class {
 
 { #category : #sorting }
 EDATAggregateGenerator class >> shouldRunAfter: anotherGenerator [
-	^ anotherGenerator = EDACommandGenerator
+	^ anotherGenerator = EDATCommandGenerator
 ]
 
 { #category : #'code generation' }
@@ -243,13 +243,14 @@ EDATAggregateGenerator >> generateAggregateRetrieveRepositoryMethodName [
 
 { #category : #delegated }
 EDATAggregateGenerator >> generateEventClassBuilderMethodNameWithArgPrefix: aString [
+
 	| delegate |
-	delegate := EDAEventGenerator
-		fromExampleFile: self commandFile
-		version: self version
-		appName: self appName
-		aggregate: self aggregate
-		commandNameResolver: self commandNameResolver
-		andEventNameResolver: self eventNameResolver.
+	delegate := EDATEventGenerator
+		            fromExampleFile: self commandFile
+		            version: self version
+		            appName: self appName
+		            aggregate: self aggregate
+		            commandNameResolver: self commandNameResolver
+		            andEventNameResolver: self eventNameResolver.
 	^ delegate generateEventClassBuilderMethodNameWithArgPrefix: aString
 ]

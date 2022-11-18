@@ -27,8 +27,8 @@ EDATGenerator class >> fromExampleFile: aFile version: version appName: appName 
 		version: version
 		appName: appName
 		aggregate: aggregate
-		commandNameResolver: DefaultEnglishCommandNameResolver new
-		andEventNameResolver: DefaultEnglishEventNameResolver new
+		commandNameResolver: EDATDefaultEnglishCommandNameResolver new
+		andEventNameResolver: EDATDefaultEnglishEventNameResolver new
 ]
 
 { #category : #'instance creation' }

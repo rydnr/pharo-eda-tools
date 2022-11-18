@@ -6,7 +6,7 @@ Class {
 
 { #category : #sorting }
 EDATCommandGenerator class >> shouldRunAfter: anotherGenerator [
-	^ anotherGenerator ~= EDAAggregateGenerator
+	^ anotherGenerator ~= EDATAggregateGenerator
 ]
 
 { #category : #'code generation' }

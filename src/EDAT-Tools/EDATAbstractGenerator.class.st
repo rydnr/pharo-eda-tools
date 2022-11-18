@@ -107,8 +107,8 @@ EDATAbstractGenerator >> commandRaw: aString [
 ]
 
 { #category : #helper }
-EDATAbstractGenerator >> eventClassForContract: aString [
-	^ ATSEDAApplication eventClassPrefix , (self dotSeparatedToCamelCase: aString)
+EDATAbstractGenerator >> eventClassForContract: aString inApplication: anEDAApplication [
+	^ anEDAApplication eventClassPrefix , (self dotSeparatedToCamelCase: aString)
 ]
 
 { #category : #accessing }
