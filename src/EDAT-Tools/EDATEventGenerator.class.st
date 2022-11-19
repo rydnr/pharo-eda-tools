@@ -121,12 +121,14 @@ EDATEventGenerator >> description [
 
 { #category : #protected }
 EDATEventGenerator >> doGenerate [
+
 	self createEventClass.
 	self createEventClassAccessors.
 	self createEventClassBuilderMethod.
 	self createEventClassEqualsMethod.
 	self createEventClassHashMethod.
-	self createEventClassLatestVersionClassMethod
+	self createEventClassLatestVersionClassMethod.
+	self createEventClassAggregateRootClassMethod
 ]
 
 { #category : #'code generation' }
