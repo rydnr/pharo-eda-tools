@@ -7,13 +7,14 @@ Class {
 }
 
 { #category : #'instance creation' }
-EDATEventContractCheckerGenerator class >> fromExampleFile: aFile version: version appName: appName aggregate: aggregate [
+EDATEventContractCheckerGenerator class >> fromExampleFile: aFile version: version application: edaApplication aggregate: aggregate [
+
 	| result |
 	result := self new
-		eventFile: aFile;
-		appName: appName;
-		aggregate: aggregate;
-		version: version.
+		          eventFile: aFile;
+		          edaApplication: edaApplication;
+		          aggregate: aggregate;
+		          version: version.
 	result eventRaw: result readEventExampleFile.
 	result eventJson: (NeoJSONReader fromString: result eventRaw).
 	result eventName: ((result eventJson at: #meta) at: #type).
@@ -57,10 +58,10 @@ EDATEventContractCheckerGenerator >> checkerMethod [
 		nextPut: cr.
 	result
 		nextPutAll: '	event := ';
-		nextPutAll: self eventClassPrefix;
+		nextPutAll: self edaApplication eventClassPrefix;
 		nextPutAll: 'Test';
 		nextPutAll: (self
-				 remove: self eventClassPrefix
+				 remove: self edaApplication eventClassPrefix
 				 fromBeginningOf: self retrieveEventClassName);
 		nextPutAll:
 			' fromEvent: ((self class environment at: eventClass asSymbol) ofTenant: (attrs at: ''tenant'' ifAbsent: [ nil ]) withAggregateId: id commandId: commandId andAttributes: attrs).';

@@ -1,6 +1,8 @@
 Class {
 	#name : #EDATIntegrationTestGenerator,
 	#superclass : #EDATGenerator,
+	#traits : 'EDACSourceCodeHelper',
+	#classTraits : 'EDACSourceCodeHelper classTrait',
 	#category : #'EDAT-Tools'
 }
 
@@ -8,20 +10,22 @@ Class {
 EDATIntegrationTestGenerator >> createIntegrationTestClass [
 
 	| cls |
-	cls := (self eventClassPrefix , self aggregate capitalized
-	        , 'IntegrationTestCase') asSymbol.
+	cls := (self edaApplication eventClassPrefix
+	        , self aggregate capitalized , 'IntegrationTestCase')
+		       asSymbol.
 	^ (self class environment at:
-		   (self eventClassPrefix , 'ApplicationIntegrationTestCase')
-			   asSymbol)
-		  subclass: (self eventClassPrefix , self aggregate capitalized
-			   , 'IntegrationTestCase') asSymbol
-		  uses: (Smalltalk at:
-				   (self eventClassPrefix , 'T' , self aggregate capitalized
-				    , 'TestHelper') asSymbol)
+		   (self edaApplication eventClassPrefix , (self toCamelCase:
+			    self edaApplication applicationName)
+			    , 'ApplicationIntegrationTestCase') asSymbol)
+		  subclass:
+		  (self edaApplication class name , 'IntegrationTestCase') asSymbol
+		  uses: (Smalltalk at: (self edaApplication eventClassPrefix , 'T'
+				    , self aggregate capitalized , 'TestHelper') asSymbol)
 		  instanceVariableNames: ''
 		  classVariableNames: ''
 		  package:
-		  self eventClassPrefix , '-Application-Tests-' , self aggregate capitalized
+			  self edaApplication eventClassPrefix , '-Application-Tests-'
+			  , self aggregate capitalized
 ]
 
 { #category : #'code generation' }
@@ -31,7 +35,7 @@ EDATIntegrationTestGenerator >> createIntegrationTestMethod [
 		  compile: self generateIntegrationTestMethodName
 		  sourceCode: self generateIntegrationTestMethod
 		  inClass: (self class environment at:
-				   (self eventClassPrefix , self aggregate capitalized
+				   (self edaApplication eventClassPrefix , self aggregate capitalized
 				    , 'IntegrationTestCase') asSymbol)
 		  classifiedAs: self protocol
 ]
@@ -54,8 +58,7 @@ EDATIntegrationTestGenerator >> generateDomainTestMethodName [
 	delegate := EDATDomainTestGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-						commandClassPrefix: self commandClassPrefix
-						eventClassPrefix: self eventClassPrefix
+		            application: self edaApplication
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.

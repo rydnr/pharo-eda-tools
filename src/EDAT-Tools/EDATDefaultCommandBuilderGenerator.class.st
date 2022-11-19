@@ -13,9 +13,8 @@ EDATDefaultCommandBuilderGenerator >> createDefaultCommandBuilderInitializeComma
 			  generateDefaultCommandBuilderInitializeCommandBuildersMethodName
 		  sourceCode: (self 
 				   generateDefaultCommandBuilderInitializeCommandBuildersMethodFor:
-				   self commandClassPrefix)
-		  inClass: (self class environment at:
-				   (self commandClassPrefix , 'DefaultCommandBuilder') asSymbol)
+				   self edaApplication commandClassPrefix)
+		  inClass: self edaApplication commandBuilder class
 		  classifiedAs: self protocol
 ]
 

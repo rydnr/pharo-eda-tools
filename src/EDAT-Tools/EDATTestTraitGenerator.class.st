@@ -25,8 +25,7 @@ EDATTestTraitGenerator >> createTestEventBuildEventClassMethod [
 	delegate := EDATDomainTestEventGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-						commandClassPrefix: self commandClassPrefix
-						eventClassPrefix: self eventClassPrefix
+		            application: self edaApplication
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.
@@ -73,9 +72,8 @@ EDATTestTraitGenerator >> createTestHelperTrait [
 	^ Trait
 		  named: trait
 		  uses: #(  )
-		  category:
-		  self eventClassPrefix , '-Domain-Tests-'
-		  , (self toCamelCase: self aggregate)
+		  category: self edaApplication eventClassPrefix , '-Domain-Tests-'
+			  , (self toCamelCase: self aggregate)
 ]
 
 { #category : #protected }
@@ -100,8 +98,7 @@ EDATTestTraitGenerator >> generateCommandClassBuilderMethodNameWithArgPrefix: aS
 	delegate := EDATCommandGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-						commandClassPrefix: self commandClassPrefix
-						eventClassPrefix: self eventClassPrefix
+		            application: self edaApplication
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.
@@ -252,7 +249,7 @@ EDATTestTraitGenerator >> generateTestHelperBuildCommandMethod [
 		ifTrue: [ result nextPutAll: 'EDADeleteAggregateCommand' ]
 		ifFalse: [ 
 			result
-				nextPutAll: self commandClassPrefix;
+				nextPutAll: self edaApplication commandClassPrefix;
 				nextPutAll: cmdName ].
 	result
 		nextPut: Character space;
@@ -299,7 +296,7 @@ EDATTestTraitGenerator >> generateTestHelperBuildDeleteEventMethod [
 		nextPut: cr.
 	result
 		nextPutAll: '	result := ';
-		nextPutAll: self eventClassPrefix;
+		nextPutAll: self edaApplication eventClassPrefix;
 		nextPutAll: 'Test';
 		nextPutAll: (self toCamelCase: self eventName);
 		nextPutAll: ' new.';
@@ -312,7 +309,7 @@ EDATTestTraitGenerator >> generateTestHelperBuildDeleteEventMethod [
 		nextPut: cr.
 	result
 		nextPutAll: '	result version: ';
-		nextPutAll: self eventClassPrefix;
+		nextPutAll: self edaApplication eventClassPrefix;
 		nextPutAll: (self toCamelCase: self eventName);
 		nextPutAll: ' latestVersion.';
 		nextPut: cr.
@@ -349,8 +346,7 @@ EDATTestTraitGenerator >> generateTestHelperBuildEventClassMethodNameWithArgPref
 	delegate := EDATTestSupportGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-						commandClassPrefix: self commandClassPrefix
-						eventClassPrefix: self eventClassPrefix
+		            application: self edaApplication
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.
@@ -430,7 +426,7 @@ EDATTestTraitGenerator >> generateTestHelperBuildEventFromArbitraryFileMethod [
 			nextPut: cr ].
 	result
 		nextPutAll: '	^ ';
-		nextPutAll: self eventClassPrefix;
+		nextPutAll: self edaApplication eventClassPrefix;
 		nextPutAll: (self toCamelCase: self eventName);
 		nextPut: Character space;
 		nextPutAll:
@@ -468,7 +464,7 @@ EDATTestTraitGenerator >> generateTestHelperBuildEventMethod [
 		nextPut: cr.
 	result
 		nextPutAll: '	result := ';
-		nextPutAll: self eventClassPrefix;
+		nextPutAll: self edaApplication eventClassPrefix;
 		nextPutAll: 'Test';
 		nextPutAll: (self toCamelCase: self eventName);
 		nextPutAll: ' fromEvent: (self ';
@@ -513,6 +509,6 @@ EDATTestTraitGenerator >> generateTestHelperBuildEventMethodNameWithId: idArg an
 { #category : #'code generation' }
 EDATTestTraitGenerator >> retrieveTestHelperTraitName [
 
-	^ self eventClassPrefix , 'T' , (self toCamelCase: self aggregate)
+	^ self edaApplication eventClassPrefix , 'T' , (self toCamelCase: self aggregate)
 	  , 'TestHelper'
 ]

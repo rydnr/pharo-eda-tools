@@ -49,22 +49,16 @@ EDATAbstractGeneratorTest >> testRetrieveAggregateClasses [
 ]
 
 { #category : #tests }
-EDATAbstractGeneratorTest >> testRetrieveAggregateIdNames [
-	| instance |
-	instance := EDATAbstractGenerator
-		new.
-		instance 
-		appName: 'EDA'.
-	self assert: (instance retrieveAggregateIdNames includes: 'dummyAggregateRootId')
-]
-
-{ #category : #tests }
 EDATAbstractGeneratorTest >> testRetrieveAggregateIdNames_does_not_include_aggregates_from_other_applications [
+
 	| instance |
 	instance := EDATAbstractGenerator new.
-	instance appName: 'OTHER'.
-	self assert: (instance retrieveAggregateIdNames includes: 'dummyAggregateRootId') not.
-		self assert: (instance retrieveAggregateIdNames includes: 'eDADummyAggregateRootId') not.
+	self assert:
+		(instance retrieveAggregateIdNames includes: 'dummyAggregateRootId')
+			not.
+	self assert:
+		(instance retrieveAggregateIdNames includes:
+			 'eDADummyAggregateRootId') not
 ]
 
 { #category : #tests }

@@ -12,9 +12,8 @@ EDATApplicationGenerator >> createEDAApplicationRegisterCommandBuilders [
 		  self generateEDAApplicationRegisterCommandBuildersMethodName
 		  sourceCode:
 			  (self generateEDAApplicationRegisterCommandBuildersMethodFor:
-				   self commandClassPrefix)
-		  inClass: (self class environment at:
-				   (commandClassPrefix , 'EDAApplication') asSymbol) class
+				   self edaApplication commandClassPrefix)
+		  inClass: (self edaApplication class)
 		  classifiedAs: self protocol
 ]
 
@@ -44,7 +43,7 @@ EDATApplicationGenerator >> generateEDAApplicationRegisterCommandBuildersMethodF
 		nextPut: cr.
 	result
 		nextPutAll: '	builder := ';
-		nextPutAll: self commandClassPrefix;
+		nextPutAll: self edaApplication commandClassPrefix;
 		nextPutAll: 'DefaultCommandBuilder new.';
 		nextPut: cr.
 	result

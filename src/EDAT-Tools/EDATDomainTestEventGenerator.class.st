@@ -15,7 +15,7 @@ EDATDomainTestEventGenerator >> createDomainTestEventClass [
 	| cls parent parentSymbol |
 	parentSymbol := self isDeletedEvent
 		                ifTrue: [ 
-			                (self eventClassPrefix
+			                (self edaApplication eventClassPrefix
 			                 , (self toCamelCase: self eventName)) asSymbol ]
 		                ifFalse: [ self retrieveEventClassName asSymbol ].
 	parent := self class environment at: parentSymbol.
@@ -25,8 +25,8 @@ EDATDomainTestEventGenerator >> createDomainTestEventClass [
 		uses: EDATTestEvent
 		instanceVariableNames: ''
 		classVariableNames: ''
-		package:
-		self eventClassPrefix , '-Domain-Tests-' , (self toCamelCase: self aggregate).
+		package: self edaApplication eventClassPrefix , '-Domain-Tests-'
+			, (self toCamelCase: self aggregate).
 	^ cls
 ]
 
@@ -70,8 +70,7 @@ EDATDomainTestEventGenerator >> createTestHelperBuildCommandMethod [
 	delegate := EDATTestTraitGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-		            commandClassPrefix: self commandClassPrefix 
-						eventClassPrefix: self eventClassPrefix
+		            application: self edaApplication
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.
@@ -85,8 +84,7 @@ EDATDomainTestEventGenerator >> createTestHelperBuildEventClassMethod [
 	delegate := EDATTestSupportGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-		            commandClassPrefix: self commandClassPrefix 
-						eventClassPrefix: self eventClassPrefix
+		            application: self edaApplication
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.
@@ -274,6 +272,6 @@ EDATDomainTestEventGenerator >> retrieveDomainTestEventClass [
 { #category : #'code generation' }
 EDATDomainTestEventGenerator >> retrieveDomainTestEventClassName [
 
-	^ (self eventClassPrefix , 'Test' , (self toCamelCase: self eventName))
-		  asSymbol
+	^ (self edaApplication eventClassPrefix , 'Test'
+	   , (self toCamelCase: self eventName)) asSymbol
 ]

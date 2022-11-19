@@ -22,7 +22,8 @@ EDATAggregateGenerator >> createAggregateApplyEventVersionMethod [
 				          sourceCode:
 				          self generateAggregateApplyEventVersionMethod
 				          inClass: (self class environment at:
-						           (self eventClassPrefix , self aggregate capitalized) asSymbol)
+						           (self edaApplication eventClassPrefix , self aggregate capitalized)
+							           asSymbol)
 				          classifiedAs: self protocol ].
 	^ result
 ]
@@ -44,8 +45,8 @@ EDATAggregateGenerator >> createAggregateClass [
 		  instanceVariableNames:
 		  (self concatenateCollection: attributes with: ' ')
 		  classVariableNames: ''
-		  package:
-		  self eventClassPrefix , '-Domain-' , (self toCamelCase: self aggregate)
+		  package: self edaApplication eventClassPrefix , '-Domain-'
+			  , (self toCamelCase: self aggregate)
 ]
 
 { #category : #'code generation' }
@@ -94,7 +95,8 @@ EDATAggregateGenerator >> createAggregateHandleCommandMethod [
 				          compile: self generateAggregateHandleCommandMethodName
 				          sourceCode: self generateAggregateHandleCommandMethod
 				          inClass: (self class environment at:
-						           (self commandClassPrefix , self aggregate capitalized) asSymbol)
+						           (self edaApplication commandClassPrefix , self aggregate capitalized)
+							           asSymbol)
 				          classifiedAs: self protocol ].
 	^ result
 ]
@@ -106,7 +108,7 @@ EDATAggregateGenerator >> createAggregateRetrieveRepositoryMethod [
 		  compile: self generateAggregateRetrieveRepositoryMethodName
 		  sourceCode: self generateAggregateRetrieveRepositoryMethod
 		  inClass: (self class environment at:
-				   (self eventClassPrefix , self aggregate capitalized) asSymbol)
+				   (self edaApplication eventClassPrefix , self aggregate capitalized) asSymbol)
 		  classifiedAs: self protocol
 ]
 
@@ -131,7 +133,7 @@ EDATAggregateGenerator >> generateAggregateApplyEventVersionMethod [
 
 	| result attrs cr cls |
 	cr := Character cr.
-	cls := (self eventClassPrefix
+	cls := (self edaApplication eventClassPrefix
 	        , (self underscoreSeparatedToCamelCase: self aggregate))
 		       asSymbol.
 	attrs := self retrieveEventAttributesBut:
@@ -169,15 +171,17 @@ EDATAggregateGenerator >> generateAggregateApplyEventVersionMethodNameWithArg: a
 
 { #category : #'code generation' }
 EDATAggregateGenerator >> generateAggregateHandleCommandMethod [
+
 	| result commandClass attrs cr |
 	cr := Character cr.
 	commandClass := self retrieveCommandClassName asSymbol.
 	attrs := self
-		allAttributesOf: (self class environment at: commandClass)
-		including: self retrieveCommandAttributes.
+		         allAttributesOf: (self class environment at: commandClass)
+		         including: self retrieveCommandAttributes.
 	result := WriteStream with: String new.
 	result
-		nextPutAll: (self generateAggregateHandleCommandMethodNameWithArg: 'aCommand');
+		nextPutAll:
+			(self generateAggregateHandleCommandMethodNameWithArg: 'aCommand');
 		nextPut: cr.
 	result
 		nextPutAll: '	<useAsCommandHandlerFor: #';
@@ -199,28 +203,28 @@ EDATAggregateGenerator >> generateAggregateHandleCommandMethod [
 		nextPutAll: '	theCommandId := aCommand commandId.';
 		nextPut: cr.
 	result
-		nextPutAll: '	theAttrs := self class buildCommonArgsForCommand: aCommand.';
+		nextPutAll:
+			'	theAttrs := self class buildCommonArgsForCommand: aCommand.';
 		nextPut: cr.
-	(attrs
-		reject: [ :attr |
-			self class skippedEventAttributes
-				anySatisfy: [ :skipped | attr = skipped ] ])
-		do: [ :attr | 
-			result
-				nextPutAll: '	aCommand ';
-				nextPutAll: attr;
-				nextPutAll: ' ifNotNil: [ :v | theAttrs at: ''';
-				nextPutAll: attr;
-				nextPutAll: ''' put: v ].';
-				nextPut: cr ].
+	(attrs reject: [ :attr | 
+		 self class skippedEventAttributes anySatisfy: [ :skipped | 
+			 attr = skipped ] ]) do: [ :attr | 
+		result
+			nextPutAll: '	aCommand ';
+			nextPutAll: attr;
+			nextPutAll: ' ifNotNil: [ :v | theAttrs at: ''';
+			nextPutAll: attr;
+			nextPutAll: ''' put: v ].';
+			nextPut: cr ].
 	result
 		nextPutAll: '	^ ';
-		nextPutAll: appName;
+		nextPutAll: self edaApplication eventClassPrefix;
 		nextPutAll: (self toCamelCase: self eventName);
 		nextPut: cr.
 	result
 		nextPutAll: '		';
-		nextPutAll: (self generateEventClassBuilderMethodNameWithArgPrefix: 'the');
+		nextPutAll:
+			(self generateEventClassBuilderMethodNameWithArgPrefix: 'the');
 		nextPut: cr.
 	^ result contents
 ]
@@ -264,8 +268,7 @@ EDATAggregateGenerator >> generateEventClassBuilderMethodNameWithArgPrefix: aStr
 	delegate := EDATEventGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-		            commandClassPrefix: self commandClassPrefix
-						eventClassPrefix: self eventClassPrefix
+		            application: self edaApplication
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.

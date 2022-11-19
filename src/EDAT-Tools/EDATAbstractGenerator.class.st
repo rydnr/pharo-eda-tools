@@ -4,21 +4,26 @@ Class {
 	#traits : 'EDACSourceCodeHelper + EDATCheckerHelper + EDACLogging + EDACCollectionHelper',
 	#classTraits : 'EDACSourceCodeHelper classTrait + EDATCheckerHelper classTrait + EDACLogging classTrait + EDACCollectionHelper classTrait',
 	#instVars : [
+		'aggregate',
+		'commandFile',
+		'commandJson',
 		'commandName',
 		'commandRaw',
-		'commandJson',
-		'commandFile',
-		'commandClassPrefix',
-		'aggregate',
-		'eventJson',
-		'eventRaw',
+		'edaApplication',
 		'eventFile',
+		'eventJson',
 		'eventName',
-		'eventClassPrefix',
+		'eventRaw',
 		'version'
 	],
 	#category : #'EDAT-Tools'
 }
+
+{ #category : #accessing }
+EDATAbstractGenerator class >> fromExampleFile: aFile version: aVersion application: anEDAApplication aggregate: anAggregate [
+
+	^ self subclassResponsibility
+]
 
 { #category : #customization }
 EDATAbstractGenerator class >> skippedAggregateAttributes [
@@ -48,13 +53,8 @@ EDATAbstractGenerator >> aggregate: aString [
 { #category : #helper }
 EDATAbstractGenerator >> aggregateClass [
 
-	^ self eventClassPrefix
+	^ self edaApplication eventClassPrefix
 	  , (self underscoreSeparatedToCamelCase: self aggregate)
-]
-
-{ #category : #accessing }
-EDATAbstractGenerator >> appName: aString [
-	appName := aString
 ]
 
 { #category : #accessing }
@@ -102,6 +102,18 @@ EDATAbstractGenerator >> commandRaw [
 { #category : #accessing }
 EDATAbstractGenerator >> commandRaw: aString [
 	commandRaw := aString
+]
+
+{ #category : #accessing }
+EDATAbstractGenerator >> edaApplication [
+
+	^ edaApplication
+]
+
+{ #category : #accessing }
+EDATAbstractGenerator >> edaApplication: anObject [
+
+	edaApplication := anObject
 ]
 
 { #category : #helper }
@@ -263,7 +275,7 @@ EDATAbstractGenerator >> retrieveAggregateAttributesBut: excluded [
 { #category : #helper }
 EDATAbstractGenerator >> retrieveAggregateClassName [
 
-	^ self eventClassPrefix
+	^ self edaApplication eventClassPrefix
 	  , (self underscoreSeparatedToCamelCase: self aggregate)
 ]
 
@@ -277,10 +289,12 @@ EDATAbstractGenerator >> retrieveAggregateClasses [
 EDATAbstractGenerator >> retrieveAggregateIdNames [
 
 	^ self retrieveAggregateClasses
-		  select: [ :cls | cls name greaseString beginsWith: self eventClassPrefix ]
+		  select: [ :cls | 
+			  cls name greaseString beginsWith:
+				  self edaApplication eventClassPrefix ]
 		  thenCollect: [ :cls | 
 			  ((self
-				    remove: self eventClassPrefix
+				    remove: self edaApplication eventClassPrefix
 				    fromBeginningOf: cls name greaseString) , 'Id') uncapitalized ]
 ]
 
@@ -322,7 +336,7 @@ EDATAbstractGenerator >> retrieveCommandAttributesBut: excluded [
 { #category : #helper }
 EDATAbstractGenerator >> retrieveCommandClassName [
 
-	^ self commandClassPrefix , (self toCamelCase: self commandName)
+	^ self edaApplication commandClassPrefix , (self toCamelCase: self commandName)
 ]
 
 { #category : #helper }
@@ -346,7 +360,7 @@ EDATAbstractGenerator >> retrieveEventAttributesBut: excluded [
 { #category : #helper }
 EDATAbstractGenerator >> retrieveEventClassName [
 
-	^ self eventClassPrefix , (self toCamelCase: self eventName)
+	^ self edaApplication eventClassPrefix , (self toCamelCase: self eventName)
 ]
 
 { #category : #helper }
@@ -400,7 +414,7 @@ EDATAbstractGenerator >> retrieveMaxVersion [
 { #category : #helper }
 EDATAbstractGenerator >> retrieveRepositoryClassName [
 
-	^ self eventClassPrefix
+	^ self edaApplication eventClassPrefix
 	  , (self underscoreSeparatedToCamelCase: self aggregate)
 	  , 'Repository'
 ]

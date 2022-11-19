@@ -8,8 +8,8 @@ Class {
 EDATErrorsGenerator >> createAggregateDoesNotExistErrorClass [
 
 	| cls attributes |
-	cls := (self eventClassPrefix , self aggregate capitalized
-	        , 'DoesNotExist') asSymbol.
+	cls := (self edaApplication eventClassPrefix
+	        , self aggregate capitalized , 'DoesNotExist') asSymbol.
 	attributes := OrderedCollection new.
 	(self classExists: cls) ifTrue: [ 
 		attributes := self allAttributesOf: (self class environment at: cls) ].
@@ -18,15 +18,15 @@ EDATErrorsGenerator >> createAggregateDoesNotExistErrorClass [
 		  instanceVariableNames:
 		  (self concatenateCollection: attributes with: ' ')
 		  classVariableNames: ''
-		  package:
-		  self eventClassPrefix , '-Domain-' , (self toCamelCase: self aggregate)
+		  package: self edaApplication eventClassPrefix , '-Domain-'
+			  , (self toCamelCase: self aggregate)
 ]
 
 { #category : #'code generation' }
 EDATErrorsGenerator >> createInvalidAggregateErrorClass [
 
 	| cls attributes |
-	cls := (self eventClassPrefix , 'Invalid'
+	cls := (self edaApplication eventClassPrefix , 'Invalid'
 	        , self aggregate capitalized) asSymbol.
 	attributes := OrderedCollection new.
 	(self classExists: cls) ifTrue: [ 
@@ -36,15 +36,15 @@ EDATErrorsGenerator >> createInvalidAggregateErrorClass [
 		  instanceVariableNames:
 		  (self concatenateCollection: attributes with: ' ')
 		  classVariableNames: ''
-		  package:
-		  self eventClassPrefix , '-Domain-' , (self toCamelCase: self aggregate)
+		  package: self edaApplication eventClassPrefix , '-Domain-'
+			  , (self toCamelCase: self aggregate)
 ]
 
 { #category : #'code generation' }
 EDATErrorsGenerator >> createInvalidCommandErrorClass [
 
 	| cls attributes |
-	cls := (self eventClassPrefix , 'Invalid'
+	cls := (self edaApplication eventClassPrefix , 'Invalid'
 	        , (self toCamelCase: self commandName)) asSymbol.
 	attributes := OrderedCollection new.
 	(self classExists: cls) ifTrue: [ 
@@ -54,8 +54,8 @@ EDATErrorsGenerator >> createInvalidCommandErrorClass [
 		  instanceVariableNames:
 		  (self concatenateCollection: attributes with: ' ')
 		  classVariableNames: ''
-		  package:
-		  self eventClassPrefix , '-Domain-' , (self toCamelCase: self aggregate)
+		  package: self edaApplication eventClassPrefix , '-Domain-'
+			  , (self toCamelCase: self aggregate)
 ]
 
 { #category : #protected }

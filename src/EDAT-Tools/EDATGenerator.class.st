@@ -21,26 +21,24 @@ Class {
 }
 
 { #category : #'instance creation' }
-EDATGenerator class >> fromExampleFile: aFile version: version commandClassPrefix: commandPrefix eventClassPrefix: eventPrefix aggregate: aggregate [
+EDATGenerator class >> fromExampleFile: aFile version: version application: edaApplication aggregate: aggregate [
 
 	^ self
 		  fromExampleFile: aFile
 		  version: version
-		  commandClassPrefix: commandPrefix 
-		  eventClassPrefix: eventPrefix
+		  application: edaApplication
 		  aggregate: aggregate
 		  commandNameResolver: EDATDefaultEnglishCommandNameResolver new
 		  andEventNameResolver: EDATDefaultEnglishEventNameResolver new
 ]
 
 { #category : #'instance creation' }
-EDATGenerator class >> fromExampleFile: aFile version: version commandClassPrefix: commandPrefix eventClassPrefix: eventPrefix aggregate: aggregate commandNameResolver: aCommandNameResolver andEventNameResolver: anEventNameResolver [
+EDATGenerator class >> fromExampleFile: aFile version: version application: edaApplication aggregate: aggregate commandNameResolver: aCommandNameResolver andEventNameResolver: anEventNameResolver [
 
 	| result eventRaw |
 	result := self new
 		          commandFile: aFile;
-		          commandClassPrefix: commandPrefix;
-					eventClassPrefix: eventPrefix;
+		          edaApplication: edaApplication;
 		          aggregate: aggregate;
 		          version: version.
 	result commandNameResolver: aCommandNameResolver.

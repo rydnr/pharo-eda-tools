@@ -25,8 +25,7 @@ EDATCompositeGenerator >> generate [
 		              generatorClass
 			              fromExampleFile: self commandFile
 			              version: self version
-			              commandClassPrefix: self commandClassPrefix
-							  eventClassPrefix: self eventClassPrefix
+			              application: self edaApplication
 			              aggregate: self aggregate
 			              commandNameResolver: self commandNameResolver
 			              andEventNameResolver: self eventNameResolver ].

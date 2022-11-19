@@ -25,8 +25,8 @@ EDATEventGenerator >> createEventClass [
 		instanceVariableNames:
 		(self concatenateCollection: attributes with: ' ')
 		classVariableNames: ''
-		package:
-		self eventClassPrefix , '-Domain-' , (self toCamelCase: self aggregate)
+		package: self edaApplication eventClassPrefix , '-Domain-'
+			, (self toCamelCase: self aggregate)
 	"uses: EDAEventSourcingEvent"
 ]
 
@@ -141,7 +141,7 @@ EDATEventGenerator >> generateEventClassAggregateRootClassMethod [
 	result nextPutAll: self generateSignature.
 	result
 		nextPutAll: '	^ ';
-		nextPutAll: self eventClassPrefix;
+		nextPutAll: self edaApplication eventClassPrefix;
 		nextPutAll: self aggregate;
 		nextPut: cr.
 	^ result contents
@@ -232,7 +232,7 @@ EDATEventGenerator >> generateEventInitializeMethod [
 		nextPut: cr.
 	result
 		nextPutAll: '	self aggregateRootClass: #';
-		nextPutAll: self eventClassPrefix;
+		nextPutAll: self edaApplication eventClassPrefix;
 		nextPutAll: self aggregate;
 		nextPut: $.;
 		nextPut: cr.
