@@ -25,7 +25,8 @@ EDATTestTraitGenerator >> createTestEventBuildEventClassMethod [
 	delegate := EDATDomainTestEventGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-		            appName: self appName
+						commandClassPrefix: self commandClassPrefix
+						eventClassPrefix: self eventClassPrefix
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.
@@ -66,9 +67,15 @@ EDATTestTraitGenerator >> createTestHelperBuildEventMethod [
 
 { #category : #'code generation' }
 EDATTestTraitGenerator >> createTestHelperTrait [
+
 	| trait |
 	trait := self retrieveTestHelperTraitName asSymbol.
-	^ Trait named: trait uses: #() category: self appName , '-Domain-Tests-' , (self toCamelCase: self aggregate)
+	^ Trait
+		  named: trait
+		  uses: #(  )
+		  category:
+		  self eventClassPrefix , '-Domain-Tests-'
+		  , (self toCamelCase: self aggregate)
 ]
 
 { #category : #protected }
@@ -88,14 +95,18 @@ EDATTestTraitGenerator >> doGenerate [
 
 { #category : #delegated }
 EDATTestTraitGenerator >> generateCommandClassBuilderMethodNameWithArgPrefix: aString [
+
 	| delegate |
-	delegate := EDATCommandGenerator fromExampleFile: self commandFile
-				version: self version
-				appName: self appName
-				aggregate: self aggregate
-				commandNameResolver: self commandNameResolver
-				andEventNameResolver: self eventNameResolver.
-	^ delegate generateCommandClassBuilderMethodNameWithArgPrefix: aString
+	delegate := EDATCommandGenerator
+		            fromExampleFile: self commandFile
+		            version: self version
+						commandClassPrefix: self commandClassPrefix
+						eventClassPrefix: self eventClassPrefix
+		            aggregate: self aggregate
+		            commandNameResolver: self commandNameResolver
+		            andEventNameResolver: self eventNameResolver.
+	^ delegate generateCommandClassBuilderMethodNameWithArgPrefix:
+		  aString
 ]
 
 { #category : #'code generation' }
@@ -136,6 +147,7 @@ EDATTestTraitGenerator >> generateReadEventFromFileTestHelperMethodName [
 
 { #category : #'code generation' }
 EDATTestTraitGenerator >> generateReadFromFileTestHelperMethod: methodName for: resourceName ofType: type [
+
 	| result cr relativeFolders |
 	cr := Character cr.
 	result := WriteStream with: String new.
@@ -143,22 +155,26 @@ EDATTestTraitGenerator >> generateReadFromFileTestHelperMethod: methodName for: 
 		nextPutAll: methodName;
 		nextPut: cr.
 	result nextPutAll: self generateSignature.
-	result nextPutAll: '	^ self readFile: (FileSystem disk workingDirectory '.
-	relativeFolders := (self findRelativePathBetweenFile: self commandFile andFolder: FileSystem disk workingDirectory).
-	relativeFolders removeLast;removeLast.
+	result nextPutAll:
+		'	^ self readFile: (FileSystem disk workingDirectory '.
+	relativeFolders := self
+		                   findRelativePathBetweenFile: self commandFile
+		                   andFolder: FileSystem disk workingDirectory.
 	relativeFolders
-		do: [ :subfolder | 
-			result
-				nextPutAll: ' / ''';
-				nextPutAll: subfolder;
-				nextPutAll: '''' ].
+		removeLast;
+		removeLast.
+	relativeFolders do: [ :subfolder | 
+		result
+			nextPutAll: ' / ''';
+			nextPutAll: subfolder;
+			nextPutAll: '''' ].
 	result
 		nextPutAll: ' / ''';
 		nextPutAll: type;
 		nextPutAll: ''' / ''v';
 		nextPutAll: self version greaseString;
 		nextPutAll: ''' / ''';
-		nextPutAll: (self upcasedToDotSeparated: resourceName);
+		nextPutAll: (self upcasedToDashSeparated: resourceName);
 		nextPutAll: '.example.json'')';
 		nextPut: cr.
 	^ result contents
@@ -166,6 +182,7 @@ EDATTestTraitGenerator >> generateReadFromFileTestHelperMethod: methodName for: 
 
 { #category : #'code generation' }
 EDATTestTraitGenerator >> generateTestHelperBuildCommandMethod [
+
 	| result cr commandAttrs cmdName |
 	cr := Character cr.
 	commandAttrs := self retrieveCommandAttributes.
@@ -184,7 +201,8 @@ EDATTestTraitGenerator >> generateTestHelperBuildCommandMethod [
 		nextPutAll: 'FromFile.';
 		nextPut: cr.
 	result
-		nextPutAll: '	commandJson := NeoJSONReader fromString: commandMessage.';
+		nextPutAll:
+			'	commandJson := NeoJSONReader fromString: commandMessage.';
 		nextPut: cr.
 	result
 		nextPutAll: '	commandMeta := commandJson at: #meta.';
@@ -204,37 +222,42 @@ EDATTestTraitGenerator >> generateTestHelperBuildCommandMethod [
 		nextPutAll: '	cmdAttributes := Dictionary new.';
 		nextPut: cr.
 	result
-		nextPutAll: '	cmdContractVersion := commandMeta at: ''version'' ifAbsent: [ ';
+		nextPutAll:
+			'	cmdContractVersion := commandMeta at: ''version'' ifAbsent: [ ';
 		nextPutAll: self version greaseString;
 		nextPutAll: ' ].';
 		nextPut: cr.
 	result
-		nextPutAll: '	cmdAttributes at: ''version'' put: cmdContractVersion.';
+		nextPutAll:
+			'	cmdAttributes at: ''version'' put: cmdContractVersion.';
 		nextPut: cr.
 	result
-		nextPutAll: '	cmdVersion := commandBody at: ''version'' ifAbsent: [ 0 ].';
+		nextPutAll:
+			'	cmdVersion := commandBody at: ''version'' ifAbsent: [ 0 ].';
 		nextPut: cr.
 	result
-		nextPutAll: '	cmdAttributes at: ''aggregateRootVersion'' put: cmdVersion.';
+		nextPutAll:
+			'	cmdAttributes at: ''aggregateRootVersion'' put: cmdVersion.';
 		nextPut: cr.
-	(commandAttrs select: [ :a | a ~= 'version' ])
-		do: [ :attr | 
-			result
-				nextPutAll: '	commandBody at: ''';
-				nextPutAll: attr;
-				nextPutAll: ''' ifPresent: [ :v | cmdAttributes at: ''';
-				nextPutAll: attr;
-				nextPutAll: ''' put: v ].';
-				nextPut: cr ].
+	(commandAttrs select: [ :a | a ~= 'version' ]) do: [ :attr | 
+		result
+			nextPutAll: '	commandBody at: ''';
+			nextPutAll: attr;
+			nextPutAll: ''' ifPresent: [ :v | cmdAttributes at: ''';
+			nextPutAll: attr;
+			nextPutAll: ''' put: v ].';
+			nextPut: cr ].
 	result nextPutAll: '	result := '.
 	self isDeleteCommand
 		ifTrue: [ result nextPutAll: 'EDADeleteAggregateCommand' ]
-		ifFalse: [ result
-				nextPutAll: self appName;
+		ifFalse: [ 
+			result
+				nextPutAll: self commandClassPrefix;
 				nextPutAll: cmdName ].
 	result
 		nextPut: Character space;
-		nextPutAll: (self generateCommandClassBuilderMethodNameWithArgPrefix: 'cmd');
+		nextPutAll:
+			(self generateCommandClassBuilderMethodNameWithArgPrefix: 'cmd');
 		nextPut: $.;
 		nextPut: cr.
 	result
@@ -260,16 +283,15 @@ EDATTestTraitGenerator >> generateTestHelperBuildCommandMethodName [
 
 { #category : #'code generation' }
 EDATTestTraitGenerator >> generateTestHelperBuildDeleteEventMethod [
+
 	| result eventAttrs cr |
 	cr := Character cr.
-	eventAttrs := self
-		retrieveEventAttributesBut: self class skippedEventAttributes.
+	eventAttrs := self retrieveEventAttributesBut:
+		              self class skippedEventAttributes.
 	result := WriteStream on: String new.
-	result
-		nextPutAll:
-			(self
-				generateTestHelperBuildDeleteEventMethodNameWithId: 'evtId'
-				andCommandArg: 'aCommand').
+	result nextPutAll: (self
+			 generateTestHelperBuildDeleteEventMethodNameWithId: 'evtId'
+			 andCommandArg: 'aCommand').
 	result nextPut: cr.
 	result nextPutAll: self generateSignature.
 	result
@@ -277,7 +299,7 @@ EDATTestTraitGenerator >> generateTestHelperBuildDeleteEventMethod [
 		nextPut: cr.
 	result
 		nextPutAll: '	result := ';
-		nextPutAll: self appName;
+		nextPutAll: self eventClassPrefix;
 		nextPutAll: 'Test';
 		nextPutAll: (self toCamelCase: self eventName);
 		nextPutAll: ' new.';
@@ -290,12 +312,13 @@ EDATTestTraitGenerator >> generateTestHelperBuildDeleteEventMethod [
 		nextPut: cr.
 	result
 		nextPutAll: '	result version: ';
-		nextPutAll: self appName;
+		nextPutAll: self eventClassPrefix;
 		nextPutAll: (self toCamelCase: self eventName);
 		nextPutAll: ' latestVersion.';
 		nextPut: cr.
 	result
-		nextPutAll: '	result aggregateRootVersion: aCommand aggregateRootVersion + 1.';
+		nextPutAll:
+			'	result aggregateRootVersion: aCommand aggregateRootVersion + 1.';
 		nextPut: cr.
 	result
 		nextPutAll: '	result timestamp: ''<ANYTHING>''.';
@@ -321,27 +344,31 @@ EDATTestTraitGenerator >> generateTestHelperBuildDeleteEventMethodNameWithId: id
 
 { #category : #delegated }
 EDATTestTraitGenerator >> generateTestHelperBuildEventClassMethodNameWithArgPrefix: aString [
+
 	| delegate |
-	delegate := EDATTestSupportGenerator fromExampleFile: self commandFile
-				version: self version
-				appName: self appName
-				aggregate: self aggregate
-				commandNameResolver: self commandNameResolver
-				andEventNameResolver: self eventNameResolver.
-				^ delegate generateTestHelperBuildEventClassMethodNameWithArgPrefix: aString
+	delegate := EDATTestSupportGenerator
+		            fromExampleFile: self commandFile
+		            version: self version
+						commandClassPrefix: self commandClassPrefix
+						eventClassPrefix: self eventClassPrefix
+		            aggregate: self aggregate
+		            commandNameResolver: self commandNameResolver
+		            andEventNameResolver: self eventNameResolver.
+	^ delegate generateTestHelperBuildEventClassMethodNameWithArgPrefix:
+		  aString
 ]
 
 { #category : #'code generation' }
 EDATTestTraitGenerator >> generateTestHelperBuildEventFromArbitraryFileMethod [
+
 	| result eventAttrs cr |
 	cr := Character cr.
-	eventAttrs := self
-		retrieveEventAttributesBut: self class skippedEventAttributes.
+	eventAttrs := self retrieveEventAttributesBut:
+		              self class skippedEventAttributes.
 	result := WriteStream on: String new.
-	result
-		nextPutAll:
-			(self
-				generateTestHelperBuildEventFromArbitraryFileMethodNameWithFileArg: 'aFile').
+	result nextPutAll: (self 
+			 generateTestHelperBuildEventFromArbitraryFileMethodNameWithFileArg:
+			 'aFile').
 	result nextPut: cr.
 	result nextPutAll: self generateSignature.
 	result
@@ -364,7 +391,8 @@ EDATTestTraitGenerator >> generateTestHelperBuildEventFromArbitraryFileMethod [
 		nextPutAll: '	evtAttributes := Dictionary new.';
 		nextPut: cr.
 	result
-		nextPutAll: '	evtAttributes at: ''version'' put: (eventMeta at: ''version'').';
+		nextPutAll:
+			'	evtAttributes at: ''version'' put: (eventMeta at: ''version'').';
 		nextPut: cr.
 	result
 		nextPutAll:
@@ -381,7 +409,8 @@ EDATTestTraitGenerator >> generateTestHelperBuildEventFromArbitraryFileMethod [
 			'	evtCommandId := eventMeta at: ''correlationId'' ifAbsent: [ ''missing'' ].';
 		nextPut: cr.
 	result
-		nextPutAll: '	evtTimestamp := eventBody at: ''timestamp'' ifAbsent: [ nil ].';
+		nextPutAll:
+			'	evtTimestamp := eventBody at: ''timestamp'' ifAbsent: [ nil ].';
 		nextPut: cr.
 	result
 		nextPutAll:
@@ -391,21 +420,22 @@ EDATTestTraitGenerator >> generateTestHelperBuildEventFromArbitraryFileMethod [
 		nextPutAll:
 			'	evtTimestamp ifNotNil: [ :t | evtAttributes at: ''timestamp'' put: evtTimestamp ].';
 		nextPut: cr.
-	eventAttrs
-		do: [ :attr | 
-			result
-				nextPutAll: '	eventBody at: ''';
-				nextPutAll: attr uncapitalized;
-				nextPutAll: ''' ifPresent: [ :v | evtAttributes at: ''';
-				nextPutAll: attr uncapitalized;
-				nextPutAll: ''' put: v ].';
-				nextPut: cr ].
+	eventAttrs do: [ :attr | 
+		result
+			nextPutAll: '	eventBody at: ''';
+			nextPutAll: attr uncapitalized;
+			nextPutAll: ''' ifPresent: [ :v | evtAttributes at: ''';
+			nextPutAll: attr uncapitalized;
+			nextPutAll: ''' put: v ].';
+			nextPut: cr ].
 	result
 		nextPutAll: '	^ ';
-		nextPutAll: self appName;
+		nextPutAll: self eventClassPrefix;
 		nextPutAll: (self toCamelCase: self eventName);
 		nextPut: Character space;
-		nextPutAll: (self generateTestHelperBuildEventClassMethodNameWithArgPrefix: 'evt');
+		nextPutAll:
+			(self generateTestHelperBuildEventClassMethodNameWithArgPrefix:
+					 'evt');
 		nextPut: cr.
 	^ result contents
 ]
@@ -424,14 +454,13 @@ EDATTestTraitGenerator >> generateTestHelperBuildEventFromArbitraryFileMethodNam
 
 { #category : #'code generation' }
 EDATTestTraitGenerator >> generateTestHelperBuildEventMethod [
+
 	| result cr |
 	cr := Character cr.
 	result := WriteStream on: String new.
-	result
-		nextPutAll:
-			(self
-				generateTestHelperBuildEventMethodNameWithId: 'evtId'
-				andCommandArg: 'inputCommandId').
+	result nextPutAll: (self
+			 generateTestHelperBuildEventMethodNameWithId: 'evtId'
+			 andCommandArg: 'inputCommandId').
 	result nextPut: cr.
 	result nextPutAll: self generateSignature.
 	result
@@ -439,11 +468,12 @@ EDATTestTraitGenerator >> generateTestHelperBuildEventMethod [
 		nextPut: cr.
 	result
 		nextPutAll: '	result := ';
-		nextPutAll: self appName;
+		nextPutAll: self eventClassPrefix;
 		nextPutAll: 'Test';
 		nextPutAll: (self toCamelCase: self eventName);
 		nextPutAll: ' fromEvent: (self ';
-		nextPutAll: self generateTestHelperBuildEventFromArbitraryFileMethodName;
+		nextPutAll:
+			self generateTestHelperBuildEventFromArbitraryFileMethodName;
 		nextPutAll: ' self ';
 		nextPutAll: self generateReadEventFromFileTestHelperMethodName;
 		nextPutAll: ')';
@@ -482,5 +512,7 @@ EDATTestTraitGenerator >> generateTestHelperBuildEventMethodNameWithId: idArg an
 
 { #category : #'code generation' }
 EDATTestTraitGenerator >> retrieveTestHelperTraitName [
-	^ self appName , 'T' , (self toCamelCase: self aggregate ) , 'TestHelper'
+
+	^ self eventClassPrefix , 'T' , (self toCamelCase: self aggregate)
+	  , 'TestHelper'
 ]

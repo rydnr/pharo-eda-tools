@@ -19,20 +19,20 @@ EDATCompositeGenerator >> doGenerate [
 
 { #category : #api }
 EDATCompositeGenerator >> generate [
+
 	| generators |
-	generators := self generatorClasses collect: [ :generatorClass |
-		 generatorClass
-				fromExampleFile: self commandFile
-				version: self version
-				appName: self appName
-				aggregate: self aggregate
-				commandNameResolver: self commandNameResolver
-				andEventNameResolver: self eventNameResolver ].
+	generators := self generatorClasses collect: [ :generatorClass | 
+		              generatorClass
+			              fromExampleFile: self commandFile
+			              version: self version
+			              commandClassPrefix: self commandClassPrefix
+							  eventClassPrefix: self eventClassPrefix
+			              aggregate: self aggregate
+			              commandNameResolver: self commandNameResolver
+			              andEventNameResolver: self eventNameResolver ].
 	generators
-		keysAndValuesDo: [ :index :generator | 
-			generator generate ]
-		displayingProgress:
-			[ :index :generator | generator buildMessage ]
+		keysAndValuesDo: [ :index :generator | generator generate ]
+		displayingProgress: [ :index :generator | generator buildMessage ]
 ]
 
 { #category : #accessing }

@@ -13,30 +13,32 @@ EDATDomainTestGenerator class >> shouldRunAfter: anotherGenerator [
 EDATDomainTestGenerator >> createDomainTestClass [
 
 	| cls |
-	cls := (self appName , self aggregate capitalized
+	cls := (self eventClassPrefix , self aggregate capitalized
 	        , 'AggregateTestCase') asSymbol.
 	(self containsAnyDisableRegenerationMethod: cls) ifFalse: [ 
 		^ BabyMock2TestCase
-			  subclass:
-				  (self appName , self aggregate capitalized , 'AggregateTestCase')
-					  asSymbol
+			  subclass: (self eventClassPrefix , self aggregate capitalized
+				   , 'AggregateTestCase') asSymbol
 			  uses: EDATDomainBDD + (Smalltalk at:
-					   (self appName , 'T' , self aggregate capitalized
+					   (self eventClassPrefix , 'T' , self aggregate capitalized
 					    , 'TestHelper') asSymbol)
 			  instanceVariableNames: ''
 			  classVariableNames: ''
 			  package:
-			  self appName , '-Domain-Tests-'
+			  self eventClassPrefix , '-Domain-Tests-'
 			  , (self toCamelCase: self aggregate) ]
 ]
 
 { #category : #'code generation' }
 EDATDomainTestGenerator >> createDomainTestMethod [
+
 	^ self
-		compile: self generateDomainTestMethodName
-		sourceCode: self generateDomainTestMethod
-		inClass: (self class environment at: (self appName , self aggregate capitalized , 'AggregateTestCase') asSymbol)
-		classifiedAs: self protocol
+		  compile: self generateDomainTestMethodName
+		  sourceCode: self generateDomainTestMethod
+		  inClass: (self class environment at:
+				   (self eventClassPrefix , self aggregate capitalized
+				    , 'AggregateTestCase') asSymbol)
+		  classifiedAs: self protocol
 ]
 
 { #category : #delegated }
@@ -46,7 +48,8 @@ EDATDomainTestGenerator >> createTestEventBuildEventClassMethod [
 	delegate := EDATDomainTestEventGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-		            appName: self appName
+		            commandClassPrefix: self commandClassPrefix
+						eventClassPrefix: self eventClassPrefix
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.
@@ -60,7 +63,8 @@ EDATDomainTestGenerator >> createTestHelperBuildCommandMethod [
 	delegate := EDATTestTraitGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-		            appName: self appName
+		            commandClassPrefix: self commandClassPrefix 
+						eventClassPrefix: self eventClassPrefix
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.
@@ -74,7 +78,8 @@ EDATDomainTestGenerator >> createTestHelperBuildEventClassMethod [
 	delegate := EDATTestSupportGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-		            appName: self appName
+		            commandClassPrefix: self commandClassPrefix 
+						eventClassPrefix: self eventClassPrefix
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.
@@ -88,7 +93,8 @@ EDATDomainTestGenerator >> createTestHelperBuildEventMethod [
 	delegate := EDATTestTraitGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-		            appName: self appName
+		            commandClassPrefix: self commandClassPrefix
+						eventClassPrefix: self eventClassPrefix
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.
@@ -112,6 +118,7 @@ EDATDomainTestGenerator >> doGenerate [
 
 { #category : #'code generation' }
 EDATDomainTestGenerator >> generateDomainTestMethod [
+
 	| result cmdName evtName cr |
 	cr := Character cr.
 	cmdName := self toCamelCase: self commandName.
@@ -128,28 +135,26 @@ EDATDomainTestGenerator >> generateDomainTestMethod [
 		nextPutAll: cmdName;
 		nextPutAll: 'SampleCommand.';
 		nextPut: cr.
-	result
-		nextPutAll: '	event := self build'.
+	result nextPutAll: '	event := self build'.
 	self isDeletedEvent
-		ifTrue: [
+		ifTrue: [ 
 			result
 				nextPutAll: 'DeletedEventWithId: ''<ANYTHING>'' ';
-				nextPutAll: 'andCommand: command.'
-		] ifFalse: [
+				nextPutAll: 'andCommand: command.' ]
+		ifFalse: [ 
 			result
 				nextPutAll: evtName;
 				nextPutAll: 'SampleEventWithId: ''<ANYTHING>'' ';
-				nextPutAll: 'andCommandId: command commandId.'
-		].
-	result
-		nextPut: cr.
-	result nextPutAll: '	event aggregateRootVersion: command aggregateRootVersion + 1.'.
+				nextPutAll: 'andCommandId: command commandId.' ].
+	result nextPut: cr.
+	result nextPutAll:
+		'	event aggregateRootVersion: command aggregateRootVersion + 1.'.
 	result
 		nextPutAll: '	self';
 		nextPut: cr.
 	result
 		nextPutAll: '		givenAggregate: #';
-		nextPutAll: self appName;
+		nextPutAll: self eventClassPrefix;
 		nextPutAll: self aggregate capitalized;
 		nextPut: cr.
 	result
@@ -176,7 +181,8 @@ EDATDomainTestGenerator >> generateEventClassAggregateRootClassMethod [
 	delegate := EDATEventGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-		            appName: self appName
+		            commandClassPrefix: self commandClassPrefix 
+						eventClassPrefix: self eventClassPrefix
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.

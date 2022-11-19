@@ -6,11 +6,16 @@ Class {
 
 { #category : #'code generation' }
 EDATApplicationGenerator >> createEDAApplicationRegisterCommandBuilders [
+
 	^ self
-		compile: self generateEDAApplicationRegisterCommandBuildersMethodName
-		sourceCode: (self generateEDAApplicationRegisterCommandBuildersMethodFor: self appName)
-		inClass: (self class environment at: (appName , 'EDAApplication') asSymbol) class
-		classifiedAs: self protocol
+		  compile:
+		  self generateEDAApplicationRegisterCommandBuildersMethodName
+		  sourceCode:
+			  (self generateEDAApplicationRegisterCommandBuildersMethodFor:
+				   self commandClassPrefix)
+		  inClass: (self class environment at:
+				   (commandClassPrefix , 'EDAApplication') asSymbol) class
+		  classifiedAs: self protocol
 ]
 
 { #category : #protected }
@@ -25,11 +30,13 @@ EDATApplicationGenerator >> doGenerate [
 
 { #category : #'code generation' }
 EDATApplicationGenerator >> generateEDAApplicationRegisterCommandBuildersMethodFor: anAppName [
+
 	| result commands cr |
 	cr := Character cr.
 	result := WriteStream with: String new.
 	result
-		nextPutAll: self generateEDAApplicationRegisterCommandBuildersMethodName;
+		nextPutAll:
+			self generateEDAApplicationRegisterCommandBuildersMethodName;
 		nextPut: cr.
 	result nextPutAll: self generateSignature.
 	result
@@ -37,22 +44,21 @@ EDATApplicationGenerator >> generateEDAApplicationRegisterCommandBuildersMethodF
 		nextPut: cr.
 	result
 		nextPutAll: '	builder := ';
-		nextPutAll: (self appName);
+		nextPutAll: self commandClassPrefix;
 		nextPutAll: 'DefaultCommandBuilder new.';
 		nextPut: cr.
 	result
 		nextPutAll: '	EDACommandBuilderRegistry';
 		nextPut: cr.
 	commands := self retrieveImplementedCommandsFor: anAppName.
-	commands keys asOrderedCollection
-		keysAndValuesDo: [ :i :key | 
-			i > 1
-				ifTrue: [ result
-						nextPut: $;;
-						nextPut: cr ].
+	commands keys asOrderedCollection keysAndValuesDo: [ :i :key | 
+		i > 1 ifTrue: [ 
 			result
-				nextPutAll: '		addBuilder: builder forCommand: #';
-				nextPutAll: key ].
+				nextPut: $;;
+				nextPut: cr ].
+		result
+			nextPutAll: '		addBuilder: builder forCommand: #';
+			nextPutAll: key ].
 	^ result contents
 ]
 

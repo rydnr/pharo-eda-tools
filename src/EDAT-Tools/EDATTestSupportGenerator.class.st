@@ -86,13 +86,15 @@ EDATTestSupportGenerator >> generateTestHelperBuildEventClassMethodNameWithArgPr
 
 { #category : #delegated }
 EDATTestSupportGenerator >> retrieveTestHelperTraitName [
+
 	| delegate |
 	delegate := EDATTestTraitGenerator
-		fromExampleFile: self commandFile
-		version: self version
-		appName: self appName
-		aggregate: self aggregate
-		commandNameResolver: self commandNameResolver
-		andEventNameResolver: self eventNameResolver.
+		            fromExampleFile: self commandFile
+		            version: self version
+						commandClassPrefix: self commandClassPrefix
+						eventClassPrefix: self eventClassPrefix
+		            aggregate: self aggregate
+		            commandNameResolver: self commandNameResolver
+		            andEventNameResolver: self eventNameResolver.
 	^ delegate retrieveTestHelperTraitName
 ]

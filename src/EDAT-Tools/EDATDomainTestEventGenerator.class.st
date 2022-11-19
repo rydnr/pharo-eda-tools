@@ -15,8 +15,8 @@ EDATDomainTestEventGenerator >> createDomainTestEventClass [
 	| cls parent parentSymbol |
 	parentSymbol := self isDeletedEvent
 		                ifTrue: [ 
-		                (self appName , (self toCamelCase: self eventName))
-			                asSymbol ]
+			                (self eventClassPrefix
+			                 , (self toCamelCase: self eventName)) asSymbol ]
 		                ifFalse: [ self retrieveEventClassName asSymbol ].
 	parent := self class environment at: parentSymbol.
 	cls := self retrieveDomainTestEventClassName.
@@ -26,7 +26,7 @@ EDATDomainTestEventGenerator >> createDomainTestEventClass [
 		instanceVariableNames: ''
 		classVariableNames: ''
 		package:
-		self appName , '-Domain-Tests-' , (self toCamelCase: self aggregate).
+		self eventClassPrefix , '-Domain-Tests-' , (self toCamelCase: self aggregate).
 	^ cls
 ]
 
@@ -70,7 +70,8 @@ EDATDomainTestEventGenerator >> createTestHelperBuildCommandMethod [
 	delegate := EDATTestTraitGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-		            appName: self appName
+		            commandClassPrefix: self commandClassPrefix 
+						eventClassPrefix: self eventClassPrefix
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.
@@ -84,7 +85,8 @@ EDATDomainTestEventGenerator >> createTestHelperBuildEventClassMethod [
 	delegate := EDATTestSupportGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-		            appName: self appName
+		            commandClassPrefix: self commandClassPrefix 
+						eventClassPrefix: self eventClassPrefix
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.
@@ -271,5 +273,7 @@ EDATDomainTestEventGenerator >> retrieveDomainTestEventClass [
 
 { #category : #'code generation' }
 EDATDomainTestEventGenerator >> retrieveDomainTestEventClassName [
-	^ (self appName , 'Test' , (self toCamelCase: self eventName)) asSymbol
+
+	^ (self eventClassPrefix , 'Test' , (self toCamelCase: self eventName))
+		  asSymbol
 ]

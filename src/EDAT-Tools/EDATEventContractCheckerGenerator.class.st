@@ -22,6 +22,7 @@ EDATEventContractCheckerGenerator class >> fromExampleFile: aFile version: versi
 
 { #category : #'code generation' }
 EDATEventContractCheckerGenerator >> checkerMethod [
+
 	| result cr body |
 	cr := Character cr.
 	result := WriteStream with: String new.
@@ -56,12 +57,11 @@ EDATEventContractCheckerGenerator >> checkerMethod [
 		nextPut: cr.
 	result
 		nextPutAll: '	event := ';
-		nextPutAll: self appName;
+		nextPutAll: self eventClassPrefix;
 		nextPutAll: 'Test';
-		nextPutAll:
-			(self
-				remove: self appName
-				fromBeginningOf: self retrieveEventClassName);
+		nextPutAll: (self
+				 remove: self eventClassPrefix
+				 fromBeginningOf: self retrieveEventClassName);
 		nextPutAll:
 			' fromEvent: ((self class environment at: eventClass asSymbol) ofTenant: (attrs at: ''tenant'' ifAbsent: [ nil ]) withAggregateId: id commandId: commandId andAttributes: attrs).';
 		nextPut: cr.
@@ -69,24 +69,22 @@ EDATEventContractCheckerGenerator >> checkerMethod [
 		nextPutAll: '	self assert: (event attribute: event id matches: id).';
 		nextPut: cr.
 	result
-		nextPutAll: '	self assert: (event attribute: event commandId matches: commandId).';
+		nextPutAll:
+			'	self assert: (event attribute: event commandId matches: commandId).';
 		nextPut: cr.
-	(body associations
-		reject: [ :assoc |
-			self class skippedEventAttributes
-				anySatisfy: [ :attr | attr = assoc key ] ])
-		do: [ :assoc |
-			result
-				nextPutAll: '	self assert: (event attribute: event ';
-				nextPutAll: assoc key;
-				nextPutAll: ' matches: (attrs at: ''';
-				nextPutAll: assoc key;
-				nextPutAll: '''))';
-				nextPut: $.;
-				nextPut: cr ].
+	(body associations reject: [ :assoc | 
+		 self class skippedEventAttributes anySatisfy: [ :attr | 
+			 attr = assoc key ] ]) do: [ :assoc | 
+		result
+			nextPutAll: '	self assert: (event attribute: event ';
+			nextPutAll: assoc key;
+			nextPutAll: ' matches: (attrs at: ''';
+			nextPutAll: assoc key;
+			nextPutAll: '''))';
+			nextPut: $.;
+			nextPut: cr ].
 	result nextPut: cr.
 	^ result contents
-
 ]
 
 { #category : #'code generation' }

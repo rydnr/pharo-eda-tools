@@ -11,17 +11,22 @@ EDATCommandGenerator class >> shouldRunAfter: anotherGenerator [
 
 { #category : #'code generation' }
 EDATCommandGenerator >> createCommandClass [
+
 	| cls attributes |
 	cls := self retrieveCommandClassName asSymbol.
-	attributes := self retrieveCommandAttributesBut: self class skippedCommandAttributes.
-	(self classExists: cls)
-		ifTrue: [ attributes := (self allAttributesOf: (self class environment at: cls) including: attributes) ].
+	attributes := self retrieveCommandAttributesBut:
+		              self class skippedCommandAttributes.
+	(self classExists: cls) ifTrue: [ 
+		attributes := self
+			              allAttributesOf: (self class environment at: cls)
+			              including: attributes ].
 	EDACommand
 		subclass: self retrieveCommandClassName asSymbol
-		instanceVariableNames: (self concatenateCollection: attributes with: ' ')
+		instanceVariableNames:
+		(self concatenateCollection: attributes with: ' ')
 		classVariableNames: ''
-		package: self appName , '-Domain-' , (self toCamelCase: self aggregate)
-
+		package:
+		self commandClassPrefix , '-Domain-' , (self toCamelCase: self aggregate)
 ]
 
 { #category : #'code generation' }

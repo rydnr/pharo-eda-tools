@@ -11,33 +11,41 @@ EDATAggregateGenerator class >> shouldRunAfter: anotherGenerator [
 
 { #category : #'code generation' }
 EDATAggregateGenerator >> createAggregateApplyEventVersionMethod [
+
 	| result |
 	result := self isDeletedEvent
-		ifTrue: [ nil ]
-		ifFalse: [
-			self
-				compile: self generateAggregateApplyEventVersionMethodName
-				sourceCode: self generateAggregateApplyEventVersionMethod
-				inClass:
-					(self class environment
-						at: (self appName , self aggregate capitalized) asSymbol)
-				classifiedAs: self protocol ].
+		          ifTrue: [ nil ]
+		          ifFalse: [ 
+			          self
+				          compile:
+				          self generateAggregateApplyEventVersionMethodName
+				          sourceCode:
+				          self generateAggregateApplyEventVersionMethod
+				          inClass: (self class environment at:
+						           (self eventClassPrefix , self aggregate capitalized) asSymbol)
+				          classifiedAs: self protocol ].
 	^ result
 ]
 
 { #category : #'code generation' }
 EDATAggregateGenerator >> createAggregateClass [
+
 	| cls attributes |
 	cls := self aggregateClass asSymbol.
-	attributes := self retrieveAggregateAttributesBut: self class skippedAggregateAttributes.
-		(self classExists: cls)
-		ifTrue: [ attributes := self allAttributesOf: (self class environment at: cls) including: attributes ].
+	attributes := self retrieveAggregateAttributesBut:
+		              self class skippedAggregateAttributes.
+	(self classExists: cls) ifTrue: [ 
+		attributes := self
+			              allAttributesOf: (self class environment at: cls)
+			              including: attributes ].
 
 	^ EDAAggregateRoot
-		subclass: cls
-		instanceVariableNames: (self concatenateCollection: attributes with: ' ')
-		classVariableNames: ''
-		package: self appName , '-Domain-' , (self toCamelCase: self aggregate)
+		  subclass: cls
+		  instanceVariableNames:
+		  (self concatenateCollection: attributes with: ' ')
+		  classVariableNames: ''
+		  package:
+		  self eventClassPrefix , '-Domain-' , (self toCamelCase: self aggregate)
 ]
 
 { #category : #'code generation' }
@@ -77,27 +85,29 @@ EDATAggregateGenerator >> createAggregateClassHashMethod [
 
 { #category : #'code generation' }
 EDATAggregateGenerator >> createAggregateHandleCommandMethod [
+
 	| result |
-	result :=
-		self isDeleteCommand ifTrue: [
-			nil
-		] ifFalse: [
-			self
-				compile: self generateAggregateHandleCommandMethodName
-				sourceCode: self generateAggregateHandleCommandMethod
-				inClass: (self class environment at: (self appName , self aggregate capitalized) asSymbol)
-				classifiedAs: self protocol
-		].
+	result := self isDeleteCommand
+		          ifTrue: [ nil ]
+		          ifFalse: [ 
+			          self
+				          compile: self generateAggregateHandleCommandMethodName
+				          sourceCode: self generateAggregateHandleCommandMethod
+				          inClass: (self class environment at:
+						           (self commandClassPrefix , self aggregate capitalized) asSymbol)
+				          classifiedAs: self protocol ].
 	^ result
 ]
 
 { #category : #'code generation' }
 EDATAggregateGenerator >> createAggregateRetrieveRepositoryMethod [
+
 	^ self
-		compile: self generateAggregateRetrieveRepositoryMethodName
-		sourceCode: self generateAggregateRetrieveRepositoryMethod
-		inClass: (self class environment at: (self appName , self aggregate capitalized) asSymbol)
-		classifiedAs: self protocol
+		  compile: self generateAggregateRetrieveRepositoryMethodName
+		  sourceCode: self generateAggregateRetrieveRepositoryMethod
+		  inClass: (self class environment at:
+				   (self eventClassPrefix , self aggregate capitalized) asSymbol)
+		  classifiedAs: self protocol
 ]
 
 { #category : #api }
@@ -118,26 +128,32 @@ EDATAggregateGenerator >> doGenerate [
 
 { #category : #'code generation' }
 EDATAggregateGenerator >> generateAggregateApplyEventVersionMethod [
+
 	| result attrs cr cls |
 	cr := Character cr.
-	cls := (self appName , (self underscoreSeparatedToCamelCase: self aggregate)) asSymbol.
-	attrs := self retrieveEventAttributesBut: self class skippedEventAttributes.
+	cls := (self eventClassPrefix
+	        , (self underscoreSeparatedToCamelCase: self aggregate))
+		       asSymbol.
+	attrs := self retrieveEventAttributesBut:
+		         self class skippedEventAttributes.
 	result := WriteStream with: String new.
 	result
-		nextPutAll: (self generateAggregateApplyEventVersionMethodNameWithArg: ' anEvent');
+		nextPutAll:
+			(self generateAggregateApplyEventVersionMethodNameWithArg:
+					 ' anEvent');
 		nextPut: cr.
 	result nextPutAll: self generateSignature.
-	result nextPutAll: '	self id: anEvent id.';
+	result
+		nextPutAll: '	self id: anEvent id.';
 		nextPut: cr.
-	attrs
-		do: [ :attr | 
-			result
-				nextPutAll: '	self ';
-				nextPutAll: attr;
-				nextPutAll: ': anEvent ';
-				nextPutAll: attr;
-				nextPut: $.;
-				nextPut: cr ].
+	attrs do: [ :attr | 
+		result
+			nextPutAll: '	self ';
+			nextPutAll: attr;
+			nextPutAll: ': anEvent ';
+			nextPutAll: attr;
+			nextPut: $.;
+			nextPut: cr ].
 	^ result contents
 ]
 
@@ -248,7 +264,8 @@ EDATAggregateGenerator >> generateEventClassBuilderMethodNameWithArgPrefix: aStr
 	delegate := EDATEventGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-		            appName: self appName
+		            commandClassPrefix: self commandClassPrefix
+						eventClassPrefix: self eventClassPrefix
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.

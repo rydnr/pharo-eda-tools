@@ -6,24 +6,34 @@ Class {
 
 { #category : #'code generation' }
 EDATIntegrationTestGenerator >> createIntegrationTestClass [
-	| cls |
-	cls := (self appName , self aggregate capitalized , 'IntegrationTestCase') asSymbol.
-	^ (self class environment at: (self appName , 'ApplicationIntegrationTestCase') asSymbol)
-		subclass: (self appName , self aggregate capitalized , 'IntegrationTestCase') asSymbol
-						uses: (Smalltalk at: (self appName , 'T' , self aggregate capitalized , 'TestHelper') asSymbol)
 
-		instanceVariableNames: ''
-		classVariableNames: ''
-		package: self appName , '-Application-Tests-' , self aggregate capitalized
+	| cls |
+	cls := (self eventClassPrefix , self aggregate capitalized
+	        , 'IntegrationTestCase') asSymbol.
+	^ (self class environment at:
+		   (self eventClassPrefix , 'ApplicationIntegrationTestCase')
+			   asSymbol)
+		  subclass: (self eventClassPrefix , self aggregate capitalized
+			   , 'IntegrationTestCase') asSymbol
+		  uses: (Smalltalk at:
+				   (self eventClassPrefix , 'T' , self aggregate capitalized
+				    , 'TestHelper') asSymbol)
+		  instanceVariableNames: ''
+		  classVariableNames: ''
+		  package:
+		  self eventClassPrefix , '-Application-Tests-' , self aggregate capitalized
 ]
 
 { #category : #'code generation' }
 EDATIntegrationTestGenerator >> createIntegrationTestMethod [
+
 	^ self
-		compile: self generateIntegrationTestMethodName
-		sourceCode: self generateIntegrationTestMethod
-		inClass: (self class environment at: (self appName , self aggregate capitalized , 'IntegrationTestCase') asSymbol)
-		classifiedAs: self protocol
+		  compile: self generateIntegrationTestMethodName
+		  sourceCode: self generateIntegrationTestMethod
+		  inClass: (self class environment at:
+				   (self eventClassPrefix , self aggregate capitalized
+				    , 'IntegrationTestCase') asSymbol)
+		  classifiedAs: self protocol
 ]
 
 { #category : #protected }
@@ -44,7 +54,8 @@ EDATIntegrationTestGenerator >> generateDomainTestMethodName [
 	delegate := EDATDomainTestGenerator
 		            fromExampleFile: self commandFile
 		            version: self version
-		            appName: self appName
+						commandClassPrefix: self commandClassPrefix
+						eventClassPrefix: self eventClassPrefix
 		            aggregate: self aggregate
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.

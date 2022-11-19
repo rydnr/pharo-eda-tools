@@ -21,45 +21,46 @@ Class {
 }
 
 { #category : #'instance creation' }
-EDATGenerator class >> fromExampleFile: aFile version: version appName: appName aggregate: aggregate [
+EDATGenerator class >> fromExampleFile: aFile version: version commandClassPrefix: commandPrefix eventClassPrefix: eventPrefix aggregate: aggregate [
+
 	^ self
-		fromExampleFile: aFile
-		version: version
-		appName: appName
-		aggregate: aggregate
-		commandNameResolver: EDATDefaultEnglishCommandNameResolver new
-		andEventNameResolver: EDATDefaultEnglishEventNameResolver new
+		  fromExampleFile: aFile
+		  version: version
+		  commandClassPrefix: commandPrefix 
+		  eventClassPrefix: eventPrefix
+		  aggregate: aggregate
+		  commandNameResolver: EDATDefaultEnglishCommandNameResolver new
+		  andEventNameResolver: EDATDefaultEnglishEventNameResolver new
 ]
 
 { #category : #'instance creation' }
-EDATGenerator class >> fromExampleFile: aFile version: version appName: appName aggregate: aggregate commandNameResolver: aCommandNameResolver andEventNameResolver: anEventNameResolver [
+EDATGenerator class >> fromExampleFile: aFile version: version commandClassPrefix: commandPrefix eventClassPrefix: eventPrefix aggregate: aggregate commandNameResolver: aCommandNameResolver andEventNameResolver: anEventNameResolver [
+
 	| result eventRaw |
 	result := self new
-		commandFile: aFile;
-		appName: appName;
-		aggregate: aggregate;
-		version: version.
+		          commandFile: aFile;
+		          commandClassPrefix: commandPrefix;
+					eventClassPrefix: eventPrefix;
+		          aggregate: aggregate;
+		          version: version.
 	result commandNameResolver: aCommandNameResolver.
 	result eventNameResolver: anEventNameResolver.
 	result commandRaw: result readCommandExampleFile.
 	result commandJson: (NeoJSONReader fromString: result commandRaw).
-	result
-		commandName:
-			(result
-				commandNameFor: ((result commandJson at: #meta) at: #type)
-				usingCommandNameResolver: aCommandNameResolver).
-	result
-		eventName:
-			(result
-				eventNameFor: result commandName
-				usingEventNameResolver: anEventNameResolver).
-	result
-		eventFile:
-			aFile parent parent parent / 'events' / aFile parent basename
-				/ (result upcasedToDotSeparated: result eventName , '.example.json').
-				eventRaw := result readEventExampleFile.
-				eventRaw ifNil: [ result := nil ] ifNotNil: [ :o | result eventRaw: o.
-	result eventJson: (NeoJSONReader fromString: o) ].
+	result commandName: (result
+			 commandNameFor: ((result commandJson at: #meta) at: #type)
+			 usingCommandNameResolver: aCommandNameResolver).
+	result eventName: (result
+			 eventNameFor: result commandName
+			 usingEventNameResolver: anEventNameResolver).
+	result eventFile:
+		aFile parent parent parent / 'events' / aFile parent basename
+		/
+		(result upcasedToDashSeparated: result eventName , '.example.json').
+	eventRaw := result readEventExampleFile.
+	eventRaw ifNil: [ result := nil ] ifNotNil: [ :o | 
+		result eventRaw: o.
+		result eventJson: (NeoJSONReader fromString: o) ].
 	^ result
 ]
 

@@ -22,12 +22,12 @@ EDATEventGenerator >> createEventClass [
 		          ifFalse: [ EDACommandResultEvent ].
 	parent
 		subclass: cls
-		"uses: EDAEventSourcingEvent"
 		instanceVariableNames:
 		(self concatenateCollection: attributes with: ' ')
 		classVariableNames: ''
 		package:
-		self appName , '-Domain-' , (self toCamelCase: self aggregate)
+		self eventClassPrefix , '-Domain-' , (self toCamelCase: self aggregate)
+	"uses: EDAEventSourcingEvent"
 ]
 
 { #category : #'code generation' }
@@ -131,6 +131,7 @@ EDATEventGenerator >> doGenerate [
 
 { #category : #'code generation' }
 EDATEventGenerator >> generateEventClassAggregateRootClassMethod [
+
 	| result methodName cr |
 	cr := Character cr.
 	methodName := 'aggregateRootClass'.
@@ -140,7 +141,7 @@ EDATEventGenerator >> generateEventClassAggregateRootClassMethod [
 	result nextPutAll: self generateSignature.
 	result
 		nextPutAll: '	^ ';
-		nextPutAll: self appName;
+		nextPutAll: self eventClassPrefix;
 		nextPutAll: self aggregate;
 		nextPut: cr.
 	^ result contents
@@ -218,6 +219,7 @@ EDATEventGenerator >> generateEventClassLatestVersionMethodName [
 
 { #category : #'code generation' }
 EDATEventGenerator >> generateEventInitializeMethod [
+
 	| result methodName cr |
 	cr := Character cr.
 	methodName := 'initialize'.
@@ -230,7 +232,7 @@ EDATEventGenerator >> generateEventInitializeMethod [
 		nextPut: cr.
 	result
 		nextPutAll: '	self aggregateRootClass: #';
-		nextPutAll: self appName;
+		nextPutAll: self eventClassPrefix;
 		nextPutAll: self aggregate;
 		nextPut: $.;
 		nextPut: cr.

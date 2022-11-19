@@ -1,19 +1,20 @@
 Class {
 	#name : #EDATAbstractGenerator,
 	#superclass : #Object,
-	#traits : 'EDACSourceCodeHelper + EDATCheckerHelper + EDACLogging',
-	#classTraits : 'EDACSourceCodeHelper classTrait + EDATCheckerHelper classTrait + EDACLogging classTrait',
+	#traits : 'EDACSourceCodeHelper + EDATCheckerHelper + EDACLogging + EDACCollectionHelper',
+	#classTraits : 'EDACSourceCodeHelper classTrait + EDATCheckerHelper classTrait + EDACLogging classTrait + EDACCollectionHelper classTrait',
 	#instVars : [
 		'commandName',
 		'commandRaw',
 		'commandJson',
 		'commandFile',
-		'appName',
+		'commandClassPrefix',
 		'aggregate',
 		'eventJson',
 		'eventRaw',
 		'eventFile',
 		'eventName',
+		'eventClassPrefix',
 		'version'
 	],
 	#category : #'EDAT-Tools'
@@ -46,12 +47,9 @@ EDATAbstractGenerator >> aggregate: aString [
 
 { #category : #helper }
 EDATAbstractGenerator >> aggregateClass [
-	^ (self appName , (self underscoreSeparatedToCamelCase: self aggregate))
-]
 
-{ #category : #accessing }
-EDATAbstractGenerator >> appName [
-	^ appName
+	^ self eventClassPrefix
+	  , (self underscoreSeparatedToCamelCase: self aggregate)
 ]
 
 { #category : #accessing }
@@ -264,7 +262,9 @@ EDATAbstractGenerator >> retrieveAggregateAttributesBut: excluded [
 
 { #category : #helper }
 EDATAbstractGenerator >> retrieveAggregateClassName [
-	^ self appName , (self underscoreSeparatedToCamelCase: self aggregate)
+
+	^ self eventClassPrefix
+	  , (self underscoreSeparatedToCamelCase: self aggregate)
 ]
 
 { #category : #helper }
@@ -275,10 +275,13 @@ EDATAbstractGenerator >> retrieveAggregateClasses [
 
 { #category : #helper }
 EDATAbstractGenerator >> retrieveAggregateIdNames [
+
 	^ self retrieveAggregateClasses
-	select: [ :cls | (cls name greaseString beginsWith: self appName) ]
-		thenCollect: [ :cls |
-			((self remove: self appName fromBeginningOf: cls name greaseString) , 'Id') uncapitalized ]
+		  select: [ :cls | cls name greaseString beginsWith: self eventClassPrefix ]
+		  thenCollect: [ :cls | 
+			  ((self
+				    remove: self eventClassPrefix
+				    fromBeginningOf: cls name greaseString) , 'Id') uncapitalized ]
 ]
 
 { #category : #helper }
@@ -318,7 +321,8 @@ EDATAbstractGenerator >> retrieveCommandAttributesBut: excluded [
 
 { #category : #helper }
 EDATAbstractGenerator >> retrieveCommandClassName [
-	^ self appName , (self toCamelCase: self commandName)
+
+	^ self commandClassPrefix , (self toCamelCase: self commandName)
 ]
 
 { #category : #helper }
@@ -341,7 +345,8 @@ EDATAbstractGenerator >> retrieveEventAttributesBut: excluded [
 
 { #category : #helper }
 EDATAbstractGenerator >> retrieveEventClassName [
-	^ self appName , (self toCamelCase: self eventName)
+
+	^ self eventClassPrefix , (self toCamelCase: self eventName)
 ]
 
 { #category : #helper }
@@ -394,7 +399,10 @@ EDATAbstractGenerator >> retrieveMaxVersion [
 
 { #category : #helper }
 EDATAbstractGenerator >> retrieveRepositoryClassName [
-	^ self appName , (self underscoreSeparatedToCamelCase: self aggregate) , 'Repository'
+
+	^ self eventClassPrefix
+	  , (self underscoreSeparatedToCamelCase: self aggregate)
+	  , 'Repository'
 ]
 
 { #category : #helper }

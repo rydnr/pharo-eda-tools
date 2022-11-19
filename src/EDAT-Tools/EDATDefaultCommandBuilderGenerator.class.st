@@ -6,11 +6,17 @@ Class {
 
 { #category : #'code generation' }
 EDATDefaultCommandBuilderGenerator >> createDefaultCommandBuilderInitializeCommandBuilders [
+
 	^ self
-		compile: self generateDefaultCommandBuilderInitializeCommandBuildersMethodName
-		sourceCode: (self generateDefaultCommandBuilderInitializeCommandBuildersMethodFor: self appName)
-		inClass: (self class environment at: (appName , 'DefaultCommandBuilder') asSymbol)
-		classifiedAs: self protocol
+		  compile:
+		  self
+			  generateDefaultCommandBuilderInitializeCommandBuildersMethodName
+		  sourceCode: (self 
+				   generateDefaultCommandBuilderInitializeCommandBuildersMethodFor:
+				   self commandClassPrefix)
+		  inClass: (self class environment at:
+				   (self commandClassPrefix , 'DefaultCommandBuilder') asSymbol)
+		  classifiedAs: self protocol
 ]
 
 { #category : #protected }
