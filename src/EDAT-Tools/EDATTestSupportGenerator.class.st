@@ -61,9 +61,9 @@ EDATTestSupportGenerator >> generateTestHelperBuildEventClassMethod [
 				nextPut: cr;
 				nextPutAll: '	result ';
 				nextPutAll: attr;
-				nextPutAll: ': new';
-				nextPutAll: attr capitalized;
-				nextPut: $. ].
+				nextPutAll: ': (newAttributes at: ''';
+				nextPutAll: attr;
+				nextPutAll: ''').' ].
 	method nextPut: cr.
 	method nextPutAll: '	^ result'.
 	result := Dictionary new.
