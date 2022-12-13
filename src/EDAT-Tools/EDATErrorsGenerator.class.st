@@ -1,6 +1,8 @@
 Class {
 	#name : #EDATErrorsGenerator,
 	#superclass : #EDATGenerator,
+	#traits : 'EDACReflectionHelper',
+	#classTraits : 'EDACReflectionHelper classTrait',
 	#category : #'EDAT-Tools'
 }
 
@@ -48,7 +50,7 @@ EDATErrorsGenerator >> createInvalidCommandErrorClass [
 	        , (self toCamelCase: self commandName)) asSymbol.
 	attributes := OrderedCollection new.
 	(self classExists: cls) ifTrue: [ 
-		attributes := self allAttributesOf: (self class environment at: cls) ].
+		attributes := self allAttributesOf: (self classOrTraitNamed: cls) ].
 	^ EDADomainException
 		  subclass: cls
 		  instanceVariableNames:
