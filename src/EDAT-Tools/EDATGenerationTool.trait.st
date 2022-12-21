@@ -5,6 +5,12 @@ Trait {
 	#category : #'EDAT-Tools'
 }
 
+{ #category : #configuration }
+EDATGenerationTool classSide >> excludedContracts [
+
+	^ #(  )
+]
+
 { #category : #testing }
 EDATGenerationTool >> generateAllForVersion: aVersion inApplication: anEDAApplication [
 
