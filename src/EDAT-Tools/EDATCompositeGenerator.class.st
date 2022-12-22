@@ -53,5 +53,8 @@ EDATCompositeGenerator >> initialize [
 
 { #category : #initialization }
 EDATCompositeGenerator >> sortGeneratorClasses: aCollection [
-	^ (aCollection reject: [ :cls | cls = self class ]) asSortedCollection: [ :first :second | (first shouldRunAfter: second) not ]
+
+	^ (aCollection reject: [ :cls | cls = self class ]) sorted: [ 
+		  :first 
+		  :second | first priority <= second priority ]
 ]

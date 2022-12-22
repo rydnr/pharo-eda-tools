@@ -4,6 +4,12 @@ Class {
 	#category : #'EDAT-Tools'
 }
 
+{ #category : #sorting }
+EDATTestTraitGenerator class >> priority [
+
+	^ 20
+]
+
 { #category : #'code generation' }
 EDATTestTraitGenerator >> createReadCommandFromFileTestHelperMethod [
 	^ (Smalltalk at: self retrieveTestHelperTraitName asSymbol)

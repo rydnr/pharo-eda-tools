@@ -226,6 +226,8 @@ EDATGenerationTool >> retrieveAggregateFromFile: fileName inApplication: anEDAAp
 			result := self
 				          retrieveAggregateFromFileIfPossible: file
 				          inApplication: anEDAApplication ] ].
+	(self classExists: result) ifFalse: [ result := anEDAApplication commandClassPrefix , result ].
+	(self classExists: result) ifFalse: [ result := nil ].
 	result ifNil: [ EDATUnsupportedFile new signal ].
 	^ result
 ]

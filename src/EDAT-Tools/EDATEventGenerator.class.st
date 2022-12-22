@@ -6,6 +6,12 @@ Class {
 	#category : #'EDAT-Tools'
 }
 
+{ #category : #sorting }
+EDATEventGenerator class >> priority [
+
+	^ 10
+]
+
 { #category : #'code generation' }
 EDATEventGenerator >> createEventClass [
 

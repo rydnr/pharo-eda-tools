@@ -5,8 +5,9 @@ Class {
 }
 
 { #category : #sorting }
-EDATCommandGenerator class >> shouldRunAfter: anotherGenerator [
-	^ anotherGenerator ~= EDATAggregateGenerator
+EDATCommandGenerator class >> priority [
+
+	^ 200
 ]
 
 { #category : #'code generation' }

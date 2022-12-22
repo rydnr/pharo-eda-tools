@@ -63,6 +63,12 @@ EDATGenerator class >> fromExampleFile: aFile version: version application: edaA
 ]
 
 { #category : #sorting }
+EDATGenerator class >> priority [
+
+	^ 500
+]
+
+{ #category : #sorting }
 EDATGenerator class >> shouldRunAfter: anotherGenerator [
 	^ false
 ]

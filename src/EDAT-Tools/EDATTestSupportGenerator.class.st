@@ -5,8 +5,9 @@ Class {
 }
 
 { #category : #sorting }
-EDATTestSupportGenerator class >> shouldRunAfter: anotherGenerator [
-	^ anotherGenerator = EDATDomainTestEventGenerator
+EDATTestSupportGenerator class >> priority [
+
+	^ 30
 ]
 
 { #category : #'code generation' }
