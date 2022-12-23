@@ -11,15 +11,13 @@ EDATIntegrationTestGenerator >> createIntegrationTestClass [
 
 	^ Object
 		  subclass:
-			  (self class environment at:
+			  (self classOrTraitNamed: 
 				   (self edaApplication eventClassPrefix
 				    , (self toCamelCase: self edaApplication applicationName)
-				    , 'ApplicationIntegrationTestCase') asSymbol) name asSymbol
+				    , 'IntegrationTestCase') asSymbol) name asSymbol
 		  instanceVariableNames: ''
 		  classVariableNames: ''
-		  package:
-			  self edaApplication eventClassPrefix , '-Application-Tests-'
-			  , self aggregate capitalized
+		  package: self retrieveIntegrationTestsPackage
 	"		  (self edaApplication class name , 'IntegrationTestCase') asSymbol
 		  uses: (Smalltalk at: (self edaApplication eventClassPrefix , 'T'
 				    , self aggregate capitalized , 'TestHelper') asSymbol)

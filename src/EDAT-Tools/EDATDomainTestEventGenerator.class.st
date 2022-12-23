@@ -26,8 +26,7 @@ EDATDomainTestEventGenerator >> createDomainTestEventClass [
 		uses: EDATTestEvent
 		instanceVariableNames: ''
 		classVariableNames: ''
-		package: self edaApplication eventClassPrefix , '-Domain-Tests-'
-			, (self toCamelCase: self aggregate).
+		package: self retrieveDomainTestsPackage.
 	^ cls
 ]
 

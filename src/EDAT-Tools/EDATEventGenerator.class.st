@@ -31,8 +31,7 @@ EDATEventGenerator >> createEventClass [
 		instanceVariableNames:
 		(self concatenateCollection: attributes with: ' ')
 		classVariableNames: ''
-		package: self edaApplication eventClassPrefix , '-Domain-'
-			, (self toCamelCase: self aggregate)
+		package: self retrieveEventPackage
 	"uses: EDAEventSourcingEvent"
 ]
 

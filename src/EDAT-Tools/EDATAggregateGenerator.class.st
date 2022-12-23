@@ -22,9 +22,7 @@ EDATAggregateGenerator >> createAggregateApplyEventVersionMethod [
 				          self generateAggregateApplyEventVersionMethodName
 				          sourceCode:
 				          self generateAggregateApplyEventVersionMethod
-				          inClass: (self class environment at:
-						           (self edaApplication eventClassPrefix , self aggregate capitalized)
-							           asSymbol)
+				          inClass: (self classOrTraitNamed: (self toCamelCase: self aggregate) asSymbol)
 				          classifiedAs: self protocol ].
 	^ result
 ]
@@ -40,27 +38,30 @@ EDATAggregateGenerator >> createAggregateClass [
 		attributes := self
 			              allAttributesOf: (self class environment at: cls)
 			              including: attributes ].
-
 	^ EDAAggregateRoot
 		  subclass: cls
 		  instanceVariableNames:
 		  (self concatenateCollection: attributes with: ' ')
 		  classVariableNames: ''
-		  package: self edaApplication eventClassPrefix , '-Domain-'
-			  , (self toCamelCase: self aggregate)
+		  package: self retrieveDomainPackage
 ]
 
 { #category : #'code generation' }
 EDATAggregateGenerator >> createAggregateClassAccessors [
+
 	| aggregateClass |
-	aggregateClass := self class environment at: self retrieveAggregateClassName asSymbol.
-	(self generateAccessorsFor: aggregateClass attributes: (self allAttributesOf: aggregateClass including: (self retrieveAggregateAttributesBut: self class skippedAggregateAttributes)))
-		associationsDo: [ :assoc | 
-			self
-				compile: assoc key
-				sourceCode: assoc value
-				inClass: aggregateClass
-				classifiedAs: self protocol ]
+	aggregateClass := self classOrTraitNamed: 
+		                  self retrieveAggregateClassName asSymbol.
+	(self generateAccessorsFor: aggregateClass attributes: (self
+			  allAttributesOf: aggregateClass
+			  including: (self retrieveAggregateAttributesBut:
+					   self class skippedAggregateAttributes))) associationsDo: [ 
+		:assoc | 
+		self
+			compile: assoc key
+			sourceCode: assoc value
+			inClass: aggregateClass
+			classifiedAs: self protocol ]
 ]
 
 { #category : #'code generation' }
@@ -95,9 +96,7 @@ EDATAggregateGenerator >> createAggregateHandleCommandMethod [
 			          self
 				          compile: self generateAggregateHandleCommandMethodName
 				          sourceCode: self generateAggregateHandleCommandMethod
-				          inClass: (self class environment at:
-						           (self edaApplication commandClassPrefix , self aggregate capitalized)
-							           asSymbol)
+				          inClass: (self classOrTraitNamed: (self toCamelCase: self aggregate) asSymbol)
 				          classifiedAs: self protocol ].
 	^ result
 ]
@@ -108,8 +107,7 @@ EDATAggregateGenerator >> createAggregateRetrieveRepositoryMethod [
 	^ self
 		  compile: self generateAggregateRetrieveRepositoryMethodName
 		  sourceCode: self generateAggregateRetrieveRepositoryMethod
-		  inClass: (self class environment at:
-				   (self edaApplication eventClassPrefix , self aggregate capitalized) asSymbol)
+		  inClass: (self classOrTraitNamed: (self retrieveAggregateClassName) asSymbol)
 		  classifiedAs: self protocol
 ]
 

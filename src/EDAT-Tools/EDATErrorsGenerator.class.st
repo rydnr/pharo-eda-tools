@@ -1,8 +1,6 @@
 Class {
 	#name : #EDATErrorsGenerator,
 	#superclass : #EDATGenerator,
-	#traits : 'EDACReflectionHelper',
-	#classTraits : 'EDACReflectionHelper classTrait',
 	#category : #'EDAT-Tools'
 }
 
@@ -20,8 +18,7 @@ EDATErrorsGenerator >> createAggregateDoesNotExistErrorClass [
 		  instanceVariableNames:
 		  (self concatenateCollection: attributes with: ' ')
 		  classVariableNames: ''
-		  package: self edaApplication eventClassPrefix , '-Domain-'
-			  , (self toCamelCase: self aggregate)
+		  package: self retrieveDomainPackage
 ]
 
 { #category : #'code generation' }
@@ -38,8 +35,7 @@ EDATErrorsGenerator >> createInvalidAggregateErrorClass [
 		  instanceVariableNames:
 		  (self concatenateCollection: attributes with: ' ')
 		  classVariableNames: ''
-		  package: self edaApplication eventClassPrefix , '-Domain-'
-			  , (self toCamelCase: self aggregate)
+		  package: self retrieveDomainPackage
 ]
 
 { #category : #'code generation' }
@@ -56,8 +52,7 @@ EDATErrorsGenerator >> createInvalidCommandErrorClass [
 		  instanceVariableNames:
 		  (self concatenateCollection: attributes with: ' ')
 		  classVariableNames: ''
-		  package: self edaApplication eventClassPrefix , '-Domain-'
-			  , (self toCamelCase: self aggregate)
+		  package: self retrieveDomainPackage
 ]
 
 { #category : #protected }

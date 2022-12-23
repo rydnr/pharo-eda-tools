@@ -4,6 +4,12 @@ Class {
 	#category : #'EDAT-Tools'
 }
 
+{ #category : #accessing }
+EDATApplicationGenerator class >> enabled [
+
+	^ false
+]
+
 { #category : #'code generation' }
 EDATApplicationGenerator >> createEDAApplicationRegisterCommandBuilders [
 

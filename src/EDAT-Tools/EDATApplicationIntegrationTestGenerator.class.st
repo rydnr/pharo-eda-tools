@@ -1,10 +1,14 @@
 Class {
 	#name : #EDATApplicationIntegrationTestGenerator,
 	#superclass : #EDATGenerator,
-	#traits : 'EDACSourceCodeHelper',
-	#classTraits : 'EDACSourceCodeHelper classTrait',
 	#category : #'EDAT-Tools'
 }
+
+{ #category : #sorting }
+EDATApplicationIntegrationTestGenerator class >> enabled [
+
+	^ false
+]
 
 { #category : #sorting }
 EDATApplicationIntegrationTestGenerator class >> priority [
@@ -21,8 +25,7 @@ EDATApplicationIntegrationTestGenerator >> createIntegrationTestClass [
 			 , 'ApplicationIntegrationTestCase') asSymbol
 		instanceVariableNames: ''
 		classVariableNames: ''
-		package:
-			self edaApplication eventClassPrefix , '-', (self toCamelCase: self edaApplication applicationName), '-Application-Tests'
+		package: self retrieveIntegrationTestsPackage
 ]
 
 { #category : #protected }

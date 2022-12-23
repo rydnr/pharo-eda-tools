@@ -78,8 +78,7 @@ EDATTestTraitGenerator >> createTestHelperTrait [
 	^ Trait
 		  named: trait
 		  uses: #(  )
-		  category: self edaApplication eventClassPrefix , '-Domain-Tests-'
-			  , (self toCamelCase: self aggregate)
+		  category: self retrieveDomainTestsPackage
 ]
 
 { #category : #protected }
@@ -515,6 +514,5 @@ EDATTestTraitGenerator >> generateTestHelperBuildEventMethodNameWithId: idArg an
 { #category : #'code generation' }
 EDATTestTraitGenerator >> retrieveTestHelperTraitName [
 
-	^ self edaApplication eventClassPrefix , 'T' , (self toCamelCase: self aggregate)
-	  , 'TestHelper'
+	^ (self toCamelCase: self aggregate) , 'TestHelper'
 ]

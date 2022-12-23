@@ -13,21 +13,20 @@ EDATDomainTestGenerator class >> priority [
 { #category : #'code generation' }
 EDATDomainTestGenerator >> createDomainTestClass [
 
-	| cls |
-	cls := (self edaApplication eventClassPrefix
-	        , self aggregate capitalized , 'AggregateTestCase') asSymbol.
+	| cls testTraitGenerator |
+	cls := self retrieveDomainTestClassName asSymbol.
+	testTraitGenerator := EDATTestTraitGenerator new
+		                      edaApplication: self edaApplication;
+		                      aggregate: self aggregate;
+		                      yourself.
 	(self containsAnyDisableRegenerationMethod: cls) ifFalse: [ 
 		^ BabyMock2TestCase
-			  subclass:
-				  (self edaApplication eventClassPrefix
-				   , self aggregate capitalized , 'AggregateTestCase') asSymbol
-			  uses: EDATDomainBDD + (Smalltalk at:
-					   (self edaApplication eventClassPrefix , 'T' , self aggregate capitalized
-					    , 'TestHelper') asSymbol)
+			  subclass: cls
+			  uses: EDATDomainBDD + (self classOrTraitNamed:
+					   testTraitGenerator retrieveTestHelperTraitName asSymbol)
 			  instanceVariableNames: ''
 			  classVariableNames: ''
-			  package: self edaApplication eventClassPrefix , '-Domain-Tests-'
-				  , (self toCamelCase: self aggregate) ]
+			  package: self retrieveDomainTestsPackage ]
 ]
 
 { #category : #'code generation' }
@@ -36,9 +35,7 @@ EDATDomainTestGenerator >> createDomainTestMethod [
 	^ self
 		  compile: self generateDomainTestMethodName
 		  sourceCode: self generateDomainTestMethod
-		  inClass: (self class environment at:
-				   (self edaApplication eventClassPrefix , self aggregate capitalized
-				    , 'AggregateTestCase') asSymbol)
+		  inClass: (self classOrTraitNamed: self retrieveDomainTestClassName)
 		  classifiedAs: self protocol
 ]
 
@@ -183,4 +180,11 @@ EDATDomainTestGenerator >> generateEventClassAggregateRootClassMethod [
 		            commandNameResolver: self commandNameResolver
 		            andEventNameResolver: self eventNameResolver.
 	^ delegate generateEventClassAggregateRootClassMethod
+]
+
+{ #category : #'code generation' }
+EDATDomainTestGenerator >> retrieveDomainTestClassName [
+
+	^ self aggregate capitalized
+	  , 'DomainTestCase'
 ]

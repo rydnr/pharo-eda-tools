@@ -20,8 +20,7 @@ EDATRepositoryGenerator >> createRepositoryClass [
 		          instanceVariableNames:
 		          (self concatenateCollection: attributes with: ' ')
 		          classVariableNames: ''
-		          package: self edaApplication eventClassPrefix , '-Domain-'
-			          , (self toCamelCase: self aggregate).
+		          package: self retrieveRepositoryPackage.
 	(self class environment at: cls) class instanceVariableNames: ''.
 	^ result
 ]

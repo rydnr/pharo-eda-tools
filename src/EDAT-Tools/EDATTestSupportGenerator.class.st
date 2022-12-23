@@ -12,15 +12,17 @@ EDATTestSupportGenerator class >> priority [
 
 { #category : #'code generation' }
 EDATTestSupportGenerator >> createTestHelperBuildEventClassMethod [
+
 	| method |
 	method := self generateTestHelperBuildEventClassMethod.
-	method
-		associationsDo: [ :assoc | 
-			^ self
-				compile: assoc key
-				sourceCode: assoc value
-				inClass: (self class environment at: self retrieveTestHelperTraitName asSymbol) class
-				classifiedAs: self protocol ]
+	method associationsDo: [ :assoc | 
+		^ self
+			  compile: assoc key
+			  sourceCode: assoc value
+			  inClass:
+				  (self classOrTraitNamed:
+					   self retrieveTestHelperTraitName asSymbol) class
+			  classifiedAs: self protocol ]
 ]
 
 { #category : #protected }

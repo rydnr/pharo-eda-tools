@@ -26,8 +26,7 @@ EDATCommandGenerator >> createCommandClass [
 		instanceVariableNames:
 		(self concatenateCollection: attributes with: ' ')
 		classVariableNames: ''
-		package: self edaApplication commandClassPrefix , '-Domain-'
-			, (self toCamelCase: self aggregate)
+		package: self retrieveCommandPackage
 ]
 
 { #category : #'code generation' }

@@ -53,8 +53,7 @@ EDATAbstractGenerator >> aggregate: aString [
 { #category : #helper }
 EDATAbstractGenerator >> aggregateClass [
 
-	^ self edaApplication eventClassPrefix
-	  , (self underscoreSeparatedToCamelCase: self aggregate)
+	^ self retrieveAggregateClassName
 ]
 
 { #category : #accessing }
@@ -275,8 +274,7 @@ EDATAbstractGenerator >> retrieveAggregateAttributesBut: excluded [
 { #category : #helper }
 EDATAbstractGenerator >> retrieveAggregateClassName [
 
-	^ self edaApplication eventClassPrefix
-	  , (self underscoreSeparatedToCamelCase: self aggregate)
+	^ (self toCamelCase: self aggregate)
 ]
 
 { #category : #helper }
@@ -315,6 +313,19 @@ EDATAbstractGenerator >> retrieveAttributesFrom: dict [
 ]
 
 { #category : #helper }
+EDATAbstractGenerator >> retrieveBaseDomainPackage [
+
+	^ self retrieveBasePackage , '-Domain'
+]
+
+{ #category : #helper }
+EDATAbstractGenerator >> retrieveBasePackage [
+
+	^ self edaApplication eventClassPrefix , '-'
+			, (self toCamelCase: self edaApplication applicationName)
+]
+
+{ #category : #helper }
 EDATAbstractGenerator >> retrieveCommandAttributeValue: attr [
 	^ self retrieveAttributeValue: attr in: self commandJson
 ]
@@ -337,6 +348,25 @@ EDATAbstractGenerator >> retrieveCommandAttributesBut: excluded [
 EDATAbstractGenerator >> retrieveCommandClassName [
 
 	^ self edaApplication commandClassPrefix , (self toCamelCase: self commandName)
+]
+
+{ #category : #helper }
+EDATAbstractGenerator >> retrieveCommandPackage [
+
+	^ self retrieveDomainPackage , '-Commands'
+]
+
+{ #category : #helper }
+EDATAbstractGenerator >> retrieveDomainPackage [
+
+	^ self retrieveBaseDomainPackage , '-' , self retrieveAggregateClassName
+]
+
+{ #category : #helper }
+EDATAbstractGenerator >> retrieveDomainTestsPackage [
+
+	^ self retrieveBaseDomainPackage , '-Tests-'
+			, self retrieveAggregateClassName
 ]
 
 { #category : #helper }
@@ -384,6 +414,12 @@ EDATAbstractGenerator >> retrieveEventName [
 ]
 
 { #category : #helper }
+EDATAbstractGenerator >> retrieveEventPackage [
+
+	^ self retrieveDomainPackage , '-Events'
+]
+
+{ #category : #helper }
 EDATAbstractGenerator >> retrieveImplementedCommandsFor: appName [
 	"Finds all pragmas like [appName]CommandName: #[COMMAND_NAME]"
 
@@ -392,6 +428,13 @@ EDATAbstractGenerator >> retrieveImplementedCommandsFor: appName [
 	EDACommand
 		allSubclassesDo: [ :cls | (Pragma allNamed: (appName asLowercase , 'CommandName:') asSymbol in: cls class) do: [ :pragma | cmds at: (pragma arguments at: 1) put: pragma methodClass ] ].
 	^ cmds
+]
+
+{ #category : #helper }
+EDATAbstractGenerator >> retrieveIntegrationTestsPackage [
+
+	^ self retrieveBasePackage , '-Application-Tests-'
+			, self retrieveAggregateClassName
 ]
 
 { #category : #helper }
@@ -414,9 +457,14 @@ EDATAbstractGenerator >> retrieveMaxVersion [
 { #category : #helper }
 EDATAbstractGenerator >> retrieveRepositoryClassName [
 
-	^ self edaApplication eventClassPrefix
-	  , (self underscoreSeparatedToCamelCase: self aggregate)
+	^ self retrieveAggregateClassName
 	  , 'Repository'
+]
+
+{ #category : #helper }
+EDATAbstractGenerator >> retrieveRepositoryPackage [
+
+	^ self retrieveDomainPackage , '-Repository'
 ]
 
 { #category : #helper }
