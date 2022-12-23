@@ -7,7 +7,7 @@ Class {
 { #category : #sorting }
 EDATCommandGenerator class >> priority [
 
-	^ 200
+	^ 50
 ]
 
 { #category : #'code generation' }

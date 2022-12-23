@@ -177,7 +177,7 @@ EDATAggregateGenerator >> generateAggregateHandleCommandMethod [
 	cr := Character cr.
 	commandClass := self retrieveCommandClassName asSymbol.
 	attrs := self
-		         allAttributesOf: (self class environment at: commandClass)
+		         allAttributesOf: (self classOrTraitNamed: commandClass)
 		         including: self retrieveCommandAttributes.
 	result := WriteStream with: String new.
 	result

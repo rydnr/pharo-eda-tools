@@ -9,23 +9,21 @@ Class {
 { #category : #'code generation' }
 EDATIntegrationTestGenerator >> createIntegrationTestClass [
 
-	| cls |
-	cls := (self edaApplication eventClassPrefix
-	        , self aggregate capitalized , 'IntegrationTestCase')
-		       asSymbol.
-	^ (self class environment at:
-		   (self edaApplication eventClassPrefix , (self toCamelCase:
-			    self edaApplication applicationName)
-			    , 'ApplicationIntegrationTestCase') asSymbol)
+	^ Object
 		  subclass:
-		  (self edaApplication class name , 'IntegrationTestCase') asSymbol
-		  uses: (Smalltalk at: (self edaApplication eventClassPrefix , 'T'
-				    , self aggregate capitalized , 'TestHelper') asSymbol)
+			  (self class environment at:
+				   (self edaApplication eventClassPrefix
+				    , (self toCamelCase: self edaApplication applicationName)
+				    , 'ApplicationIntegrationTestCase') asSymbol) name asSymbol
 		  instanceVariableNames: ''
 		  classVariableNames: ''
 		  package:
 			  self edaApplication eventClassPrefix , '-Application-Tests-'
 			  , self aggregate capitalized
+	"		  (self edaApplication class name , 'IntegrationTestCase') asSymbol
+		  uses: (Smalltalk at: (self edaApplication eventClassPrefix , 'T'
+				    , self aggregate capitalized , 'TestHelper') asSymbol)
+"
 ]
 
 { #category : #'code generation' }
@@ -35,8 +33,7 @@ EDATIntegrationTestGenerator >> createIntegrationTestMethod [
 		  compile: self generateIntegrationTestMethodName
 		  sourceCode: self generateIntegrationTestMethod
 		  inClass: (self class environment at:
-				   (self edaApplication eventClassPrefix , self aggregate capitalized
-				    , 'IntegrationTestCase') asSymbol)
+				   (self aggregate capitalized , 'IntegrationTestCase') asSymbol)
 		  classifiedAs: self protocol
 ]
 

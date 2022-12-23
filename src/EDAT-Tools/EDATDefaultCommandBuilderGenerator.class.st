@@ -4,6 +4,12 @@ Class {
 	#category : #'EDAT-Tools'
 }
 
+{ #category : #accessing }
+EDATDefaultCommandBuilderGenerator class >> enabled [
+
+	^ false
+]
+
 { #category : #'code generation' }
 EDATDefaultCommandBuilderGenerator >> createDefaultCommandBuilderInitializeCommandBuilders [
 

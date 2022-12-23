@@ -13,12 +13,20 @@ generator generateAll
 Class {
 	#name : #EDATGenerator,
 	#superclass : #EDATAbstractGenerator,
+	#traits : 'EDACReflectionHelper',
+	#classTraits : 'EDACReflectionHelper classTrait',
 	#instVars : [
 		'eventNameResolver',
 		'commandNameResolver'
 	],
 	#category : #'EDAT-Tools'
 }
+
+{ #category : #accessing }
+EDATGenerator class >> enabled [
+
+	^ true
+]
 
 { #category : #'instance creation' }
 EDATGenerator class >> fromExampleFile: aFile version: version application: edaApplication aggregate: aggregate [
