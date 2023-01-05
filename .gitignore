@@ -19,3 +19,11 @@ Pharo*.sources
 *.sml
 SqueakDebug.log
 pharo-local/
+icon-packs/
+GlamorousToolkit-Linux-x86_64*.zip
+bin/
+crash.dmp
+gt-extra/
+lib/
+*.log
+**/*.orig.png
