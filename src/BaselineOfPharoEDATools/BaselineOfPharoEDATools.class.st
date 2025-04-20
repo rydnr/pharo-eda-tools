@@ -68,10 +68,16 @@ BaselineOfPharoEDATools >> baseline: spec [
 { #category : #hooks }
 BaselineOfPharoEDATools >> postload: loader package: packageSpec [
 
-	| location |
-	location := (IceRepository registry detect: [ :each | 
-		             each name = 'pharo-eda-tools' ]) location.
-	EDACIconProvider addDefaultLocation: location / 'resources' / 'icons'.
-	EDACTranslationProvider addDefaultLocation:
-		location / 'resources' / 'l10n'
+	Locale localeID: 'es'.
+	(IceRepository registry
+		 detect: [ :each | each name = 'pharo-eda-tools' ]
+		 ifNone: nil) ifNotNil: [ :repo |
+		| location |
+		location := repo location.
+		EDACIconProvider addDefaultLocation:
+			location / 'resources' / 'icons'.
+		EDACTranslationProvider addDefaultLocation:
+			location / 'resources' / 'l10n'.
+		NaturalLanguageTranslator current:
+			EDACCompositeTranslationProvider wrapCurrent ]
 ]

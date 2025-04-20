@@ -1,0 +1,113 @@
+{
+  "nodes": {
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1652776076,
+        "narHash": "sha256-gzTw/v1vj4dOVbpBSJX4J0DwUR6LIyXo7/SuuTJp1kM=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "04c1b180862888302ddfb2e3ad9eaa63afc60cf8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "ref": "v1.0.0",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_2": {
+      "locked": {
+        "lastModified": 1652776076,
+        "narHash": "sha256-gzTw/v1vj4dOVbpBSJX4J0DwUR6LIyXo7/SuuTJp1kM=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "04c1b180862888302ddfb2e3ad9eaa63afc60cf8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "ref": "v1.0.0",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1745163487,
+        "narHash": "sha256-spMVZVcqxcR2GaEoEx+ypoKzWgwTAR/+Hk7J7FJo68s=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "bcd63d97f901f23b9081f4ab5286b4a967d42038",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "release-24.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs",
+        "rydnr-nix-flakes-pharo-vm": "rydnr-nix-flakes-pharo-vm",
+        "rydnr-pharo-eda-common": "rydnr-pharo-eda-common"
+      }
+    },
+    "rydnr-nix-flakes-pharo-vm": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "pharo-vm",
+        "lastModified": 1745082791,
+        "narHash": "sha256-Ik2AW/vJfuc8+KQwcLQfO1Heimhvc2JOzKsIki2omuQ=",
+        "owner": "rydnr",
+        "repo": "nix-flakes",
+        "rev": "9428ffc0c2241a7b9b8129ba3d369d7e2ef0ec6d",
+        "type": "github"
+      },
+      "original": {
+        "dir": "pharo-vm",
+        "owner": "rydnr",
+        "ref": "pharo-vm-12.0.1519.4",
+        "repo": "nix-flakes",
+        "type": "github"
+      }
+    },
+    "rydnr-pharo-eda-common": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rydnr-nix-flakes-pharo-vm": [
+          "rydnr-nix-flakes-pharo-vm"
+        ]
+      },
+      "locked": {
+        "lastModified": 1745141924,
+        "narHash": "sha256-1ON4+/sFWsy2pPWwJ1htPTeRWzAbEV35bikWFBVgvXs=",
+        "owner": "rydnr",
+        "repo": "pharo-eda-common",
+        "rev": "5336c91d1c394eadecbca2b6fe67a312b44d1ad9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rydnr",
+        "ref": "0.1.2",
+        "repo": "pharo-eda-common",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

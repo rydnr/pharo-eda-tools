@@ -27,3 +27,4 @@ gt-extra/
 lib/
 *.log
 **/*.orig.png
+result
